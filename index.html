@@ -1,2287 +1,508 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>動車組及機車調車作業記錄 + 調車分析統計平台</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-    body { background:#f2f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .app-card {
-        max-width: 1100px;
-        margin: auto;
-        background: white;
-        border-radius: 18px;
-        padding: 24px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    }
-    .admin-card {
-        max-width: 1400px;
-        margin: auto;
-        background: white;
-        border-radius: 18px;
-        padding: 24px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-        display: none;
-    }
-    .section-title {
-        font-weight: 700;
-        font-size: 18px;
-        margin: 28px 0 14px;
-        color: #0056b3;
-        border-bottom: 2px solid #0056b3;
-        padding-bottom: 6px;
-    }
-    .mobile-input { min-height: 48px; font-size: 15px; border-radius: 10px; }
-    .input-group .mobile-input { border-top-left-radius: 0; border-bottom-left-radius: 0; }
-    .input-group-text { border-top-left-radius: 10px; border-bottom-left-radius: 10px; background-color: #e9ecef; font-weight: 600; }
-    
-    .signature-box {
-        border: 2px dashed #ccc;
-        border-radius: 12px;
-        height: 150px;
-        background: #fafafa;
-        cursor: pointer;
-        position: relative;
-    }
-    canvas { width: 100%; height: 100%; touch-action: none; }
-    .mode-badge { position: fixed; top: 15px; right: 15px; z-index: 1000; }
-    
-    .loco-movement-table th { font-size: 11px; text-align: center; vertical-align: middle; padding: 4px 2px; }
-    .loco-movement-table td { padding: 2px; vertical-align: middle; }
-    .loco-movement-table input { font-size: 12px; padding: 3px 4px; text-align: center; }
-    .sub-head { display: block; font-size: 9px; font-weight: normal; color: #555; }
-    
-    .stats-section {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 3px solid #0d6efd;
-    }
-    /* 24 小時制時間輸入 */
-    .time-24 {
-        text-align: center;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 0.5px;
-    }
-    .time-24::placeholder { color: #adb5bd; }
-    
-    @media print {
-        .no-print { display: none !important; }
-        body * { visibility: hidden; }
-        #printArea, #printArea * { visibility: visible; }
-        #printArea {
-            display: block !important;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靜岡、伊豆、富士山與成田 6天5夜自駕豪華之旅</title>
+    <style>
+        :root {
+            --primary-color: #0284c7;
+            --secondary-color: #f59e0b;
+            --accent-color: #e11d48;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+            color: white;
+            padding: 45px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-badge {
+            background-color: var(--secondary-color);
+            color: #000;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        header h1 {
+            font-size: 1.9rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .header-meta {
+            font-size: 1rem;
+            opacity: 0.95;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        .intro-card {
+            background-color: var(--card-bg);
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .intro-card h3 {
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .intro-item {
+            background-color: #f1f5f9;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .intro-item strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .day-tabs {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .day-tabs {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .tab-btn {
+            padding: 12px 8px;
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary-color);
+            background-color: #f0f9ff;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.25);
+        }
+
+        .tab-btn .day-num {
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        .tab-btn .day-date {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .day-content {
+            display: none;
+            background-color: var(--card-bg);
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .day-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-header {
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .day-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            font-weight: 800;
+        }
+
+        .day-badge {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 5px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .section-block {
+            margin-bottom: 20px;
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .section-block.alert {
+            border-left-color: var(--accent-color);
+            background-color: #fff1f2;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .link-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-left: 8px;
+            transition: background 0.2s;
+        }
+
+        .link-btn:hover {
+            background-color: #0369a1;
+        }
+
+        ul.itinerary-list {
+            list-style: none;
+        }
+
+        ul.itinerary-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        ul.itinerary-list li::before {
+            content: "🔹";
             position: absolute;
-            left: 0; top: 0; width: 100%;
-            padding: 4mm; box-sizing: border-box;
+            left: 0;
+            top: 2px;
+            font-size: 0.8rem;
         }
-        .print-grid { display: flex; flex-direction: column; gap: 2mm; width: 100%; }
-        .print-copy {
-            border: 1px dashed #666; padding: 1.5mm 2mm;
-            box-sizing: border-box; page-break-inside: avoid; overflow: hidden;
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
         }
-        .print-table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
-        .print-table th, .print-table td {
-            border: 1px solid #333; padding: 3px 4px; text-align: center;
-            vertical-align: middle; word-wrap: break-word; overflow: hidden;
+
+        .tip-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+            border-top: 4px solid var(--primary-color);
         }
-        .print-table th { background: #e9ecef; font-weight: bold; font-size: 10.5px; }
-        .print-header { text-align: center; font-size: 13px; font-weight: bold; margin-bottom: 2px; line-height: 1.3; }
-        .print-sub { text-align: center; font-size: 11px; color: #444; margin-bottom: 3px; line-height: 1.3; }
-        .copy-label { text-align: right; font-size: 10px; color: #888; margin-top: 2px; }
-    }
-    #printArea { display: none; }
-</style>
+
+        .tip-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .tip-card ul {
+            padding-left: 18px;
+            font-size: 0.9rem;
+        }
+
+        .tip-card li {
+            margin-bottom: 6px;
+        }
+    </style>
 </head>
 <body>
-<div class="mode-badge no-print">
-    <button class="btn btn-dark shadow" id="toggleModeBtn" onclick="rotateMode()">切換模式：✍️ 動車組調車模式</button>
-</div>
-<div class="container py-5">
-    
-    <!-- ========== 1. 動車組調車作業記錄 ========== -->
-    <div class="app-card" id="driverFormView">
-        <h2 class="text-center mb-4 d-flex align-items-center justify-content-center gap-3 flex-wrap">
-            <img src="https://upload.wikimedia.org/wikipedia/zh/2/22/MTR_High_Speed_Rail_Logo.svg" alt="MTR HSR Logo" style="height: 32px; width: auto;">
-            <span style="font-size: 24px; font-weight: bold; color: #333;">動車組調車作業記錄</span>
-            <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/8/8f/MTR_Logo_with_text.png/250px-MTR_Logo_with_text.png" alt="MTR Logo" style="height: 32px; width: auto;">
-        </h2>
-        
-        <div class="section-title">基本資料</div>
-        <div class="row g-3">
-            <div class="col-md-4">
-                <label class="form-label">日期</label>
-                <input type="date" id="date" class="form-control mobile-input">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">當值 TCI</label>
-                <select id="emuTCI" class="form-select mobile-input" onchange="toggleTCIOther(this, 'emuTCIOther')">
-                    <option value="">請選擇</option>
-                    <option value="陳海斌">陳海斌</option>
-                    <option value="黃俊豐">黃俊豐</option>
-                    <option value="崔見霆">崔見霆</option>
-                    <option value="黃卓賢">黃卓賢</option>
-                    <option value="龐永健">龐永健</option>
-                    <option value="林志偉">林志偉</option>
-                    <option value="__other__">其他（自行輸入）</option>
-                </select>
-                <input type="text" id="emuTCIOther" class="form-control mobile-input mt-2" placeholder="請輸入代班 TCI 姓名" style="display:none;">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">車組號</label>
-                <div class="input-group">
-                    <span class="input-group-text mobile-input">CRH-025</span>
-                    <input type="text" id="trainNoDigit" class="form-control mobile-input" maxlength="1" inputmode="numeric" placeholder="1 至 9" oninput="updateTrainNoAndGSMR(this.value)">
+
+    <header>
+        <div class="header-badge">🚗 靜岡・伊豆・富士山 6天5夜自駕特輯</div>
+        <h1>成田進出 ➔ 沼津/成田雙住宿深度遊</h1>
+        <div class="header-meta">
+            <span>📅 日期：12/1 (一) ～ 12/6 (六)</span>
+            <span>🏨 住宿：1-5/12 沼津市 ｜ 5-6/12 成田市</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 核心摘要 -->
+        <div class="intro-card">
+            <h3>💡 自駕行程核心策略</h3>
+            <p>12月上旬為欣賞早冬雪頂富士山與伊豆風光的黃金期。前5天入住沼津便於輻射玩遍伊豆、清水與富士五湖，最後一晚入住成田方便隔天順暢還車與搭機！</p>
+            <div class="intro-grid">
+                <div class="intro-item">
+                    <strong>🏨 住宿安排</strong>
+                    12/1 - 12/5 住宿沼津市<br>12/5 - 12/6 住宿成田市
+                </div>
+                <div class="intro-item">
+                    <strong>🎯 核心景點</strong>
+                    大室山、櫻桃小丸子博物館、日本平夢之Terrace、御殿場 Outlets、三島天空步道
                 </div>
             </div>
-            <div class="col-md-6">
-                <label class="form-label">高鐵司機號</label>
-                <div class="input-group">
-                    <span class="input-group-text mobile-input">49999</span>
-                    <input type="text" id="driverNoDigit" class="form-control mobile-input" maxlength="2" inputmode="numeric" placeholder="請輸入2位數尾數" oninput="handleDriverNoInput(this.value)">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">動車組司機姓名</label>
-                <input type="text" id="driverNameInput" class="form-control mobile-input bg-light" placeholder="輸入司機號碼後自動顯示" readonly>
-                <div id="driverHelpText" class="form-text text-danger small" style="display:none; font-weight: 500;">⚠️ 此號碼不在名單內，請手動輸入司機姓名。</div>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">取車地點</label>
-                <select class="form-select mobile-input" id="pickupLocation" onchange="rebuildRunningTable()">
-                    <option value="">請選擇</option>
-                    <option>ST3N</option><option>ST4N</option><option>ST5N</option><option>ST6N</option><option>ST7N</option><option>ST8N</option>
-                    <option>RM1N</option><option>RM2N</option><option>RM3N</option><option>RM4N</option>
-                    <option>ST3S</option><option>ST4S</option><option>ST5S</option><option>ST6S</option><option>ST7S</option><option>ST8S</option>
-                    <option>RM1S</option><option>RM2S</option><option>RM3S</option><option>RM4S</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">途經地點</label>
-                <select class="form-select mobile-input" id="viaPointSelect" onchange="rebuildRunningTable()">
-                    <option value="">請選擇途經地點</option>
-                    <option value="APT Up">APT Up</option>
-                    <option value="APT Down">APT Down</option>
-                    <option value="Shuntneck">Shuntneck</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label">完成調車停車地點</label>
-                <select class="form-select mobile-input" id="parkingLocation" onchange="rebuildRunningTable()">
-                    <option value="">請選擇</option>
-                    <option>ST3N</option><option>ST4N</option><option>ST5N</option><option>ST6N</option><option>ST7N</option><option>ST8N</option>
-                    <option>RM1N</option><option>RM2N</option><option>RM3N</option><option>RM4N</option>
-                    <option>ST3S</option><option>ST4S</option><option>ST5S</option><option>ST6S</option><option>ST7S</option><option>ST8S</option>
-                    <option>RM1S</option><option>RM2S</option><option>RM3S</option><option>RM4S</option>
-                </select>
-            </div>
-            <div class="col-md-4"><label class="form-label">GSM-R 編號</label><input type="text" id="gsmr" class="form-control mobile-input" placeholder="由車組號自動帶出"></div>
-            <div class="col-md-4"><label class="form-label">對講機編號</label><input type="text" id="radio" class="form-control mobile-input"></div>
-            <div class="col-md-4"><label class="form-label">錄音筆編號</label><input type="text" id="recorder" class="form-control mobile-input"></div>
-            <div class="col-md-6"><label class="form-label">列車整備開始時間 (24小時制)</label><input type="text" id="startTime" class="form-control mobile-input time-24" placeholder="HH:mm 例如 14:30" maxlength="5" inputmode="numeric" autocomplete="off"></div>
-            <div class="col-md-6"><label class="form-label">列車整備完成時間 (24小時制)</label><input type="text" id="endTime" class="form-control mobile-input time-24" placeholder="HH:mm 例如 15:00" maxlength="5" inputmode="numeric" autocomplete="off"></div>
         </div>
 
-        <div class="section-title d-flex justify-content-between align-items-center">
-            <span>動車組調車作業運行紀錄</span>
-            <button class="btn btn-sm btn-primary no-print" onclick="addNewLocationRow()">＋ 新增額外地點</button>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle" id="runningTable">
-                <thead class="table-light">
-                    <tr><th width="180">地點</th><th>到達時間</th><th>開車時間</th><th width="70" class="no-print">操作</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div class="section-title">作業內容</div>
-        <div class="row">
-            <div class="col-6" id="checklist1"></div>
-            <div class="col-6" id="checklist2"></div>
-        </div>
-
-        <div class="section-title d-flex justify-content-between align-items-center">
-            <span>特別事件</span>
-            <button class="btn btn-sm btn-primary no-print" onclick="addEventRow('eventTable')">＋ 新增事件</button>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-bordered" id="eventTable">
-                <thead class="table-light">
-                    <tr><th>時間</th><th>地點</th><th>事件詳情</th><th width="80" class="no-print">操作</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <!-- 每日分頁切換按鈕 -->
+        <div class="day-tabs">
+            <button class="tab-btn active" onclick="showDay(1)">
+                <span class="day-num">D1</span>
+                <span class="day-date">12/1 (一)</span>
+            </button>
+            <button class="tab-btn" onclick="showDay(2)">
+                <span class="day-num">D2</span>
+                <span class="day-date">12/2 (二)</span>
+            </button>
+            <button class="tab-btn" onclick="showDay(3)">
+                <span class="day-num">D3</span>
+                <span class="day-date">12/3 (三)</span>
+            </button>
+            <button class="tab-btn" onclick="showDay(4)">
+                <span class="day-num">D4</span>
+                <span class="day-date">12/4 (四)</span>
+            </button>
+            <button class="tab-btn" onclick="showDay(5)">
+                <span class="day-num">D5</span>
+                <span class="day-date">12/5 (五)</span>
+            </button>
+            <button class="tab-btn" onclick="showDay(6)">
+                <span class="day-num">D6</span>
+                <span class="day-date">12/6 (六)</span>
+            </button>
         </div>
 
-        <div class="section-title">電子簽名</div>
-        <div class="signature-box text-center d-flex align-items-center justify-content-center" id="signatureBox">
-            <span id="sigPlaceholder">✍️ 點擊此處簽名</span>
-        </div>
-        <div class="text-end mt-2 no-print">
-            <button class="btn btn-sm btn-outline-danger" onclick="clearSignature()">清除簽名</button>
+        <!-- D1 內容 -->
+        <div id="day1" class="day-content active">
+            <div class="day-header">
+                <div class="day-title">✈️ 抵達成田 ➔ 取車自駕 ➔ 直奔沼津港海鮮晚餐</div>
+                <span class="day-badge">🏨 住：沼津市</span>
+            </div>
+            <div class="section-block">
+                <div class="section-title">🚗 自駕車程與動線</div>
+                <p>成田機場取車 ➔ 經東關東自動車道/首都高/東名高速駛往西部的靜岡縣沼津市（車程約 2.5 ~ 3 小時）。</p>
+            </div>
+            <div class="section-block">
+                <div class="section-title">⏱️ 當日重點行程</div>
+                <ul class="itinerary-list">
+                    <li><strong>成田機場取車：</strong>完成租車手續，確認已加租 ETC 卡並設定好導航。</li>
+                    <li><strong>抵達沼津：</strong>前往飯店辦理 Check-in。</li>
+                    <li><strong>沼津港海鮮晚餐：</strong>品嚐著名的深海魚與新鮮海鮮丼。推薦人氣名店 <a href="https://www.uohiro.com/" class="link-btn" target="_blank">沼津港魚河岸丸天 ➔</a>，享用招牌巨型海鮮天婦羅塔。</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="mt-4 no-print">
-            <div class="row g-3">
-                <div class="col-md-6 col-6">
-                    <button class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm" onclick="exportExcel()">📊 匯出 Excel</button>
-                </div>
-                <div class="col-md-6 col-6">
-                    <button id="pdfBtn" class="btn btn-danger btn-lg w-100 py-3 fw-bold shadow-sm" onclick="exportPDF('driverFormView', '動車組調車記錄')">📄 匯出 PDF</button>
-                </div>
-                <div class="col-md-6 col-6">
-                    <button class="btn btn-success btn-lg w-100 py-3 fw-bold shadow-sm" onclick="shareExcelToTCI()">📤 發送 Excel 給 TCI</button>
-                </div>
-                <div class="col-md-6 col-6">
-                    <button id="sharePdfBtn" class="btn btn-success btn-lg w-100 py-3 fw-bold shadow-sm" style="background:#0d9488;border-color:#0d9488;" onclick="sharePDFToTCI()">📤 發送 PDF 給 TCI</button>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-outline-danger btn-lg w-100 py-3 fw-bold shadow-sm" onclick="clearEMUForm()">🗑️ 清除資料</button>
-                </div>
+        <!-- D2 內容 -->
+        <div id="day2" class="day-content">
+            <div class="day-header">
+                <div class="day-title">🌋 伊豆絕景：大室山 ➔ 城崎海岸 ➔ 遠眺富士山</div>
+                <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <p class="text-muted small mt-2 mb-0 text-center">
-                Android 建議用「發送 PDF 給 TCI」直傳 WhatsApp；Excel 多半需先下載再附加。<br>
-                iPhone 兩者通常都可直接分享。
-            </p>
+            <div class="section-block">
+                <div class="section-title">🚗 自駕車程</div>
+                <p>沼津 ↔ 大室山（單程約 1 小時 15 分鐘）</p>
+            </div>
+            <div class="section-block">
+                <div class="section-title">⏱️ 當日重點行程</div>
+                <ul class="itinerary-list">
+                    <li><strong>大室山：</strong>搭乘登山單人纜車登上如抹茶碗般的火山口，沿環狀步道步行，天氣晴朗時可遠眺富士山與相模灣。 <a href="https://omuroyama.com/" class="link-btn" target="_blank">大室山官網 ➔</a></li>
+                    <li><strong>城崎海岸 & 門脅吊橋：</strong>漫步火山岩峭壁與懸空吊橋，欣賞太平洋壯麗海浪。</li>
+                    <li><strong>傍晚返回沼津：</strong>市區享用靜岡在地美食。</li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <!-- ========== 2. 機車調車作業紀錄 ========== -->
-    <div class="app-card" id="locoFormView" style="display:none;">
-        <h2 class="text-center mb-1 d-flex align-items-center justify-content-center gap-3 flex-wrap">
-            <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/8/8f/MTR_Logo_with_text.png/250px-MTR_Logo_with_text.png" alt="MTR Logo" style="height: 32px; width: auto;">
-            <span style="font-size: 24px; font-weight: bold; color: #333;">機車調車作業紀錄</span>
-        </h2>
-        
-        <div class="section-title">基本資料 (Basic Details)</div>
-        <div class="row g-3 mb-4">
-            <div class="col-md-3">
-                <label class="form-label">日期 Date</label>
-                <input type="date" id="locoDate" class="form-control mobile-input">
+        <!-- D3 內容 -->
+        <div id="day3" class="day-content">
+            <div class="day-header">
+                <div class="day-title">🍡 清水小丸子童趣 ➔ 日本平夢之Terrace 360° 富士山絕景</div>
+                <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <div class="col-md-3">
-                <label class="form-label">S1 當值 TCI <span class="text-muted small">(早更)</span></label>
-                <select id="locoTCIS1" class="form-select mobile-input" onchange="toggleTCIOther(this, 'locoTCIS1Other')">
-                    <option value="">請選擇</option>
-                    <option value="陳海斌">陳海斌</option>
-                    <option value="黃俊豐">黃俊豐</option>
-                    <option value="崔見霆">崔見霆</option>
-                    <option value="黃卓賢">黃卓賢</option>
-                    <option value="龐永健">龐永健</option>
-                    <option value="林志偉">林志偉</option>
-                    <option value="__other__">其他（自行輸入）</option>
-                </select>
-                <input type="text" id="locoTCIS1Other" class="form-control mobile-input mt-2" placeholder="代班 TCI 姓名" style="display:none;">
+            <div class="section-block">
+                <div class="section-title">🚗 自駕車程</div>
+                <p>沼津 ↔ 清水/日本平（單程約 45 分鐘 ~ 1 小時）</p>
             </div>
-            <div class="col-md-3">
-                <label class="form-label">S2 當值 TCI <span class="text-muted small">(中更)</span></label>
-                <select id="locoTCIS2" class="form-select mobile-input" onchange="toggleTCIOther(this, 'locoTCIS2Other')">
-                    <option value="">請選擇</option>
-                    <option value="陳海斌">陳海斌</option>
-                    <option value="黃俊豐">黃俊豐</option>
-                    <option value="崔見霆">崔見霆</option>
-                    <option value="黃卓賢">黃卓賢</option>
-                    <option value="龐永健">龐永健</option>
-                    <option value="林志偉">林志偉</option>
-                    <option value="__other__">其他（自行輸入）</option>
-                </select>
-                <input type="text" id="locoTCIS2Other" class="form-control mobile-input mt-2" placeholder="代班 TCI 姓名" style="display:none;">
-            </div>
-            <div class="col-md-3">
-                <label class="form-label">S3 當值 TCI <span class="text-muted small">(夜更)</span></label>
-                <select id="locoTCIS3" class="form-select mobile-input" onchange="toggleTCIOther(this, 'locoTCIS3Other')">
-                    <option value="">請選擇</option>
-                    <option value="陳海斌">陳海斌</option>
-                    <option value="黃俊豐">黃俊豐</option>
-                    <option value="崔見霆">崔見霆</option>
-                    <option value="黃卓賢">黃卓賢</option>
-                    <option value="龐永健">龐永健</option>
-                    <option value="林志偉">林志偉</option>
-                    <option value="__other__">其他（自行輸入）</option>
-                </select>
-                <input type="text" id="locoTCIS3Other" class="form-control mobile-input mt-2" placeholder="代班 TCI 姓名" style="display:none;">
+            <div class="section-block">
+                <div class="section-title">⏱️ 當日重點行程</div>
+                <ul class="itinerary-list">
+                    <li><strong>櫻桃小丸子博物館：</strong>造訪 S-Pulse Dream Plaza，重現小丸子經典童年場景與拍照點。 <a href="https://www.chibimarukochan-land.com/" class="link-btn" target="_blank">小丸子博物館 ➔</a></li>
+                    <li><strong>清水港午餐：</strong>於商場內品嚐日本第一的清水港新鮮鮪魚丼。</li>
+                    <li><strong>日本平夢之Terrace：</strong>由隈研吾團隊設計的木造展望台，擁有 360 度眺望駿河灣與富士山的頂級絕景。 <a href="https://nihondaira-yume-terrace.jp/" class="link-btn" target="_blank">日本平展望台 ➔</a></li>
+                </ul>
             </div>
         </div>
-        
-        <div class="section-title d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div>
-                <span>機車運行及制動管連貫測試記錄</span>
-                <span class="sub-head">Movement and Brake Pipe Continuity Test Record</span>
+
+        <!-- D4 內容 -->
+        <div id="day4" class="day-content">
+            <div class="day-header">
+                <div class="day-title">🛍️ 御殿場 Premium Outlets ➔ 山中湖/忍野八海夕陽富士山</div>
+                <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <div class="d-flex gap-2 no-print">
-                <button class="btn btn-sm btn-primary" onclick="addLocoMovementRow()">＋ 新增運行記錄</button>
-                <button class="btn btn-sm btn-success" onclick="printReferenceSlips(4)">🖨️ 打印 4 份參考單</button>
-                <button class="btn btn-sm btn-success" onclick="printReferenceSlips(6)">🖨️ 打印 6 份參考單</button>
+            <div class="section-block">
+                <div class="section-title">🚗 自駕車程</div>
+                <p>沼津 ↔ 御殿場（約 35 分鐘）➔ 山中湖（約 25 分鐘）</p>
             </div>
-        </div>
-        
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle loco-movement-table" id="locoMovementTable">
-                <thead class="table-light">
-                    <tr>
-                        <th rowspan="2" style="width: 16%;">
-                            車列 (上行 → 下行)<br>
-                            <span class="sub-head">Consist (Up → Down)</span>
-                        </th>
-                        <th colspan="2" style="width: 16%;">
-                            位置<br>
-                            <span class="sub-head">Location</span>
-                        </th>
-                        <th rowspan="2" style="width: 12%;">
-                            機車司機 1<br>
-                            <span class="sub-head">Operator 1</span>
-                        </th>
-                        <th rowspan="2" style="width: 12%;">
-                            機車司機 2<br>
-                            <span class="sub-head">Operator 2</span>
-                        </th>
-                        <th rowspan="2" style="width: 11%;">
-                            開車時間<br>
-                            <span class="sub-head">Time Depart</span>
-                        </th>
-                        <th rowspan="2" style="width: 11%;">
-                            到達時間<br>
-                            <span class="sub-head">Time Arrival</span>
-                        </th>
-                        <th rowspan="2" style="width: 17%;">Remarks</th>
-                        <th rowspan="2" style="width: 5%;" class="no-print">操作</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 8%;">由 <span class="sub-head">From</span></th>
-                        <th style="width: 8%;">至 <span class="sub-head">To</span></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        
-        <div class="row bg-light p-2 rounded border mx-0 mb-3" style="font-size: 12px; line-height: 1.4;">
-            <div class="col-md-6">
-                <strong>注: Note:</strong><br>
-                1. 每次列車運行的時間必須記錄。<br>
-                2. 每次銜接或解鉤，必須進行制動管連貫測試。
-            </div>
-            <div class="col-md-6 text-md-end">
-                <br>
-                1. The time of each movement must be recorded.<br>
-                2. Brake Pipe Continuity Test must be conducted whenever coupling or uncoupling.
+            <div class="section-block">
+                <div class="section-title">⏱️ 當日重點行程</div>
+                <ul class="itinerary-list">
+                    <li><strong>御殿場 Outlet：</strong>全日本規模最大的購物天堂，邊血拼邊欣賞巨大富士山。午餐推薦抽號碼牌品嚐超人氣「炭烤漢堡排 爽快 (Sawayaka)」。 <a href="https://www.premiumoutlets.co.jp/gotemba/" class="link-btn" target="_blank">御殿場 Outlet ➔</a></li>
+                    <li><strong>山中湖/忍野八海：</strong>前往長池親水公園拍攝傍晚夕陽下的富士山倒影。</li>
+                </ul>
             </div>
         </div>
-        
-        <div class="section-title d-flex justify-content-between align-items-center">
-            <span>特別事件 Special Event (如有發生)</span>
-            <button class="btn btn-sm btn-primary no-print" onclick="addEventRow('locoEventTable')">＋ 新增事件</button>
+
+        <!-- D5 內容 -->
+        <div id="day5" class="day-content">
+            <div class="day-header">
+                <div class="day-title">🌉 三島天空步道 ➔ 橫跨關東 ➔ 開車前往成田飯店</div>
+                <span class="day-badge">🏨 住：成田市</span>
+            </div>
+            <div class="section-block">
+                <div class="section-title">🚗 自駕車程</div>
+                <p>沼津 ➔ 三島（25分鐘）➔ 成田（經東名高速/首都高，約 2 小時 45 分鐘 ~ 3 小時）</p>
+            </div>
+            <div class="section-block">
+                <div class="section-title">⏱️ 當日重點行程</div>
+                <ul class="itinerary-list">
+                    <li><strong>三島天空步道 (Mishima Skywalk)：</strong>走過日本最長大吊橋，俯瞰富士山與駿河灣全景。 <a href="https://mishima-skywalk.jp/" class="link-btn" target="_blank">三島天空步道 ➔</a></li>
+                    <li><strong>三島午餐：</strong>品嚐當地特產鰻魚飯（如老店「櫻家」）。</li>
+                    <li><strong>開車前往成田：</strong>午後由靜岡出發，一路向東開往成田市飯店 Check-in，晚餐可於成田 AEON 享用。</li>
+                </ul>
+            </div>
         </div>
-        <div class="table-responsive">
-            <table class="table table-bordered" id="locoEventTable">
-                <thead class="table-light">
-                    <tr>
-                        <th width="120">時間 Time</th>
-                        <th>詳情 Particulars</th>
-                        <th width="80" class="no-print">操作</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+
+        <!-- D6 內容 -->
+        <div id="day6" class="day-content">
+            <div class="day-header">
+                <div class="day-title">⛩️ 成田山新勝寺漫步 ➔ 滿油還車 ➔ 機場搭機返家</div>
+                <span class="day-badge">✈️ 返回溫馨的家</span>
+            </div>
+            <div class="section-block">
+                <div class="section-title">🚗 自駕車程</div>
+                <p>成田市區 ➔ 成田機場租車營業所（約 15 ~ 20 分鐘）</p>
+            </div>
+            <div class="section-block">
+                <div class="section-title">⏱️ 當日重點行程</div>
+                <ul class="itinerary-list">
+                    <li><strong>成田山新勝寺 & 表參道：</strong>參訪歷史悠久的古寺，在古色古香的表參道上品嚐川豐鰻魚飯與買伴手禮。</li>
+                    <li><strong>滿油還車：</strong>務必在還車前至機場附近加油站將油箱加滿，並備妥加油收據。</li>
+                    <li><strong>搭機返家：</strong>前往航廈辦理登機，結束完美的 6 天自駕之旅！</li>
+                </ul>
+            </div>
         </div>
-        
-        <div class="mt-4 no-print">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <button class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm" onclick="exportLocoExcel()">📊 匯出 Excel</button>
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-danger btn-lg w-100 py-3 fw-bold shadow-sm" onclick="exportPDF('locoFormView', '機車調車作業紀錄')">📄 匯出 PDF</button>
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-outline-danger btn-lg w-100 py-3 fw-bold shadow-sm" onclick="clearLocoForm()">🗑️ 清除資料</button>
-                </div>
+
+        <!-- 行前小提醒 -->
+        <div class="tips-grid">
+            <div class="tip-card">
+                <h4>🎯 自駕與住宿重點提醒</h4>
+                <ul>
+                    <li><strong>住宿切換：</strong>12/1-12/5 住宿沼津市，12/5退房後開車北上入住成田市。</li>
+                    <li><strong>ETC 卡租借：</strong>頻繁使用高速公路，務必租用 ETC 卡以節省過路費時間。</li>
+                    <li><strong>富士山視野：</strong>12月空氣清澈，觀賞富士山建議安排在上午至中午，較不易起雲霧。</li>
+                </ul>
+            </div>
+            <div class="tip-card alert">
+                <h4>⚠️ 冬季自駕安全須知</h4>
+                <ul>
+                    <li><strong>山區路況：</strong>若計畫深入山中湖或箱根山區，清晨與夜晚路面可能結霜，請留意租車是否需配置雪胎。</li>
+                    <li><strong>還車油箱：</strong>D6 還車前請記得加滿油並保留發票備查。</li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <!-- ========== 3. 調車分析統計模式 ========== -->
-    <div class="admin-card" id="adminMasterView">
-        <h3 class="mb-2 text-primary fw-bold">📊 調車分析統計平台（EMU + LOCO）</h3>
-        <p class="text-muted small mb-4">匯入司機繳交的 Excel 檔案後，系統會同時產生「詳細合併總表」與「SSS 時段統計」（支援動車組與機車）。</p>
+    <script>
+        function showDay(dayNum) {
+            const allTabs = document.querySelectorAll('.tab-btn');
+            allTabs.forEach(tab => tab.classList.remove('active'));
 
-        <div class="card p-4 bg-light mb-4 border-0 shadow-sm">
-            <h5 class="fw-bold">第一步：選取並匯入 Excel 檔案（可多選）</h5>
-            <p class="text-muted small mb-2">可同時匯入動車組與機車導出的 <code>.xlsx</code> 檔案。<br>
-            <span class="text-success">✅ 統計資料會自動儲存到本機（localStorage），重新整理後仍會保留。</span><br>
-            <span class="text-danger">⚠️ 按「清除所有統計資料」或清除瀏覽器網站資料才會真正刪除。</span></p>
-            <div class="row g-2 align-items-center">
-                <div class="col-md-9">
-                    <input type="file" id="excelFilesInput" class="form-control" accept=".xlsx" multiple onchange="importAndMergeExcelFiles(this)">
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-outline-danger w-100 fw-bold" onclick="clearAllStatsData()">🗑️ 清除所有統計資料</button>
-                </div>
-            </div>
-        </div>
+            event.currentTarget.classList.add('active');
 
-        <!-- A. 詳細合併總表 -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold m-0">A. 詳細合併總表</h5>
-            <button class="btn btn-success fw-bold px-4" onclick="exportMasterExcel()">📥 下載詳細合併總表</button>
-        </div>
-        <div class="table-responsive mb-5">
-            <table class="table table-striped table-bordered align-middle text-nowrap" id="masterTable" style="font-size:13px;">
-                <thead class="table-dark">
-                    <tr>
-                        <th>類型</th>
-                        <th>填報日期</th>
-                        <th>TCI</th>
-                        <th>司機 / 資料</th>
-                        <th>車號・車列</th>
-                        <th>詳細運行軌跡（由→至）</th>
-                        <th>開車時間</th>
-                        <th>到達時間</th>
-                        <th>特別事件</th>
-                        <th>簽名 / 狀態</th>
-                    </tr>
-                </thead>
-                <tbody id="masterTableBody">
-                    <tr><td colspan="10" class="text-center text-muted py-4">目前暫無數據，請先匯入 Excel 檔案。</td></tr>
-                </tbody>
-            </table>
-        </div>
+            const allContents = document.querySelectorAll('.day-content');
+            allContents.forEach(content => content.classList.remove('active'));
 
-        <!-- B. SSS 統計 -->
-        <div class="stats-section">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h5 class="fw-bold m-0">B. SSS Shunting Statistics of EMU & Loco</h5>
-                    <p class="text-muted small mb-0">時段：E (07:00-15:00)｜L (15:00-22:00)｜N (22:00-07:00)　｜　支援每日 / 每週 / 每月 / 每年 / 按星期幾彙總</p>
-                </div>
-                <button class="btn btn-primary fw-bold px-4" onclick="exportSSSExcel()">📥 下載 SSS 統計表（含週月年及星期）</button>
-            </div>
-
-            <!-- 每日 -->
-            <h6 class="fw-bold text-primary mt-3 mb-2">📅 每日統計 (Daily)</h6>
-            <div class="table-responsive mb-4">
-                <table class="table table-striped table-bordered align-middle text-center" style="font-size:12px;">
-                    <thead class="table-dark align-middle">
-                        <tr>
-                            <th rowspan="2">Date</th>
-                            <th colspan="3" class="bg-primary">EMU 次數</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 次數</th>
-                            <th rowspan="2" class="bg-info text-dark">Daily EMU</th>
-                            <th rowspan="2" class="bg-success">Daily LOCO</th>
-                            <th colspan="3" class="bg-primary">EMU 時間</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 時間</th>
-                            <th rowspan="2" class="bg-info text-dark">EMU Total</th>
-                            <th rowspan="2" class="bg-success">LOCO Total</th>
-                            <th colspan="3" class="bg-secondary">合計時間</th>
-                        </tr>
-                        <tr>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-secondary">E</th><th class="bg-secondary">L</th><th class="bg-secondary">N</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sssTableBody">
-                        <tr><td colspan="20" class="text-center text-muted py-4">目前暫無統計數據。</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 每週 -->
-            <h6 class="fw-bold text-primary mt-3 mb-2">📆 每週統計 (Weekly)</h6>
-            <div class="table-responsive mb-4">
-                <table class="table table-striped table-bordered align-middle text-center" style="font-size:12px;">
-                    <thead class="table-dark align-middle">
-                        <tr>
-                            <th rowspan="2">Week</th>
-                            <th colspan="3" class="bg-primary">EMU 次數</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 次數</th>
-                            <th rowspan="2" class="bg-info text-dark">Total EMU</th>
-                            <th rowspan="2" class="bg-success">Total LOCO</th>
-                            <th colspan="3" class="bg-primary">EMU 時間</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 時間</th>
-                            <th rowspan="2" class="bg-info text-dark">EMU Total</th>
-                            <th rowspan="2" class="bg-success">LOCO Total</th>
-                            <th colspan="3" class="bg-secondary">合計時間</th>
-                        </tr>
-                        <tr>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-secondary">E</th><th class="bg-secondary">L</th><th class="bg-secondary">N</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sssWeeklyBody">
-                        <tr><td colspan="20" class="text-center text-muted py-3">目前暫無數據。</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 每月 -->
-            <h6 class="fw-bold text-primary mt-3 mb-2">🗓️ 每月統計 (Monthly)</h6>
-            <div class="table-responsive mb-4">
-                <table class="table table-striped table-bordered align-middle text-center" style="font-size:12px;">
-                    <thead class="table-dark align-middle">
-                        <tr>
-                            <th rowspan="2">Month</th>
-                            <th colspan="3" class="bg-primary">EMU 次數</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 次數</th>
-                            <th rowspan="2" class="bg-info text-dark">Total EMU</th>
-                            <th rowspan="2" class="bg-success">Total LOCO</th>
-                            <th colspan="3" class="bg-primary">EMU 時間</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 時間</th>
-                            <th rowspan="2" class="bg-info text-dark">EMU Total</th>
-                            <th rowspan="2" class="bg-success">LOCO Total</th>
-                            <th colspan="3" class="bg-secondary">合計時間</th>
-                        </tr>
-                        <tr>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-secondary">E</th><th class="bg-secondary">L</th><th class="bg-secondary">N</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sssMonthlyBody">
-                        <tr><td colspan="20" class="text-center text-muted py-3">目前暫無數據。</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 每年 -->
-            <h6 class="fw-bold text-primary mt-3 mb-2">📊 每年統計 (Yearly)</h6>
-            <div class="table-responsive mb-4">
-                <table class="table table-striped table-bordered align-middle text-center" style="font-size:12px;">
-                    <thead class="table-dark align-middle">
-                        <tr>
-                            <th rowspan="2">Year</th>
-                            <th colspan="3" class="bg-primary">EMU 次數</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 次數</th>
-                            <th rowspan="2" class="bg-info text-dark">Total EMU</th>
-                            <th rowspan="2" class="bg-success">Total LOCO</th>
-                            <th colspan="3" class="bg-primary">EMU 時間</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 時間</th>
-                            <th rowspan="2" class="bg-info text-dark">EMU Total</th>
-                            <th rowspan="2" class="bg-success">LOCO Total</th>
-                            <th colspan="3" class="bg-secondary">合計時間</th>
-                        </tr>
-                        <tr>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-secondary">E</th><th class="bg-secondary">L</th><th class="bg-secondary">N</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sssYearlyBody">
-                        <tr><td colspan="20" class="text-center text-muted py-3">目前暫無數據。</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- 按星期幾 -->
-            <h6 class="fw-bold text-primary mt-3 mb-2">📅 按星期幾統計 (By Weekday)</h6>
-            <div class="table-responsive mb-2">
-                <table class="table table-striped table-bordered align-middle text-center" style="font-size:12px;">
-                    <thead class="table-dark align-middle">
-                        <tr>
-                            <th rowspan="2">星期</th>
-                            <th colspan="3" class="bg-primary">EMU 次數</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 次數</th>
-                            <th rowspan="2" class="bg-info text-dark">Total EMU</th>
-                            <th rowspan="2" class="bg-success">Total LOCO</th>
-                            <th colspan="3" class="bg-primary">EMU 時間</th>
-                            <th colspan="3" class="bg-warning text-dark">LOCO 時間</th>
-                            <th rowspan="2" class="bg-info text-dark">EMU Total</th>
-                            <th rowspan="2" class="bg-success">LOCO Total</th>
-                            <th colspan="3" class="bg-secondary">合計時間</th>
-                        </tr>
-                        <tr>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-primary">E</th><th class="bg-primary">L</th><th class="bg-primary">N</th>
-                            <th class="bg-warning text-dark">E</th><th class="bg-warning text-dark">L</th><th class="bg-warning text-dark">N</th>
-                            <th class="bg-secondary">E</th><th class="bg-secondary">L</th><th class="bg-secondary">N</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sssWeekdayBody">
-                        <tr><td colspan="20" class="text-center text-muted py-3">目前暫無數據。</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 打印專用區域 -->
-<div id="printArea"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script>
-// ====================== 三模式切換 ======================
-let currentModeIndex = 0;
-const modes = [
-    { name: "✍️ 動車組調車模式", viewId: "driverFormView", btnClass: "btn-dark" },
-    { name: "🚂 機車調車模式", viewId: "locoFormView", btnClass: "btn-warning text-dark" },
-    { name: "📊 調車分析統計模式", viewId: "adminMasterView", btnClass: "btn-primary" }
-];
-
-function rotateMode() {
-    currentModeIndex = (currentModeIndex + 1) % modes.length;
-    const target = modes[currentModeIndex];
-    
-    document.getElementById('driverFormView').style.display = 'none';
-    document.getElementById('locoFormView').style.display = 'none';
-    document.getElementById('adminMasterView').style.display = 'none';
-    
-    document.getElementById(target.viewId).style.display = 'block';
-    
-    const btn = document.getElementById('toggleModeBtn');
-    btn.innerHTML = `切換模式：${target.name}`;
-    btn.className = `btn ${target.btnClass} shadow`;
-}
-
-// ====================== 司機資料庫（動車組） ======================
-const driverDatabase = {
-    "00": "麥祥城", "01": "張利華", "02": "冼文灝", "03": "周文軒", "04": "趙汝銘", 
-    "05": "鐘景行", "06": "劉浩然", "07": "吳成森", "08": "林志偉", "09": "凌尉峯", 
-    "10": "崔見霆", "11": "陳永輝", "12": "劉鈞全", "13": "龐永健", "14": "李展華", 
-    "15": "陸振豪", "16": "譚偉俊", "17": "尹梓維", "18": "翁文初", "19": "區裕和",
-    "20": "王其新", "21": "嚴百堅", "22": "張劍華", "23": "袁文亮", "27": "黃卓賢",
-    "28": "杜志城", "30": "殷耀康", "32": "李偉棟", "34": "黃俊豐", "35": "胡漢威",
-    "36": "盧嘉成", "38": "古建忠", "39": "陳海斌", "41": "李潤超", "45": "王廣源",
-    "47": "黃非凡", "50": "藍偉綸", "52": "霍建文", "53": "許嘉智", "55": "郭俊逸",
-    "56": "許國健", "58": "潘浩峰", "59": "吳俊霆", "60": "何君興", "61": "李盛強",
-    "62": "吳紀安", "65": "黃家榮", "66": "范熙民", "68": "馮景禧", "72": "陳惲霆",
-    "73": "黃銳斌", "74": "王詠康", "75": "徐家豪", "77": "梁綽芹", "78": "廖松甫",
-    "79": "陳卓耀", "81": "陳志龍", "82": "江靜航", "83": "鐘梓煒", "84": "蔣家偉",
-    "85": "高啟輝", "87": "梁湛文", "88": "葉金生", "89": "姜智仁", "90": "李向榮",
-    "91": "黃嘉駿", "92": "陳俊熹", "93": "林嘉輝", "94": "林偉健", "95": "黃君榮",
-    "96": "尤炯軒", "97": "余意", "98": "袁國文", "99": "鄭慧欣"
-};
-
-function handleDriverNoInput(val) {
-    const cleanVal = val.replace(/[^0-9]/g, '');
-    document.getElementById('driverNoDigit').value = cleanVal;
-    const nameInput = document.getElementById('driverNameInput');
-    const helpText = document.getElementById('driverHelpText');
-    
-    if (cleanVal.length === 2) {
-        if (driverDatabase[cleanVal]) {
-            nameInput.value = driverDatabase[cleanVal];
-            nameInput.readOnly = true;
-            nameInput.classList.add('bg-light');
-            helpText.style.display = 'none';
-        } else {
-            nameInput.value = "";
-            nameInput.readOnly = false;
-            nameInput.classList.remove('bg-light');
-            helpText.style.display = 'block';
-            nameInput.focus();
+            document.getElementById(`day${dayNum}`).classList.add('active');
         }
-    } else {
-        nameInput.value = "";
-        nameInput.readOnly = true;
-        nameInput.classList.add('bg-light');
-        helpText.style.display = 'none';
-    }
-}
-
-function updateTrainNoAndGSMR(val) {
-    const cleanVal = val.replace(/[^1-9]/g, '');
-    document.getElementById('trainNoDigit').value = cleanVal;
-    document.getElementById('gsmr').value = cleanVal ? `25${cleanVal}司機` : '';
-}
-
-// ====================== 簽名板（動車組） ======================
-let signaturePad = null;
-document.getElementById('signatureBox').addEventListener('click', function() {
-    if (signaturePad) return;
-    document.getElementById('sigPlaceholder').style.display = 'none';
-    const canvas = document.createElement('canvas');
-    canvas.id = 'sigCanvas';
-    this.appendChild(canvas);
-    signaturePad = new SignaturePad(canvas, { backgroundColor: '#fafafa', penColor: '#000000' });
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
-    canvas.getContext("2d").scale(ratio, ratio);
-});
-function clearSignature() { if (signaturePad) signaturePad.clear(); }
-
-const EMU_FORM_KEY = "mtr_emu_form_v1";
-const LOCO_FORM_KEY = "mtr_loco_form_v1";
-let _formSaveTimer = null;
-
-function scheduleFormSave(fn) {
-    clearTimeout(_formSaveTimer);
-    _formSaveTimer = setTimeout(fn, 400);
-}
-
-function saveEMUFormToLocal() {
-    try {
-        const running = [];
-        document.querySelectorAll("#runningTable tbody tr").forEach(tr => {
-            const inputs = tr.querySelectorAll('input');
-            if (inputs.length >= 1) {
-                running.push({
-                    location: inputs[0].value,
-                    arrival: tr.cells[1].querySelector('input')?.value || "",
-                    departure: tr.cells[2].querySelector('input')?.value || "",
-                    isManual: !inputs[0].hasAttribute('readonly')
-                });
-            }
-        });
-        const events = [];
-        document.querySelectorAll("#eventTable tbody tr").forEach(tr => {
-            const inputs = tr.querySelectorAll('input');
-            if (inputs.length === 3) {
-                events.push({ time: inputs[0].value, location: inputs[1].value, detail: inputs[2].value });
-            }
-        });
-        const tasks = [];
-        document.querySelectorAll('#driverFormView .form-check-input:checked').forEach(cb => tasks.push(cb.value));
-
-        const payload = {
-            date: document.getElementById('date').value,
-            tci: document.getElementById('emuTCI').value,
-            tciOther: document.getElementById('emuTCIOther').value,
-            trainNoDigit: document.getElementById('trainNoDigit').value,
-            driverNoDigit: document.getElementById('driverNoDigit').value,
-            driverName: document.getElementById('driverNameInput').value,
-            pickupLocation: document.getElementById('pickupLocation').value,
-            viaPointSelect: document.getElementById('viaPointSelect').value,
-            parkingLocation: document.getElementById('parkingLocation').value,
-            gsmr: document.getElementById('gsmr').value,
-            radio: document.getElementById('radio').value,
-            recorder: document.getElementById('recorder').value,
-            startTime: document.getElementById('startTime').value,
-            endTime: document.getElementById('endTime').value,
-            tasks,
-            running,
-            events,
-            signature: (signaturePad && !signaturePad.isEmpty()) ? signaturePad.toDataURL() : null
-        };
-        localStorage.setItem(EMU_FORM_KEY, JSON.stringify(payload));
-    } catch (e) {
-        console.warn("EMU form localStorage 寫入失敗", e);
-    }
-}
-
-function loadEMUFormFromLocal() {
-    try {
-        const raw = localStorage.getItem(EMU_FORM_KEY);
-        if (!raw) return false;
-        const p = JSON.parse(raw);
-
-        if (p.date) document.getElementById('date').value = p.date;
-        document.getElementById('emuTCI').value = p.tci || '';
-        if (p.tci === '__other__') {
-            document.getElementById('emuTCIOther').style.display = 'block';
-            document.getElementById('emuTCIOther').value = p.tciOther || '';
-        } else {
-            document.getElementById('emuTCIOther').style.display = 'none';
-            document.getElementById('emuTCIOther').value = '';
-        }
-        document.getElementById('trainNoDigit').value = p.trainNoDigit || '';
-        document.getElementById('driverNoDigit').value = p.driverNoDigit || '';
-        if (p.driverNoDigit) handleDriverNoInput(p.driverNoDigit);
-        if (p.driverName) {
-            document.getElementById('driverNameInput').value = p.driverName;
-            if (!driverDatabase[p.driverNoDigit]) {
-                document.getElementById('driverNameInput').readOnly = false;
-                document.getElementById('driverNameInput').classList.remove('bg-light');
-            }
-        }
-        document.getElementById('pickupLocation').value = p.pickupLocation || '';
-        document.getElementById('viaPointSelect').value = p.viaPointSelect || '';
-        document.getElementById('parkingLocation').value = p.parkingLocation || '';
-        document.getElementById('gsmr').value = p.gsmr || '';
-        document.getElementById('radio').value = p.radio || '';
-        document.getElementById('recorder').value = p.recorder || '';
-        document.getElementById('startTime').value = p.startTime || '';
-        document.getElementById('endTime').value = p.endTime || '';
-
-        // 作業勾選
-        if (Array.isArray(p.tasks)) {
-            document.querySelectorAll('#driverFormView .form-check-input').forEach(cb => {
-                cb.checked = p.tasks.includes(cb.value);
-            });
-        }
-
-        // 運行紀錄
-        rebuildRunningTable();
-        if (Array.isArray(p.running) && p.running.length) {
-            const tbody = document.querySelector("#runningTable tbody");
-            // 先清掉 rebuild 的，再依儲存資料重建
-            tbody.innerHTML = '';
-            p.running.forEach(r => {
-                if (r.isManual) {
-                    addRunningRow(r.location || '', false, false, { arr: r.arrival, dep: r.departure }, true);
-                } else {
-                    const isPickup = r.location === p.pickupLocation;
-                    const isParking = r.location === p.parkingLocation;
-                    addRunningRow(r.location || '', isPickup, isParking, { arr: r.arrival, dep: r.departure }, false);
-                }
-            });
-        }
-
-        // 特別事件
-        document.querySelector("#eventTable tbody").innerHTML = '';
-        if (Array.isArray(p.events)) {
-            p.events.forEach(e => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${timeInputHTML(e.time || '')}</td>
-                    <td><input type="text" class="form-control" value="${e.location || ''}"></td>
-                    <td><input type="text" class="form-control" value="${e.detail || ''}"></td>
-                    <td class="no-print"><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); scheduleFormSave(saveEMUFormToLocal)">刪除</button></td>
-                `;
-                document.querySelector("#eventTable tbody").appendChild(tr);
-            });
-        }
-
-        // 簽名
-        if (p.signature) {
-            const box = document.getElementById('signatureBox');
-            document.getElementById('sigPlaceholder').style.display = 'none';
-            let canvas = document.getElementById('sigCanvas');
-            if (!canvas) {
-                canvas = document.createElement('canvas');
-                canvas.id = 'sigCanvas';
-                box.appendChild(canvas);
-            }
-            signaturePad = new SignaturePad(canvas, { backgroundColor: '#fafafa', penColor: '#000000' });
-            const ratio = Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = box.offsetWidth * ratio;
-            canvas.height = box.offsetHeight * ratio;
-            canvas.getContext("2d").scale(ratio, ratio);
-            signaturePad.fromDataURL(p.signature);
-        }
-        return true;
-    } catch (e) {
-        console.warn("EMU form localStorage 讀取失敗", e);
-        return false;
-    }
-}
-
-function clearEMUForm() {
-    if (!confirm("確定要清除「動車組調車作業記錄」全部填寫內容嗎？\n此操作無法復原（本機儲存也會清除）。")) return;
-
-    document.getElementById('date').valueAsDate = new Date();
-    document.getElementById('emuTCI').value = '';
-    document.getElementById('emuTCIOther').value = '';
-    document.getElementById('emuTCIOther').style.display = 'none';
-    document.getElementById('trainNoDigit').value = '';
-    document.getElementById('driverNoDigit').value = '';
-    document.getElementById('driverNameInput').value = '';
-    document.getElementById('driverNameInput').readOnly = true;
-    document.getElementById('driverNameInput').classList.add('bg-light');
-    document.getElementById('driverHelpText').style.display = 'none';
-    document.getElementById('pickupLocation').value = '';
-    document.getElementById('viaPointSelect').value = '';
-    document.getElementById('parkingLocation').value = '';
-    document.getElementById('gsmr').value = '';
-    document.getElementById('radio').value = '';
-    document.getElementById('recorder').value = '';
-    document.getElementById('startTime').value = '';
-    document.getElementById('endTime').value = '';
-
-    document.querySelectorAll('#driverFormView .form-check-input').forEach(cb => cb.checked = false);
-    document.querySelector("#runningTable tbody").innerHTML = '';
-    document.querySelector("#eventTable tbody").innerHTML = '';
-    rebuildRunningTable();
-
-    if (signaturePad) {
-        signaturePad.clear();
-    } else {
-        const canvas = document.getElementById('sigCanvas');
-        if (canvas) canvas.remove();
-        document.getElementById('sigPlaceholder').style.display = '';
-    }
-
-    localStorage.removeItem(EMU_FORM_KEY);
-    alert("✅ 動車組表單已清除，可開始填寫新紀錄。");
-}
-
-// ====================== 動車組運行紀錄 ======================
-function renderChecklists() {
-    const t1 = ["清洗車身", "清洗車頭（南面）", "清洗車頭（北面）"];
-    const t2 = ["維修股道1南至1北 輪對檢測", "調車軌道 輪對檢測", "停放股道2 輪對輾磨"];
-    document.getElementById('checklist1').innerHTML = t1.map(t => 
-        `<div class="form-check mb-2"><input class="form-check-input" type="checkbox" value="${t}"><label class="form-check-label">${t}</label></div>`
-    ).join('');
-    document.getElementById('checklist2').innerHTML = t2.map(t => 
-        `<div class="form-check mb-2"><input class="form-check-input" type="checkbox" value="${t}"><label class="form-check-label">${t}</label></div>`
-    ).join('');
-}
-
-function captureCurrentTableData() {
-    const data = [];
-    document.querySelectorAll("#runningTable tbody tr").forEach(tr => {
-        const inputs = tr.querySelectorAll('input');
-        if (inputs.length >= 1) {
-            data.push({
-                location: inputs[0].value,
-                arrival: inputs[1]?.value || "",
-                departure: inputs[2]?.value || "",
-                isManual: !inputs[0].hasAttribute('readonly')
-            });
-        }
-    });
-    return data;
-}
-
-function rebuildRunningTable() {
-    const tbody = document.querySelector("#runningTable tbody");
-    const currentData = captureCurrentTableData();
-    tbody.innerHTML = "";
-    
-    const pickup = document.getElementById('pickupLocation').value;
-    const via = document.getElementById('viaPointSelect').value;
-    const parking = document.getElementById('parkingLocation').value;
-    
-    if (pickup) {
-        const matched = currentData.find(d => d.location === pickup && !d.isManual);
-        addRunningRow(pickup, true, false, matched || {}, false);
-    }
-    if (via) {
-        const matched = currentData.find(d => d.location === via && !d.isManual);
-        addRunningRow(via, false, false, matched || {}, false);
-    }
-    if (parking) {
-        const matched = currentData.find(d => d.location === parking && !d.isManual);
-        addRunningRow(parking, false, true, matched || {}, false);
-    }
-    
-    currentData.forEach(d => {
-        if (d.isManual && d.location !== "") {
-            addRunningRow(d.location, false, false, { arr: d.arrival, dep: d.departure }, true);
-        }
-    });
-}
-
-function timeInputHTML(value = '') {
-    const v = normalizeTime24(value || '');
-    return `<input type="text" class="form-control time-24" value="${v}" placeholder="HH:mm" maxlength="5" inputmode="numeric" autocomplete="off" title="24小時制，例如 14:30">`;
-}
-
-/** 將各種時間字串正規化為 24 小時制 HH:mm；無效則回傳空字串 */
-function normalizeTime24(raw) {
-    if (!raw) return '';
-    let s = String(raw).trim().toUpperCase();
-    // 處理 2:30 PM / 02:30PM / 14:30 等
-    let isPM = /\bPM\b/.test(s);
-    let isAM = /\bAM\b/.test(s);
-    s = s.replace(/\s*(AM|PM)\s*/g, '').replace(/[^0-9:]/g, '');
-    let h = 0, m = 0;
-    if (s.includes(':')) {
-        const parts = s.split(':');
-        h = parseInt(parts[0], 10) || 0;
-        m = parseInt(parts[1], 10) || 0;
-    } else if (s.length === 3 || s.length === 4) {
-        // 930 -> 09:30, 1430 -> 14:30
-        const padded = s.padStart(4, '0');
-        h = parseInt(padded.slice(0, 2), 10);
-        m = parseInt(padded.slice(2), 10);
-    } else if (s.length === 1 || s.length === 2) {
-        h = parseInt(s, 10) || 0;
-        m = 0;
-    } else {
-        return '';
-    }
-    if (isPM && h < 12) h += 12;
-    if (isAM && h === 12) h = 0;
-    if (h < 0 || h > 23 || m < 0 || m > 59 || isNaN(h) || isNaN(m)) return '';
-    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-}
-
-/** 輸入時自動插入冒號：1430 → 14:30 */
-function onTime24Input(e) {
-    const el = e.target;
-    if (!el.classList.contains('time-24')) return;
-    let digits = el.value.replace(/[^0-9]/g, '').slice(0, 4);
-    if (digits.length >= 3) {
-        el.value = digits.slice(0, 2) + ':' + digits.slice(2);
-    } else {
-        el.value = digits;
-    }
-}
-
-function onTime24Blur(e) {
-    const el = e.target;
-    if (!el.classList.contains('time-24')) return;
-    const norm = normalizeTime24(el.value);
-    el.value = norm;
-    if (el.value && !/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(el.value)) {
-        el.value = '';
-    }
-}
-
-function addRunningRow(loc, hideArr, hideDep, savedTime = {}, isManual = false) {
-    const tbody = document.querySelector("#runningTable tbody");
-    const tr = document.createElement('tr');
-    const locationInput = isManual 
-        ? `<input type="text" class="form-control" value="${loc}" placeholder="請輸入自定義地點">`
-        : `<input type="text" class="form-control bg-light" value="${loc}" readonly>`;
-    tr.innerHTML = `
-        <td>${locationInput}</td>
-        <td>${hideArr ? '<span class="text-muted">—</span>' : timeInputHTML(savedTime.arrival || savedTime.arr || '')}</td>
-        <td>${hideDep ? '<span class="text-muted">—</span>' : timeInputHTML(savedTime.departure || savedTime.dep || '')}</td>
-        <td class="no-print"><button class="btn btn-outline-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>
-    `;
-    tbody.appendChild(tr);
-}
-
-function addNewLocationRow() { addRunningRow("", false, false, {}, true); }
-
-function addEventRow(tableId) {
-    const tbody = document.querySelector(`#${tableId} tbody`);
-    const tr = document.createElement('tr');
-    if (tableId === 'eventTable') {
-        tr.innerHTML = `
-            <td>${timeInputHTML()}</td>
-            <td><input type="text" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td class="no-print"><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">刪除</button></td>
-        `;
-    } else {
-        tr.innerHTML = `
-            <td>${timeInputHTML()}</td>
-            <td><input type="text" class="form-control"></td>
-            <td class="no-print"><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">刪除</button></td>
-        `;
-    }
-    tbody.appendChild(tr);
-}
-
-// ====================== 動車組 Excel / PDF ======================
-function getFormDataObject() {
-    const checkedTasks = [];
-    document.querySelectorAll('#driverFormView .form-check-input:checked').forEach(cb => checkedTasks.push(cb.value));
-    
-    const runningRecords = [];
-    document.querySelectorAll("#runningTable tbody tr").forEach(tr => {
-        const inputs = tr.querySelectorAll('input');
-        if (inputs.length >= 1 && inputs[0].value) {
-            runningRecords.push({
-                loc: inputs[0].value,
-                arr: tr.cells[1].querySelector('input')?.value || "",
-                dep: tr.cells[2].querySelector('input')?.value || ""
-            });
-        }
-    });
-    
-    const eventRecords = [];
-    document.querySelectorAll("#eventTable tbody tr").forEach(tr => {
-        const inputs = tr.querySelectorAll('input');
-        if (inputs.length === 3) {
-            eventRecords.push({ time: inputs[0].value, location: inputs[1].value, detail: inputs[2].value });
-        }
-    });
-    
-    return {
-        date: document.getElementById('date').value,
-        tci: getTCIValueFrom('emuTCI', 'emuTCIOther'),
-        trainNo: document.getElementById('trainNoDigit').value ? `CRH-025${document.getElementById('trainNoDigit').value}` : '',
-        driverName: document.getElementById('driverNameInput').value.trim(),
-        driverNo: document.getElementById('driverNoDigit').value ? `49999${document.getElementById('driverNoDigit').value}` : '',
-        gsmr: document.getElementById('gsmr').value,
-        radio: document.getElementById('radio').value,
-        recorder: document.getElementById('recorder').value,
-        startTime: document.getElementById('startTime').value,
-        endTime: document.getElementById('endTime').value,
-        tasks: checkedTasks,
-        runningTableData: runningRecords,
-        eventTableData: eventRecords,
-        signatureStatus: (signaturePad && !signaturePad.isEmpty()) ? "已簽名" : "未簽名"
-    };
-}
-
-function buildEMUWorkbook(data) {
-    const wb = XLSX.utils.book_new();
-    const baseRows = [
-        ["港鐵動車組調車作業記錄 - 基本資訊"], [],
-        ["項目", "填報內容"],
-        ["表單類型", "EMU"],
-        ["填報日期", data.date],
-        ["當值 TCI", data.tci || ""],
-        ["動車組車號", data.trainNo],
-        ["司機姓名", data.driverName],
-        ["高鐵司機號", data.driverNo],
-        ["GSM-R 編號", data.gsmr],
-        ["對講機編號", data.radio],
-        ["錄音筆編號", data.recorder],
-        ["列車整備開始時間", data.startTime],
-        ["列車整備完成時間", data.endTime],
-        ["已選取作業項目", data.tasks.join(" ； ")],
-        ["運行軌跡 JSON", JSON.stringify(data.runningTableData)],
-        ["電子簽名狀態", data.signatureStatus]
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(baseRows), "基本資料與作業內容");
-    
-    const logRows = [
-        ["一、動車組調車作業運行紀錄"],
-        ["地點 (Location)", "到達時間 (Arrival)", "開車時間 (Departure)"]
-    ];
-    data.runningTableData.forEach(r => logRows.push([r.loc, r.arr || "—", r.dep || "—"]));
-    logRows.push([], ["二、特別事件紀錄"], ["發生時間", "事件地點", "事件詳細情況說明"]);
-    if (data.eventTableData.length === 0) logRows.push(["—", "—", "無特別事件報告"]);
-    else data.eventTableData.forEach(e => logRows.push([e.time, e.location, e.detail]));
-    logRows.push([], ["電子簽名狀態", data.signatureStatus]);
-    
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(logRows), "運行與事件紀錄");
-    return wb;
-}
-
-function exportExcel() {
-    const data = getFormDataObject();
-    if (!data.trainNo || !data.driverName) {
-        alert("❌ 匯出失敗：『車組號』與『司機姓名』為必填項目！");
-        return;
-    }
-    const wb = buildEMUWorkbook(data);
-    XLSX.writeFile(wb, `調車記錄_${data.trainNo}_${data.date}.xlsx`);
-}
-
-function downloadFallback(file) {
-    const url = URL.createObjectURL(file);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = file.name;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-        try { document.body.removeChild(a); } catch (_) {}
-        URL.revokeObjectURL(url);
-    }, 2500);
-}
-
-let _shareInProgress = false;
-
-function isAndroid() {
-    return /Android/i.test(navigator.userAgent || '');
-}
-
-/**
- * 產生兩種 File：xlsx MIME（iOS 較穩）與 octet-stream（部分 Android 較易進分享選單）
- */
-function buildEMUExcelFiles(data) {
-    const wb = buildEMUWorkbook(data);
-    const safeTrain = (data.trainNo || 'EMU').replace(/[^\w\-]/g, '');
-    const safeDate = (data.date || 'nodate').replace(/[^\d\-]/g, '');
-    const fileName = `EMU_Shunting_${safeTrain}_${safeDate}.xlsx`;
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const u8 = wbout instanceof Uint8Array ? wbout : new Uint8Array(wbout);
-    const xlsxMime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    const fileXlsx = new File([u8], fileName, { type: xlsxMime, lastModified: Date.now() });
-    const fileBinary = new File([u8], fileName, { type: 'application/octet-stream', lastModified: Date.now() });
-    return { fileName, fileXlsx, fileBinary };
-}
-
-/** 成功 true、使用者取消 null、失敗 false */
-async function tryShareFile(file) {
-    if (typeof navigator.share !== 'function') return false;
-    try {
-        await navigator.share({ files: [file] });
-        return true;
-    } catch (error) {
-        if (error && error.name === 'AbortError') return null;
-        console.warn('share failed', file.type, error && error.message);
-        return false;
-    }
-}
-
-async function shareExcelToTCI() {
-    if (_shareInProgress) return;
-
-    const data = getFormDataObject();
-    if (!data.trainNo || !data.driverName) {
-        alert("❌ 請先填寫『車組號』與『司機姓名』！");
-        return;
-    }
-
-    const btn = document.querySelector('button[onclick="shareExcelToTCI()"]');
-    const restoreBtn = () => {
-        _shareInProgress = false;
-        if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = '📤 發送 Excel 給 TCI';
-        }
-    };
-    _shareInProgress = true;
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '⏳ 準備分享中...';
-    }
-
-    try {
-        const { fileName, fileXlsx, fileBinary } = buildEMUExcelFiles(data);
-        const android = isAndroid();
-
-        // Android：先 octet-stream；iOS：先正確 xlsx MIME
-        // 不依賴 canShare（Android 常對 xlsx 回 false 但仍可能 share）
-        const order = android ? [fileBinary, fileXlsx] : [fileXlsx, fileBinary];
-        for (const file of order) {
-            const result = await tryShareFile(file);
-            if (result === true) return;
-            if (result === null) return; // 使用者取消
-        }
-
-        // 無法直接分享 → 下載 + 清楚說明（Android 常見限制）
-        downloadFallback(fileXlsx);
-        if (android) {
-            alert(
-                '✅ Excel 已下載：' + fileName + '\n\n' +
-                '【Android 說明】\n' +
-                'Android Chrome / 系統瀏覽器通常不允許網頁直接把 Excel 傳入 WhatsApp（iPhone 可以）。\n\n' +
-                '請手動傳送給 TCI：\n' +
-                '1. 打開 WhatsApp → 選擇 TCI\n' +
-                '2. 點 ➕ 或 📎\n' +
-                '3. 檔案 / Downloads → 選「' + fileName + '」傳送'
-            );
-        } else {
-            alert(
-                '✅ Excel 已儲存：' + fileName + '\n\n' +
-                '請用 WhatsApp 手動附加該檔案傳送給 TCI。'
-            );
-        }
-    } catch (e) {
-        console.error(e);
-        alert('❌ 產生 Excel 失敗，請稍後再試。');
-    } finally {
-        restoreBtn();
-    }
-}
-
-/** 將表單截成 PDF File（隱藏 no-print 按鈕列） */
-async function buildEMUPDFFile(data) {
-    const element = document.getElementById('driverFormView');
-    const hidden = [];
-    element.querySelectorAll('.no-print').forEach(el => {
-        hidden.push([el, el.style.display]);
-        el.style.display = 'none';
-    });
-    try {
-        const canvas = await html2canvas(element, {
-            scale: 2,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff'
-        });
-        const imgData = canvas.toDataURL('image/jpeg', 0.92);
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 0;
-        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-        heightLeft -= pdfHeight;
-        while (heightLeft > 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-            heightLeft -= pdfHeight;
-        }
-        const blob = pdf.output('blob');
-        const safeTrain = (data.trainNo || 'EMU').replace(/[^\w\-]/g, '');
-        const safeDate = (data.date || 'nodate').replace(/[^\d\-]/g, '');
-        const fileName = `EMU_Shunting_${safeTrain}_${safeDate}.pdf`;
-        return new File([blob], fileName, { type: 'application/pdf', lastModified: Date.now() });
-    } finally {
-        hidden.forEach(([el, disp]) => { el.style.display = disp; });
-    }
-}
-
-let _sharePdfInProgress = false;
-
-async function sharePDFToTCI() {
-    if (_sharePdfInProgress) return;
-
-    const data = getFormDataObject();
-    if (!data.trainNo || !data.driverName) {
-        alert("❌ 請先填寫『車組號』與『司機姓名』！");
-        return;
-    }
-
-    const btn = document.getElementById('sharePdfBtn');
-    const restoreBtn = () => {
-        _sharePdfInProgress = false;
-        if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = '📤 發送 PDF 給 TCI';
-        }
-    };
-    _sharePdfInProgress = true;
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '⏳ 產生 PDF 中...';
-    }
-
-    try {
-        const pdfFile = await buildEMUPDFFile(data);
-
-        // PDF 在 Android 上比 Excel 容易直接分享到 WhatsApp
-        const result = await tryShareFile(pdfFile);
-        if (result === true) return;
-        if (result === null) return;
-
-        downloadFallback(pdfFile);
-        alert(
-            '✅ PDF 已下載：' + pdfFile.name + '\n\n' +
-            '請用 WhatsApp 手動傳送：\n' +
-            '1. 開啟與 TCI 的對話\n' +
-            '2. 點 ➕ 或 📎\n' +
-            '3. 選擇「' + pdfFile.name + '」傳送'
-        );
-    } catch (e) {
-        console.error(e);
-        alert('❌ 產生 PDF 失敗，請稍後再試。');
-    } finally {
-        restoreBtn();
-    }
-}
-
-// ====================== 機車相關功能 ======================
-function toggleTCIOther(selectEl, otherInputId) {
-    const otherInput = document.getElementById(otherInputId);
-    if (!otherInput) return;
-    if (selectEl.value === '__other__') {
-        otherInput.style.display = 'block';
-        otherInput.focus();
-    } else {
-        otherInput.style.display = 'none';
-        otherInput.value = '';
-    }
-}
-
-function getTCIValueFrom(selectId, otherId) {
-    const selectVal = document.getElementById(selectId)?.value || '';
-    if (selectVal === '__other__') {
-        return (document.getElementById(otherId)?.value || '').trim() || '其他（未填姓名）';
-    }
-    return selectVal;
-}
-
-function getLocoTCIValues() {
-    return {
-        s1: getTCIValueFrom('locoTCIS1', 'locoTCIS1Other'),
-        s2: getTCIValueFrom('locoTCIS2', 'locoTCIS2Other'),
-        s3: getTCIValueFrom('locoTCIS3', 'locoTCIS3Other')
-    };
-}
-
-function addLocoMovementRow(data = {}) {
-    const tbody = document.querySelector("#locoMovementTable tbody");
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-        <td><input type="text" class="form-control" value="${data.consist || ''}" placeholder="車列"></td>
-        <td><input type="text" class="form-control" value="${data.from || ''}" placeholder="由"></td>
-        <td><input type="text" class="form-control" value="${data.to || ''}" placeholder="至"></td>
-        <td><input type="text" class="form-control" value="${data.operator1 || ''}" placeholder="司機1"></td>
-        <td><input type="text" class="form-control" value="${data.operator2 || ''}" placeholder="司機2"></td>
-        <td>${timeInputHTML(data.timeDepart || '')}</td>
-        <td>${timeInputHTML(data.timeArrival || '')}</td>
-        <td><input type="text" class="form-control" value="${data.remarks || ''}" placeholder="Remarks"></td>
-        <td class="no-print text-center"><button class="btn btn-outline-danger btn-sm p-1 py-0" onclick="this.closest('tr').remove()">✕</button></td>
-    `;
-    tbody.appendChild(tr);
-}
-
-function initLocoMovementTable() {
-    const tbody = document.querySelector("#locoMovementTable tbody");
-    tbody.innerHTML = "";
-    for (let i = 0; i < 3; i++) addLocoMovementRow();
-}
-
-function saveLocoFormToLocal() {
-    try {
-        const movements = [];
-        document.querySelectorAll("#locoMovementTable tbody tr").forEach(tr => {
-            const inputs = tr.querySelectorAll('input');
-            if (inputs.length >= 8) {
-                movements.push({
-                    consist: inputs[0].value,
-                    from: inputs[1].value,
-                    to: inputs[2].value,
-                    operator1: inputs[3].value,
-                    operator2: inputs[4].value,
-                    timeDepart: inputs[5].value,
-                    timeArrival: inputs[6].value,
-                    remarks: inputs[7].value
-                });
-            }
-        });
-        const events = [];
-        document.querySelectorAll("#locoEventTable tbody tr").forEach(tr => {
-            const inputs = tr.querySelectorAll('input');
-            if (inputs.length >= 2) {
-                events.push({ time: inputs[0].value, particulars: inputs[1].value });
-            }
-        });
-        const payload = {
-            date: document.getElementById('locoDate').value,
-            tciS1: document.getElementById('locoTCIS1').value,
-            tciS1Other: document.getElementById('locoTCIS1Other').value,
-            tciS2: document.getElementById('locoTCIS2').value,
-            tciS2Other: document.getElementById('locoTCIS2Other').value,
-            tciS3: document.getElementById('locoTCIS3').value,
-            tciS3Other: document.getElementById('locoTCIS3Other').value,
-            movements,
-            events
-        };
-        localStorage.setItem(LOCO_FORM_KEY, JSON.stringify(payload));
-    } catch (e) {
-        console.warn("LOCO form localStorage 寫入失敗", e);
-    }
-}
-
-function applyLocoTCIField(selectId, otherId, selectVal, otherVal) {
-    const sel = document.getElementById(selectId);
-    const other = document.getElementById(otherId);
-    if (!sel || !other) return;
-    // 兼容舊版單一 TCI 儲存
-    sel.value = selectVal || '';
-    if (selectVal === '__other__') {
-        other.style.display = 'block';
-        other.value = otherVal || '';
-    } else {
-        other.style.display = 'none';
-        other.value = '';
-    }
-}
-
-function loadLocoFormFromLocal() {
-    try {
-        const raw = localStorage.getItem(LOCO_FORM_KEY);
-        if (!raw) return false;
-        const p = JSON.parse(raw);
-
-        if (p.date) document.getElementById('locoDate').value = p.date;
-
-        // 新版三更；若只有舊版 tci 則填入 S1
-        if (p.tciS1 !== undefined || p.tciS2 !== undefined || p.tciS3 !== undefined) {
-            applyLocoTCIField('locoTCIS1', 'locoTCIS1Other', p.tciS1, p.tciS1Other);
-            applyLocoTCIField('locoTCIS2', 'locoTCIS2Other', p.tciS2, p.tciS2Other);
-            applyLocoTCIField('locoTCIS3', 'locoTCIS3Other', p.tciS3, p.tciS3Other);
-        } else if (p.tci) {
-            applyLocoTCIField('locoTCIS1', 'locoTCIS1Other', p.tci, p.tciOther);
-        }
-
-        const tbody = document.querySelector("#locoMovementTable tbody");
-        tbody.innerHTML = '';
-        if (Array.isArray(p.movements) && p.movements.length) {
-            p.movements.forEach(m => addLocoMovementRow(m));
-        } else {
-            initLocoMovementTable();
-        }
-
-        document.querySelector("#locoEventTable tbody").innerHTML = '';
-        if (Array.isArray(p.events)) {
-            p.events.forEach(e => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${timeInputHTML(e.time || '')}</td>
-                    <td><input type="text" class="form-control" value="${e.particulars || ''}"></td>
-                    <td class="no-print"><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); scheduleFormSave(saveLocoFormToLocal)">刪除</button></td>
-                `;
-                document.querySelector("#locoEventTable tbody").appendChild(tr);
-            });
-        }
-        return true;
-    } catch (e) {
-        console.warn("LOCO form localStorage 讀取失敗", e);
-        return false;
-    }
-}
-
-function clearLocoForm() {
-    if (!confirm("確定要清除「機車調車作業紀錄」全部填寫內容嗎？\n此操作無法復原（本機儲存也會清除）。")) return;
-
-    document.getElementById('locoDate').valueAsDate = new Date();
-    ['locoTCIS1', 'locoTCIS2', 'locoTCIS3'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-    });
-    ['locoTCIS1Other', 'locoTCIS2Other', 'locoTCIS3Other'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) { el.value = ''; el.style.display = 'none'; }
-    });
-
-    initLocoMovementTable();
-    document.querySelector("#locoEventTable tbody").innerHTML = '';
-    localStorage.removeItem(LOCO_FORM_KEY);
-
-    alert("✅ 機車表單已清除，可開始填寫新紀錄。");
-}
-
-function collectMovementDataForPrint() {
-    const records = [];
-    document.querySelectorAll("#locoMovementTable tbody tr").forEach(tr => {
-        const inputs = tr.querySelectorAll('input');
-        if (inputs.length >= 8) {
-            const consist = inputs[0].value.trim();
-            const from = inputs[1].value.trim();
-            const to = inputs[2].value.trim();
-            const op1 = inputs[3].value.trim();
-            const op2 = inputs[4].value.trim();
-            const remarks = inputs[7].value.trim();
-            if (consist || from || to || op1 || op2 || remarks) {
-                records.push({ consist, from, to, operator1: op1, operator2: op2, remarks });
-            }
-        }
-    });
-    return records;
-}
-
-function printReferenceSlips(copies) {
-    const records = collectMovementDataForPrint();
-    if (records.length === 0) {
-        alert("⚠️ 目前沒有任何運行記錄可打印，請先填寫資料。");
-        return;
-    }
-    const date = document.getElementById('locoDate').value || new Date().toISOString().split('T')[0];
-    
-    let rowsHtml = '';
-    records.forEach(r => {
-        rowsHtml += `
-            <tr>
-                <td>${r.consist || ''}</td>
-                <td>${r.from || ''}</td>
-                <td>${r.to || ''}</td>
-                <td>${r.operator1 || ''}</td>
-                <td>${r.operator2 || ''}</td>
-                <td>${r.remarks || ''}</td>
-            </tr>
-        `;
-    });
-    
-    let fullHtml = `<div class="print-grid copies-${copies}">`;
-    for (let i = 1; i <= copies; i++) {
-        fullHtml += `
-            <div class="print-copy">
-                <div class="print-header">機車運行參考單 / Loco Movement Reference</div>
-                <div class="print-sub">日期：${date}　｜　共 ${records.length} 項</div>
-                <table class="print-table">
-                    <thead>
-                        <tr>
-                            <th style="width:20%">車列 Consist</th>
-                            <th style="width:12%">由</th>
-                            <th style="width:12%">至</th>
-                            <th style="width:15%">司機1</th>
-                            <th style="width:15%">司機2</th>
-                            <th style="width:26%">Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody>${rowsHtml}</tbody>
-                </table>
-                <div class="copy-label">第 ${i} / ${copies} 份</div>
-            </div>
-        `;
-    }
-    fullHtml += `</div>`;
-    
-    const printArea = document.getElementById('printArea');
-    printArea.innerHTML = fullHtml;
-    setTimeout(() => {
-        window.print();
-        setTimeout(() => { printArea.innerHTML = ''; }, 500);
-    }, 100);
-}
-
-function exportLocoExcel() {
-    const date = document.getElementById('locoDate').value || '未填日期';
-    const tci = getLocoTCIValues();
-    
-    const movementRecords = [];
-    document.querySelectorAll("#locoMovementTable tbody tr").forEach(tr => {
-        const inputs = tr.querySelectorAll('input');
-        if (inputs.length >= 8 && (inputs[0].value || inputs[1].value || inputs[5].value || inputs[3].value)) {
-            movementRecords.push({
-                consist: inputs[0].value,
-                from: inputs[1].value,
-                to: inputs[2].value,
-                operator1: inputs[3].value,
-                operator2: inputs[4].value,
-                timeDepart: inputs[5].value,
-                timeArrival: inputs[6].value,
-                remarks: inputs[7].value
-            });
-        }
-    });
-    
-    const eventRecords = [];
-    document.querySelectorAll("#locoEventTable tbody tr").forEach(tr => {
-        const inputs = tr.querySelectorAll('input');
-        if (inputs.length >= 2 && (inputs[0].value || inputs[1].value)) {
-            eventRecords.push({ time: inputs[0].value, particulars: inputs[1].value });
-        }
-    });
-    
-    const wb = XLSX.utils.book_new();
-    const rows = [
-        ["港鐵機車調車作業紀錄 HSR-Train Ops-014"],
-        ["表單類型", "LOCO"],
-        ["日期 Date", date],
-        ["S1 當值 TCI", tci.s1],
-        ["S2 當值 TCI", tci.s2],
-        ["S3 當值 TCI", tci.s3],
-        ["當值 TCI", `S1:${tci.s1 || '—'} / S2:${tci.s2 || '—'} / S3:${tci.s3 || '—'}`],
-        ["機車運行紀錄 JSON", JSON.stringify(movementRecords)],
-        ["特別事件 JSON", JSON.stringify(eventRecords)]
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), "機車調車作業紀錄");
-    XLSX.writeFile(wb, `機車調車作業紀錄_${date}.xlsx`);
-}
-
-// ====================== 通用 PDF ======================
-async function exportPDF(containerId, fileNamePrefix) {
-    const btn = event.target;
-    btn.disabled = true;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = "⏳ 生成 PDF 中...";
-    try {
-        const element = document.getElementById(containerId);
-        const canvas = await html2canvas(element, { scale: 2, useCORS: true, logging: false, backgroundColor: "#ffffff" });
-        const imgData = canvas.toDataURL('image/jpeg', 0.95);
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-        
-        let heightLeft = imgHeight;
-        let position = 0;
-        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-        heightLeft -= pdfHeight;
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, imgHeight);
-            heightLeft -= pdfHeight;
-        }
-        pdf.save(`${fileNamePrefix}_${new Date().toISOString().split('T')[0]}.pdf`);
-    } catch (e) {
-        alert("PDF 匯出失敗");
-        console.error(e);
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-    }
-}
-
-// ====================== 管理端：詳細合併 + SSS ======================
-let globalMasterData = [];
-let aggregatedDataByDate = {};
-
-const STORAGE_KEY = "mtr_shunting_stats_v1";
-
-function saveStatsToLocal() {
-    try {
-        const payload = {
-            master: globalMasterData,
-            stats: aggregatedDataByDate,
-            savedAt: new Date().toISOString()
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch (e) {
-        console.warn("localStorage 寫入失敗（可能空間不足或隱私模式）", e);
-    }
-}
-
-function loadStatsFromLocal() {
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return false;
-        const payload = JSON.parse(raw);
-        globalMasterData = Array.isArray(payload.master) ? payload.master : [];
-        aggregatedDataByDate = (payload.stats && typeof payload.stats === "object") ? payload.stats : {};
-        return true;
-    } catch (e) {
-        console.warn("localStorage 讀取失敗", e);
-        return false;
-    }
-}
-
-function clearAllStatsData() {
-    if (!confirm("確定要清除所有已匯入的統計資料嗎？\n（詳細合併總表與 SSS 統計會全部清空，本機儲存也會一併清除）")) {
-        return;
-    }
-    globalMasterData = [];
-    aggregatedDataByDate = {};
-    localStorage.removeItem(STORAGE_KEY);
-    const fileInput = document.getElementById("excelFilesInput");
-    if (fileInput) fileInput.value = "";
-
-    renderMasterTable();
-    renderSSSTable();
-    alert("✅ 已清除所有統計資料（含本機儲存），可以開始匯入新的紀錄。");
-}
-
-function getShiftCategory(timeStr) {
-    if (!timeStr) return "E";
-    const [h, m] = timeStr.split(':').map(Number);
-    const totalMinutes = h * 60 + (m || 0);
-    if (totalMinutes >= 420 && totalMinutes < 900) return "E";
-    if (totalMinutes >= 900 && totalMinutes < 1320) return "L";
-    return "N";
-}
-
-function minutesToHHMM(mins) {
-    if (!mins || mins <= 0) return "00:00";
-    const h = Math.floor(mins / 60);
-    const m = mins % 60;
-    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-}
-
-async function importAndMergeExcelFiles(input) {
-    const files = input.files;
-    if (!files || files.length === 0) return;
-    
-    globalMasterData = [];
-    aggregatedDataByDate = {};
-    
-    for (let file of files) {
-        try {
-            const data = await file.arrayBuffer();
-            const workbook = XLSX.read(data, { type: 'array' });
-            
-            // 嘗試找基本資料 sheet
-            let baseSheet = workbook.Sheets["基本資料與作業內容"] || workbook.Sheets["機車調車作業紀錄"] || workbook.Sheets[workbook.SheetNames[0]];
-            const baseRows = XLSX.utils.sheet_to_json(baseSheet, { header: 1 });
-            
-            const fields = {};
-            baseRows.forEach(row => {
-                if (row && row.length >= 2) fields[row[0]] = row[1];
-            });
-            
-            const formType = fields["表單類型"] || "EMU";
-            const fileDate = fields["填報日期"] || fields["日期 Date"] || "";
-            
-            // ---------- 詳細合併總表 ----------
-            if (formType === "EMU") {
-                let runningPoints = []; // {loc, arr, dep}
-                let eventDetails = [];
-                let sigStatus = fields["電子簽名狀態"] || "未簽名";
-                
-                if (fields["運行軌跡 JSON"]) {
-                    try {
-                        const runningData = JSON.parse(fields["運行軌跡 JSON"]);
-                        if (Array.isArray(runningData)) {
-                            runningPoints = runningData.map(r => ({
-                                loc: r.loc || r.location || "未知",
-                                arr: r.arr || r.arrival || "",
-                                dep: r.dep || r.departure || ""
-                            })).filter(r => r.loc);
-                        }
-                    } catch (e) {}
-                }
-                
-                if (runningPoints.length === 0 && workbook.Sheets["運行與事件紀錄"]) {
-                    const logRows = XLSX.utils.sheet_to_json(workbook.Sheets["運行與事件紀錄"], { header: 1 });
-                    let mode = "";
-                    logRows.forEach(row => {
-                        if (!row || !row[0]) return;
-                        if (String(row[0]).includes("一、動車組")) { mode = "run"; return; }
-                        if (String(row[0]).includes("二、特別事件")) { mode = "event"; return; }
-                        if (row[0] === "電子簽名狀態") { sigStatus = row[1] || "未簽名"; mode = ""; return; }
-                        if (mode === "run" && row[0] !== "地點 (Location)") {
-                            runningPoints.push({
-                                loc: row[0] || "未知",
-                                arr: row[1] && row[1] !== "—" ? row[1] : "",
-                                dep: row[2] && row[2] !== "—" ? row[2] : ""
-                            });
-                        }
-                        if (mode === "event" && row[0] !== "發生時間" && row[2] !== "無特別事件報告") {
-                            eventDetails.push(`[${row[0] || '—'} @ ${row[1] || '—'}] ${row[2] || '—'}`);
-                        }
-                    });
-                }
-                
-                const eventsText = eventDetails.length > 0 ? eventDetails.join(" ； ") : "無特別事件";
-                const tciInfo = fields["當值 TCI"] || "—";
-                const vehicleInfo = fields["動車組車號"] || "—";
-                const driverInfo = `${fields["司機姓名"] || "—"} (${fields["高鐵司機號"] || "—"})`;
-
-                // 相鄰地點組成「由→至」各一列（與 LOCO 相近）
-                // 開車時間 = 上站開車；到達時間 = 下站到達
-                if (runningPoints.length >= 2) {
-                    for (let i = 0; i < runningPoints.length - 1; i++) {
-                        const from = runningPoints[i];
-                        const to = runningPoints[i + 1];
-                        globalMasterData.push({
-                            type: "EMU",
-                            date: fileDate || "—",
-                            tci: tciInfo,
-                            driverInfo,
-                            vehicle: vehicleInfo,
-                            runTrack: `${from.loc}→${to.loc}`,
-                            timeDepart: from.dep || "—",
-                            timeArrival: to.arr || "—",
-                            events: i === 0 ? eventsText : "",
-                            status: i === 0 ? sigStatus : ""
-                        });
-                    }
-                } else if (runningPoints.length === 1) {
-                    const p = runningPoints[0];
-                    globalMasterData.push({
-                        type: "EMU",
-                        date: fileDate || "—",
-                        tci: tciInfo,
-                        driverInfo,
-                        vehicle: vehicleInfo,
-                        runTrack: p.loc,
-                        timeDepart: p.dep || "—",
-                        timeArrival: p.arr || "—",
-                        events: eventsText,
-                        status: sigStatus
-                    });
-                } else {
-                    globalMasterData.push({
-                        type: "EMU",
-                        date: fileDate || "—",
-                        tci: tciInfo,
-                        driverInfo,
-                        vehicle: vehicleInfo,
-                        runTrack: "—",
-                        timeDepart: "—",
-                        timeArrival: "—",
-                        events: eventsText,
-                        status: sigStatus
-                    });
-                }
-            } else if (formType === "LOCO") {
-                let eventDetails = [];
-                if (fields["特別事件 JSON"]) {
-                    try {
-                        const ev = JSON.parse(fields["特別事件 JSON"]);
-                        eventDetails = ev.map(e => `[${e.time || '—'}] ${e.particulars || ''}`);
-                    } catch (e) {}
-                }
-                const eventsText = eventDetails.length > 0 ? eventDetails.join(" ； ") : "無特別事件";
-
-                // 三更 TCI 對照：E(0700-1500)=S1, L(1500-2200)=S2, N(2200-0700)=S3
-                const tciByShift = {
-                    E: fields["S1 當值 TCI"] || "",
-                    L: fields["S2 當值 TCI"] || "",
-                    N: fields["S3 當值 TCI"] || ""
-                };
-                // 兼容舊檔只有單一「當值 TCI」
-                const legacyTci = fields["當值 TCI"] || "";
-
-                let movementData = [];
-                if (fields["機車運行紀錄 JSON"]) {
-                    try { movementData = JSON.parse(fields["機車運行紀錄 JSON"]); } catch (e) {}
-                }
-
-                if (!Array.isArray(movementData) || movementData.length === 0) {
-                    globalMasterData.push({
-                        type: "LOCO",
-                        date: fileDate || "—",
-                        tci: legacyTci || "—",
-                        driverInfo: "—",
-                        vehicle: "—",
-                        runTrack: "—",
-                        timeDepart: "—",
-                        timeArrival: "—",
-                        events: eventsText,
-                        status: "—"
-                    });
-                } else {
-                    // 每一條運行紀錄一列：TCI → 司機 → 車列 → 由→至
-                    movementData.forEach((m, idx) => {
-                        const dep = m.timeDepart || "";
-                        const arr = m.timeArrival || "";
-                        const shift = getShiftCategory(dep); // E / L / N
-                        let tciName = tciByShift[shift] || "";
-                        if (!tciName && legacyTci && !legacyTci.includes("S1:")) tciName = legacyTci;
-                        const shiftLabel = shift === "E" ? "S1" : (shift === "L" ? "S2" : "S3");
-
-                        const ops = [m.operator1, m.operator2]
-                            .map(x => (x || "").trim())
-                            .filter(n => n && n !== "司機1" && n !== "司機2");
-                        const driverInfoText = ops.length ? ops.join(" / ") : "—";
-
-                        const consist = (m.consist || "").trim() || "—";
-                        const from = (m.from || "").trim() || "—";
-                        const to = (m.to || "").trim() || "—";
-                        const tciPart = tciName ? `${shiftLabel}:${tciName}` : `${shiftLabel}:—`;
-
-                        globalMasterData.push({
-                            type: "LOCO",
-                            date: fileDate || "—",
-                            tci: tciPart,
-                            driverInfo: driverInfoText,
-                            vehicle: consist,
-                            runTrack: `${from}→${to}`,
-                            timeDepart: dep || "—",
-                            timeArrival: arr || "—",
-                            events: idx === 0 ? eventsText : "",
-                            status: "—"
-                        });
-                    });
-                }
-            }
-            
-            // ---------- SSS 統計 ----------
-            if (!fileDate) continue;
-            
-            if (!aggregatedDataByDate[fileDate]) {
-                aggregatedDataByDate[fileDate] = {
-                    emuCount: { E: 0, L: 0, N: 0 },
-                    locoCount: { E: 0, L: 0, N: 0 },
-                    emuMinutes: { E: 0, L: 0, N: 0 },
-                    locoMinutes: { E: 0, L: 0, N: 0 }
-                };
-            }
-            const stats = aggregatedDataByDate[fileDate];
-            
-            if (formType === "EMU") {
-                let runningData = [];
-                if (fields["運行軌跡 JSON"]) {
-                    try { runningData = JSON.parse(fields["運行軌跡 JSON"]); } catch (e) {}
-                }
-                for (let i = 0; i < runningData.length - 1; i++) {
-                    const start = runningData[i];
-                    const end = runningData[i + 1];
-                    const depTime = start.dep || start.departure || start.arr || start.arrival;
-                    const arrTime = end.arr || end.arrival || end.dep || end.departure;
-                    if (depTime && arrTime) {
-                        const shift = getShiftCategory(depTime);
-                        stats.emuCount[shift] += 1;
-                        const [h1, m1] = depTime.split(':').map(Number);
-                        const [h2, m2] = arrTime.split(':').map(Number);
-                        let diff = (h2 * 60 + (m2 || 0)) - (h1 * 60 + (m1 || 0));
-                        if (diff < 0) diff += 1440;
-                        stats.emuMinutes[shift] += diff;
-                    }
-                }
-            } else if (formType === "LOCO") {
-                let movementData = [];
-                if (fields["機車運行紀錄 JSON"]) {
-                    try { movementData = JSON.parse(fields["機車運行紀錄 JSON"]); } catch (e) {}
-                }
-                if (Array.isArray(movementData)) {
-                    movementData.forEach(m => {
-                        if (m.timeDepart && m.timeArrival) {
-                            const shift = getShiftCategory(m.timeDepart);
-                            stats.locoCount[shift] += 1;
-                            const [h1, m1] = m.timeDepart.split(':').map(Number);
-                            const [h2, m2] = m.timeArrival.split(':').map(Number);
-                            let diff = (h2 * 60 + (m2 || 0)) - (h1 * 60 + (m1 || 0));
-                            if (diff < 0) diff += 1440;
-                            stats.locoMinutes[shift] += diff;
-                        }
-                    });
-                }
-            }
-        } catch (err) {
-            console.error(`解析檔案 ${file.name} 失敗:`, err);
-        }
-    }
-    
-    renderMasterTable();
-    renderSSSTable();
-    saveStatsToLocal(); // 匯入後自動寫入本機
-}
-
-function renderMasterTable() {
-    const tbody = document.getElementById("masterTableBody");
-    if (globalMasterData.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">未成功解析任何檔案。</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = globalMasterData.map(row => `
-        <tr>
-            <td><span class="badge ${row.type === 'EMU' ? 'bg-primary' : 'bg-warning text-dark'}">${row.type}</span></td>
-            <td>${row.date}</td>
-            <td><strong>${row.tci || row.mainInfo || "—"}</strong></td>
-            <td>${row.driverInfo || "—"}</td>
-            <td>${row.vehicle || "—"}</td>
-            <td class="text-wrap" style="max-width:220px; color:#0056b3;">${row.runTrack || "—"}</td>
-            <td>${row.timeDepart || "—"}</td>
-            <td>${row.timeArrival || "—"}</td>
-            <td class="text-wrap" style="max-width:180px;">${row.events || ""}</td>
-            <td>${row.status || ""}</td>
-        </tr>
-    `).join('');
-}
-
-function emptyStats() {
-    return {
-        emuCount: { E: 0, L: 0, N: 0 },
-        locoCount: { E: 0, L: 0, N: 0 },
-        emuMinutes: { E: 0, L: 0, N: 0 },
-        locoMinutes: { E: 0, L: 0, N: 0 }
-    };
-}
-
-function addStats(target, source) {
-    ['E','L','N'].forEach(k => {
-        target.emuCount[k] += source.emuCount[k];
-        target.locoCount[k] += source.locoCount[k];
-        target.emuMinutes[k] += source.emuMinutes[k];
-        target.locoMinutes[k] += source.locoMinutes[k];
-    });
-}
-
-function getISOWeekKey(dateStr) {
-    // dateStr expected YYYY-MM-DD
-    const d = new Date(dateStr + 'T00:00:00');
-    if (isNaN(d)) return dateStr;
-    // ISO week: Thursday-based
-    const dayNum = (d.getDay() + 6) % 7; // Mon=0 ... Sun=6
-    d.setDate(d.getDate() - dayNum + 3);
-    const firstThursday = new Date(d.getFullYear(), 0, 4);
-    const weekNum = 1 + Math.round(((d - firstThursday) / 86400000 - 3 + ((firstThursday.getDay() + 6) % 7)) / 7);
-    const year = d.getFullYear();
-    return `${year}-W${String(weekNum).padStart(2, '0')}`;
-}
-
-function buildPeriodAgg(periodFn) {
-    const result = {};
-    Object.keys(aggregatedDataByDate).forEach(d => {
-        const key = periodFn(d);
-        if (!result[key]) result[key] = emptyStats();
-        addStats(result[key], aggregatedDataByDate[d]);
-    });
-    return result;
-}
-
-function renderStatsRows(tbodyId, dataObj, labelKeyName) {
-    const tbody = document.getElementById(tbodyId);
-    const keys = Object.keys(dataObj).sort();
-    if (keys.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="20" class="text-center text-muted py-3">目前暫無數據。</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = "";
-    keys.forEach(k => {
-        const s = dataObj[k];
-        const totalEMU = s.emuCount.E + s.emuCount.L + s.emuCount.N;
-        const totalLOCO = s.locoCount.E + s.locoCount.L + s.locoCount.N;
-        const emuTotal = s.emuMinutes.E + s.emuMinutes.L + s.emuMinutes.N;
-        const locoTotal = s.locoMinutes.E + s.locoMinutes.L + s.locoMinutes.N;
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td class="fw-bold">${k}</td>
-            <td>${s.emuCount.E}</td><td>${s.emuCount.L}</td><td>${s.emuCount.N}</td>
-            <td>${s.locoCount.E}</td><td>${s.locoCount.L}</td><td>${s.locoCount.N}</td>
-            <td class="fw-bold bg-light">${totalEMU}</td>
-            <td class="fw-bold bg-light">${totalLOCO}</td>
-            <td>${minutesToHHMM(s.emuMinutes.E)}</td>
-            <td>${minutesToHHMM(s.emuMinutes.L)}</td>
-            <td>${minutesToHHMM(s.emuMinutes.N)}</td>
-            <td>${minutesToHHMM(s.locoMinutes.E)}</td>
-            <td>${minutesToHHMM(s.locoMinutes.L)}</td>
-            <td>${minutesToHHMM(s.locoMinutes.N)}</td>
-            <td class="fw-bold bg-light">${minutesToHHMM(emuTotal)}</td>
-            <td class="fw-bold bg-light">${minutesToHHMM(locoTotal)}</td>
-            <td class="table-secondary">${minutesToHHMM(s.emuMinutes.E + s.locoMinutes.E)}</td>
-            <td class="table-secondary">${minutesToHHMM(s.emuMinutes.L + s.locoMinutes.L)}</td>
-            <td class="table-secondary">${minutesToHHMM(s.emuMinutes.N + s.locoMinutes.N)}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-function getWeekdayKey(dateStr) {
-    const names = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-    const d = new Date(dateStr + "T00:00:00");
-    if (isNaN(d)) return dateStr;
-    // 排序用前綴，讓星期一排最前、星期日排最後
-    const order = ["7星期日", "1星期一", "2星期二", "3星期三", "4星期四", "5星期五", "6星期六"];
-    return order[d.getDay()];
-}
-
-function renderWeekdayRows(tbodyId, dataObj) {
-    const tbody = document.getElementById(tbodyId);
-    // 按自訂順序排序（去掉數字前綴後顯示）
-    const keys = Object.keys(dataObj).sort();
-    if (keys.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="20" class="text-center text-muted py-3">目前暫無數據。</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = "";
-    keys.forEach(k => {
-        const s = dataObj[k];
-        const displayName = k.replace(/^\d/, ""); // 去掉排序用的數字
-        const totalEMU = s.emuCount.E + s.emuCount.L + s.emuCount.N;
-        const totalLOCO = s.locoCount.E + s.locoCount.L + s.locoCount.N;
-        const emuTotal = s.emuMinutes.E + s.emuMinutes.L + s.emuMinutes.N;
-        const locoTotal = s.locoMinutes.E + s.locoMinutes.L + s.locoMinutes.N;
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td class="fw-bold">${displayName}</td>
-            <td>${s.emuCount.E}</td><td>${s.emuCount.L}</td><td>${s.emuCount.N}</td>
-            <td>${s.locoCount.E}</td><td>${s.locoCount.L}</td><td>${s.locoCount.N}</td>
-            <td class="fw-bold bg-light">${totalEMU}</td>
-            <td class="fw-bold bg-light">${totalLOCO}</td>
-            <td>${minutesToHHMM(s.emuMinutes.E)}</td>
-            <td>${minutesToHHMM(s.emuMinutes.L)}</td>
-            <td>${minutesToHHMM(s.emuMinutes.N)}</td>
-            <td>${minutesToHHMM(s.locoMinutes.E)}</td>
-            <td>${minutesToHHMM(s.locoMinutes.L)}</td>
-            <td>${minutesToHHMM(s.locoMinutes.N)}</td>
-            <td class="fw-bold bg-light">${minutesToHHMM(emuTotal)}</td>
-            <td class="fw-bold bg-light">${minutesToHHMM(locoTotal)}</td>
-            <td class="table-secondary">${minutesToHHMM(s.emuMinutes.E + s.locoMinutes.E)}</td>
-            <td class="table-secondary">${minutesToHHMM(s.emuMinutes.L + s.locoMinutes.L)}</td>
-            <td class="table-secondary">${minutesToHHMM(s.emuMinutes.N + s.locoMinutes.N)}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-
-function renderSSSTable() {
-    // Daily
-    renderStatsRows("sssTableBody", aggregatedDataByDate, "Date");
-
-    // Weekly
-    const weekly = buildPeriodAgg(d => getISOWeekKey(d));
-    renderStatsRows("sssWeeklyBody", weekly, "Week");
-
-    // Monthly
-    const monthly = buildPeriodAgg(d => d.substring(0, 7)); // YYYY-MM
-    renderStatsRows("sssMonthlyBody", monthly, "Month");
-
-    // Yearly
-    const yearly = buildPeriodAgg(d => d.substring(0, 4)); // YYYY
-    renderStatsRows("sssYearlyBody", yearly, "Year");
-
-    // By Weekday (星期一～星期日)
-    const weekday = buildPeriodAgg(d => getWeekdayKey(d));
-    renderWeekdayRows("sssWeekdayBody", weekday);
-}
-
-function exportMasterExcel() {
-    if (globalMasterData.length === 0) {
-        alert("⚠️ 目前沒有詳細合併數據可下載！");
-        return;
-    }
-    const headers = [["類型", "填報日期", "TCI", "司機/資料", "車號・車列", "詳細運行軌跡（由→至）", "開車時間", "到達時間", "特別事件", "簽名/狀態"]];
-    globalMasterData.forEach(row => {
-        headers.push([
-            row.type,
-            row.date,
-            row.tci || row.mainInfo || "—",
-            row.driverInfo || "—",
-            row.vehicle || "—",
-            row.runTrack || "—",
-            row.timeDepart || "—",
-            row.timeArrival || "—",
-            row.events || "",
-            row.status || ""
-        ]);
-    });
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(headers), "詳細合併總表");
-    XLSX.writeFile(wb, `調車詳細合併總表_${new Date().toISOString().split('T')[0]}.xlsx`);
-}
-
-function buildSSSSheetRows(dataObj, periodLabel) {
-    const rows = [
-        ["SSS Shunting Statistics of EMU & Loco - " + periodLabel],
-        [periodLabel, "EMU (E)", "EMU (L)", "EMU (N)", "Loco (E)", "Loco (L)", "Loco (N)",
-         "Total EMU", "Total LOCO", "EMU Time (E)", "EMU Time (L)", "EMU Time (N)",
-         "Loco Time (E)", "Loco Time (L)", "Loco Time (N)", "EMU Total Time", "Loco Total Time",
-         "E (EMU+Loco)", "L (EMU+Loco)", "N (EMU+Loco)"]
-    ];
-    Object.keys(dataObj).sort().forEach(k => {
-        const s = dataObj[k];
-        const totalEMU = s.emuCount.E + s.emuCount.L + s.emuCount.N;
-        const totalLOCO = s.locoCount.E + s.locoCount.L + s.locoCount.N;
-        const emuTotal = s.emuMinutes.E + s.emuMinutes.L + s.emuMinutes.N;
-        const locoTotal = s.locoMinutes.E + s.locoMinutes.L + s.locoMinutes.N;
-        rows.push([
-            k, s.emuCount.E, s.emuCount.L, s.emuCount.N,
-            s.locoCount.E, s.locoCount.L, s.locoCount.N,
-            totalEMU, totalLOCO,
-            minutesToHHMM(s.emuMinutes.E), minutesToHHMM(s.emuMinutes.L), minutesToHHMM(s.emuMinutes.N),
-            minutesToHHMM(s.locoMinutes.E), minutesToHHMM(s.locoMinutes.L), minutesToHHMM(s.locoMinutes.N),
-            minutesToHHMM(emuTotal), minutesToHHMM(locoTotal),
-            minutesToHHMM(s.emuMinutes.E + s.locoMinutes.E),
-            minutesToHHMM(s.emuMinutes.L + s.locoMinutes.L),
-            minutesToHHMM(s.emuMinutes.N + s.locoMinutes.N)
-        ]);
-    });
-    return rows;
-}
-
-function exportSSSExcel() {
-    const dates = Object.keys(aggregatedDataByDate);
-    if (dates.length === 0) {
-        alert("⚠️ 目前沒有 SSS 統計數據可下載！");
-        return;
-    }
-
-    const weekly = buildPeriodAgg(d => getISOWeekKey(d));
-    const monthly = buildPeriodAgg(d => d.substring(0, 7));
-    const yearly = buildPeriodAgg(d => d.substring(0, 4));
-    const weekday = buildPeriodAgg(d => getWeekdayKey(d));
-
-    // 星期幾 sheet：去掉排序前綴，並固定星期一→星期日順序
-    const weekdayForExport = {};
-    Object.keys(weekday).sort().forEach(k => {
-        const name = k.replace(/^\d/, "");
-        weekdayForExport[name] = weekday[k];
-    });
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildSSSSheetRows(aggregatedDataByDate, "Date")), "Daily");
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildSSSSheetRows(weekly, "Week")), "Weekly");
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildSSSSheetRows(monthly, "Month")), "Monthly");
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildSSSSheetRows(yearly, "Year")), "Yearly");
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildSSSSheetRows(weekdayForExport, "星期")), "Weekday");
-
-    XLSX.writeFile(wb, `SSS_Shunting_Statistics_${new Date().toISOString().split('T')[0]}.xlsx`);
-}
-
-// ====================== 初始化 ======================
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('date').valueAsDate = new Date();
-    document.getElementById('locoDate').valueAsDate = new Date();
-    renderChecklists();
-    rebuildRunningTable();
-    initLocoMovementTable();
-
-    // 還原動車組 / 機車表單草稿
-    loadEMUFormFromLocal();
-    loadLocoFormFromLocal();
-
-    // 還原統計資料
-    if (loadStatsFromLocal()) {
-        renderMasterTable();
-        renderSSSTable();
-    }
-
-    // 自動儲存：動車組表單任何變更
-    const emuView = document.getElementById('driverFormView');
-    emuView.addEventListener('input', () => scheduleFormSave(saveEMUFormToLocal));
-    emuView.addEventListener('change', () => scheduleFormSave(saveEMUFormToLocal));
-
-    // 自動儲存：機車表單任何變更
-    const locoView = document.getElementById('locoFormView');
-    locoView.addEventListener('input', () => scheduleFormSave(saveLocoFormToLocal));
-    locoView.addEventListener('change', () => scheduleFormSave(saveLocoFormToLocal));
-
-    // 簽名結束後也儲存
-    document.getElementById('signatureBox').addEventListener('mouseup', () => scheduleFormSave(saveEMUFormToLocal));
-    document.getElementById('signatureBox').addEventListener('touchend', () => scheduleFormSave(saveEMUFormToLocal));
-
-    // 24 小時制時間輸入：自動格式化
-    document.addEventListener('input', onTime24Input);
-    document.addEventListener('blur', onTime24Blur, true);
-});
-</script>
+    </script>
 </body>
 </html>
