@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>靜岡、伊豆、富士山與成田 6天5夜自駕豪華之旅 (含行車時間與官網)</title>
+    <title>靜岡、伊豆、富士山與成田 6天5夜自駕豪華之旅 (含導航與互動勾選)</title>
     <style>
         :root {
             --primary-color: #0284c7;
@@ -34,9 +34,10 @@
         header {
             background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
             color: white;
-            padding: 45px 20px;
+            padding: 40px 20px;
             text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         .header-badge {
@@ -52,7 +53,7 @@
         }
 
         header h1 {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             margin-bottom: 10px;
             font-weight: 800;
         }
@@ -67,9 +68,37 @@
             margin-top: 10px;
         }
 
+        .tools-bar {
+            max-width: 1050px;
+            margin: 15px auto 0;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            transition: all 0.2s;
+        }
+
+        .tool-btn:hover {
+            background-color: #f1f5f9;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
         .container {
             max-width: 1050px;
-            margin: 25px auto;
+            margin: 20px auto;
             padding: 0 20px;
         }
 
@@ -223,21 +252,34 @@
             gap: 6px;
         }
 
+        .btn-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
         .link-btn {
             display: inline-block;
             background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            padding: 3px 10px;
+            padding: 4px 10px;
             border-radius: 5px;
             font-size: 0.75rem;
             font-weight: bold;
-            margin-left: 6px;
             transition: background 0.2s;
         }
 
         .link-btn:hover {
             background-color: #0369a1;
+        }
+
+        .map-btn {
+            background-color: #10b981;
+        }
+        .map-btn:hover {
+            background-color: #059669;
         }
 
         .drive-info {
@@ -251,7 +293,6 @@
             font-weight: bold;
         }
 
-        /* 景點卡片與圖片網格 */
         .attraction-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -265,6 +306,30 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .checkbox-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            z-index: 2;
+            cursor: pointer;
         }
 
         .attraction-img {
@@ -331,17 +396,22 @@
 
     <header>
         <div class="header-badge">🚗 靜岡・伊豆・富士山 6天5夜自駕特輯</div>
-        <h1>成田進出 ➔ 沼津/成田雙住宿 (含景點圖片與行車時間)</h1>
+        <h1>成田進出 ➔ 沼津/成田雙住宿 (含導航與互動勾選)</h1>
         <div class="header-meta">
             <span>📅 日期：12/1 (一) ～ 12/6 (六)</span>
             <span>🏨 住宿：1-5/12 沼津市 ｜ 5-6/12 成田市</span>
         </div>
     </header>
 
+    <div class="tools-bar">
+        <button class="tool-btn" onclick="window.print()">🖨️ 列印 / 存成 PDF</button>
+        <button class="tool-btn" onclick="resetCheckboxes()">🔄 重置打卡狀態</button>
+    </div>
+
     <div class="container">
         <div class="intro-card">
             <h3>💡 行程特色與導覽說明</h3>
-            <p>本頁面整合了每日景點間的精準行車時間、官方介紹連結與實景圖卡。前 5 天入住沼津輻射暢玩伊豆、清水與富士五湖，最後一晚入住成田方便隔天順暢還車搭機！</p>
+            <p>本頁面整合了每日景點間的精準行車時間、Google Maps 導航與官方介紹連結。前 5 天入住沼津輻射暢玩伊豆、清水與富士五湖，最後一晚入住成田方便隔天順暢還車搭機！</p>
             <div class="intro-grid">
                 <div class="intro-item">
                     <strong>🏨 住宿安排</strong>
@@ -356,27 +426,27 @@
 
         <!-- 每日分頁切換按鈕 -->
         <div class="day-tabs">
-            <button class="tab-btn active" onclick="showDay(1)">
+            <button class="tab-btn active" onclick="showDay(event, 1)">
                 <span class="day-num">D1</span>
                 <span class="day-date">12/1 (一)</span>
             </button>
-            <button class="tab-btn" onclick="showDay(2)">
+            <button class="tab-btn" onclick="showDay(event, 2)">
                 <span class="day-num">D2</span>
                 <span class="day-date">12/2 (二)</span>
             </button>
-            <button class="tab-btn" onclick="showDay(3)">
+            <button class="tab-btn" onclick="showDay(event, 3)">
                 <span class="day-num">D3</span>
                 <span class="day-date">12/3 (三)</span>
             </button>
-            <button class="tab-btn" onclick="showDay(4)">
+            <button class="tab-btn" onclick="showDay(event, 4)">
                 <span class="day-num">D4</span>
                 <span class="day-date">12/4 (四)</span>
             </button>
-            <button class="tab-btn" onclick="showDay(5)">
+            <button class="tab-btn" onclick="showDay(event, 5)">
                 <span class="day-num">D5</span>
                 <span class="day-date">12/5 (五)</span>
             </button>
-            <button class="tab-btn" onclick="showDay(6)">
+            <button class="tab-btn" onclick="showDay(event, 6)">
                 <span class="day-num">D6</span>
                 <span class="day-date">12/6 (六)</span>
             </button>
@@ -393,19 +463,27 @@
                 <div class="section-title">⏱️ 當日景點與餐飲介紹</div>
                 <div class="attraction-grid">
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=600&q=80" alt="成田機場" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">成田國際機場 (Narita Airport)</div>
                             <div class="attraction-desc">辦理租車手續、領取 ETC 卡，開啟自駕旅程。</div>
-                            <a href="https://www.narita-airport.jp/ch2/" class="link-btn" target="_blank">官方網站 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.narita-airport.jp/ch2/" class="link-btn" target="_blank">官方網站 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80" alt="沼津港" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">沼津港海鮮街 (Numazu Port)</div>
                             <div class="attraction-desc">品嚐著名的深海魚與招牌海鮮丼飯、巨型海鮮天婦羅塔。</div>
-                            <a href="https://www.uohiro.com/" class="link-btn" target="_blank">丸天食堂官網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.uohiro.com/" class="link-btn" target="_blank">丸天食堂官網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=沼津港" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -423,27 +501,39 @@
                 <div class="section-title">⏱️ 當日景點介紹</div>
                 <div class="attraction-grid">
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80" alt="修善寺" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">修善寺溫泉街 (Shuzenji)</div>
                             <div class="attraction-desc">漫步伊豆最古老溫泉小鎮，走訪竹林小徑與朱紅色愛之橋。</div>
-                            <a href="https://kanko.city.izu.shizuoka.jp/s_shuzenji/" class="link-btn" target="_blank">修善寺觀光網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://kanko.city.izu.shizuoka.jp/s_shuzenji/" class="link-btn" target="_blank">修善寺觀光網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=修善寺溫泉街" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80" alt="大室山" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">大室山登山纜車 (Mt. Omuro)</div>
                             <div class="attraction-desc">搭乘單人纜車登上抹茶碗火山口，環景遠眺富士山與相模灣。</div>
-                            <a href="https://omuroyama.com/" class="link-btn" target="_blank">大室山官網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://omuroyama.com/" class="link-btn" target="_blank">大室山官網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=大室山" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="城崎海岸" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">城崎海岸・門脅吊橋 (Jogasaki)</div>
                             <div class="attraction-desc">欣賞太平洋海浪拍打火山岩岸與懸空吊橋的壯麗奇景。</div>
-                            <a href="https://itospa.com/spot/detail_525.html" class="link-btn" target="_blank">伊東觀光協會 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://itospa.com/spot/detail_525.html" class="link-btn" target="_blank">伊東觀光協會 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=門脅吊橋" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -461,27 +551,39 @@
                 <div class="section-title">⏱️ 當日景點介紹</div>
                 <div class="attraction-grid">
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80" alt="櫻桃小丸子博物館" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">櫻桃小丸子博物館</div>
                             <div class="attraction-desc">位於清水 S-Pulse Dream Plaza，重現童年經典場景。</div>
-                            <a href="https://www.chibimarukochan-land.com/" class="link-btn" target="_blank">小丸子博物館官網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.chibimarukochan-land.com/" class="link-btn" target="_blank">小丸子博物館官網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=清水夢廣場" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=600&q=80" alt="三保松原" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">三保松原 (Miho no Matsubara)</div>
                             <div class="attraction-desc">日本三大松原之一，欣賞黑松林與黑色沙灘交織的富士山絕景。</div>
-                            <a href="https://www.visit-shizuoka.com/spots/detail.php?n=357" class="link-btn" target="_blank">靜岡觀光介紹 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.visit-shizuoka.com/spots/detail.php?n=357" class="link-btn" target="_blank">靜岡觀光介紹 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=三保松原" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=600&q=80" alt="日本平夢之Terrace" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">日本平夢之Terrace</div>
                             <div class="attraction-desc">隈研吾團隊設計，360 度眺望駿河灣與富士山的頂級展望台。</div>
-                            <a href="https://nihondaira-yume-terrace.jp/" class="link-btn" target="_blank">官方網站 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://nihondaira-yume-terrace.jp/" class="link-btn" target="_blank">官方網站 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=日本平夢之Terrace" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -499,19 +601,27 @@
                 <div class="section-title">⏱️ 當日景點介紹</div>
                 <div class="attraction-grid">
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80" alt="御殿場Outlet" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">御殿場 Premium Outlets</div>
                             <div class="attraction-desc">全日本規模最大的購物天堂，邊血拼邊欣賞巨大壯麗的富士山。</div>
-                            <a href="https://www.premiumoutlets.co.jp/gotemba/" class="link-btn" target="_blank">官方網站 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.premiumoutlets.co.jp/gotemba/" class="link-btn" target="_blank">官方網站 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=御殿場PremiumOutlets" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?auto=format&fit=crop&w=600&q=80" alt="山中湖" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">山中湖長池親水公園</div>
                             <div class="attraction-desc">富士五湖之一，拍攝傍晚絕美夕陽與逆富士倒影的最佳攝影點。</div>
-                            <a href="https://lake-yamanakako.com/" class="link-btn" target="_blank">山中湖觀光網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://lake-yamanakako.com/" class="link-btn" target="_blank">山中湖觀光網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=長池親水公園" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -529,19 +639,27 @@
                 <div class="section-title">⏱️ 當日景點介紹</div>
                 <div class="attraction-grid">
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1508873696983-2df5c920ac1c?auto=format&fit=crop&w=600&q=80" alt="三島天空步道" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">三島天空步道 (Mishima Skywalk)</div>
                             <div class="attraction-desc">日本最長行人吊橋，俯瞰富士山與駿河灣全景。</div>
-                            <a href="https://mishima-skywalk.jp/" class="link-btn" target="_blank">官方網站 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://mishima-skywalk.jp/" class="link-btn" target="_blank">官方網站 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=三島天空步道" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80" alt="成田市" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">成田市飯店 Check-in</div>
                             <div class="attraction-desc">午後驅車前往成田，晚餐可於成田 AEON 享用。</div>
-                            <a href="https://www.narita-kankou.org/" class="link-btn" target="_blank">成田市觀光協會 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.narita-kankou.org/" class="link-btn" target="_blank">成田市觀光協會 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=AEONMALL成田" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -559,19 +677,27 @@
                 <div class="section-title">⏱️ 當日景點介紹</div>
                 <div class="attraction-grid">
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1624314138470-cca243db8232?auto=format&fit=crop&w=600&q=80" alt="成田山新勝寺" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">成田山新勝寺 & 表參道</div>
                             <div class="attraction-desc">參訪千年古寺，在古色古香的表參道上品嚐川豐鰻魚飯與買伴手禮。</div>
-                            <a href="https://www.naritasan.or.jp/" class="link-btn" target="_blank">新勝寺官網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.naritasan.or.jp/" class="link-btn" target="_blank">新勝寺官網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=成田山新勝寺" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                     <div class="attraction-card">
+                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
                         <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=600&q=80" alt="成田機場" class="attraction-img">
                         <div class="attraction-body">
                             <div class="attraction-name">成田機場還車與離境</div>
                             <div class="attraction-desc">滿油還車後搭接駁車至航廈，結束完美的 6 天自駕之旅！</div>
-                            <a href="https://www.narita-airport.jp/ch2/" class="link-btn" target="_blank">成田機場官網 ➔</a>
+                            <div class="btn-group">
+                                <a href="https://www.narita-airport.jp/ch2/" class="link-btn" target="_blank">成田機場官網 ➔</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=成田國際機場" class="link-btn map-btn" target="_blank">📍 導航</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -588,9 +714,10 @@
                 </ul>
             </div>
             <div class="tip-card alert">
-                <h4>⚠️ 冬季自駕安全須知</h4>
+                <h4>⚠️ 12月冬季自駕與穿搭須知</h4>
                 <ul>
-                    <li><strong>山區路況：</strong>若計畫深入山中湖或箱根山區，清晨與夜晚路面可能結霜，請留意租車是否需配置雪胎。</li>
+                    <li><strong>山區路況：</strong>山中湖或箱根山區清晨夜晚氣溫低、易結霜，租車時務必確認是否配備雪胎。</li>
+                    <li><strong>保暖防風：</strong>12月靜岡與富士五湖一帶風大寒冷，戶外觀景台（如大室山、三島天空步道）請務必準備防風外套、圍巾與手套。</li>
                     <li><strong>還車油箱：</strong>D6 還車前請記得加滿油並保留發票備查。</li>
                 </ul>
             </div>
@@ -598,7 +725,7 @@
     </div>
 
     <script>
-        function showDay(dayNum) {
+        function showDay(event, dayNum) {
             const allTabs = document.querySelectorAll('.tab-btn');
             allTabs.forEach(tab => tab.classList.remove('active'));
 
@@ -608,6 +735,12 @@
             allContents.forEach(content => content.classList.remove('active'));
 
             document.getElementById(`day${dayNum}`).classList.add('active');
+            window.scrollTo({ top: 250, behavior: 'smooth' });
+        }
+
+        function resetCheckboxes() {
+            const checkboxes = document.querySelectorAll('.checkbox-container input');
+            checkboxes.forEach(cb => cb.checked = false);
         }
     </script>
 </body>
