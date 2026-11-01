@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>靜岡、伊豆、富士山與成田 6天5夜自駕豪華之旅 (含三保松原與修善寺)</title>
+    <title>靜岡・伊豆・富士山 6天5夜自駕豪華之旅</title>
     <style>
         :root {
             --primary-color: #0284c7;
@@ -245,23 +245,90 @@
             background-color: #0369a1;
         }
 
-        ul.itinerary-list {
-            list-style: none;
-        }
-
-        ul.itinerary-list li {
+        /* Timeline & Drive Segment Styling */
+        .timeline {
             position: relative;
             padding-left: 20px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-top: 15px;
         }
 
-        ul.itinerary-list li::before {
-            content: "🔹";
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+            padding-left: 25px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
             position: absolute;
-            left: 0;
-            top: 2px;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 3px solid white;
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        .drive-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #e0f2fe;
+            color: #0284c7;
             font-size: 0.8rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin: 10px 0;
+            border: 1px solid #bae6fd;
+        }
+
+        /* Attraction Photo Gallery */
+        .attraction-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .attraction-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .attraction-img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            display: block;
+            background-color: #cbd5e1;
+        }
+
+        .attraction-info {
+            padding: 12px;
+        }
+
+        .attraction-name {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .attraction-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
         .tips-grid {
@@ -300,7 +367,7 @@
 
     <header>
         <div class="header-badge">🚗 靜岡・伊豆・富士山 6天5夜自駕特輯</div>
-        <h1>成田進出 ➔ 沼津/成田雙住宿 (含修善寺、三保松原)</h1>
+        <h1>成田進出 ➔ 沼津/成田雙住宿 (點對點行車時間與實景特輯)</h1>
         <div class="header-meta">
             <span>📅 日期：12/1 (一) ～ 12/6 (六)</span>
             <span>🏨 住宿：1-5/12 沼津市 ｜ 5-6/12 成田市</span>
@@ -309,16 +376,16 @@
 
     <div class="container">
         <div class="intro-card">
-            <h3>💡 自駕行程核心策略</h3>
-            <p>12月上旬為欣賞早冬雪頂富士山與伊豆風光的黃金期。前5天入住沼津便於輻射玩遍修善寺、伊豆、清水三保松原與富士五湖，最後一晚入住成田方便隔天順暢還車與搭機！</p>
+            <h3>💡 自駕行程與動線時間說明</h3>
+            <p>本行程已為您精確計算各景點至下一景點的自駕預估時間與里程。12月空氣清澈，是遠眺雪頂富士山、遊覽伊豆古都修善寺與三保松原的黃金季節！</p>
             <div class="intro-grid">
                 <div class="intro-item">
                     <strong>🏨 住宿安排</strong>
                     12/1 - 12/5 住宿沼津市<br>12/5 - 12/6 住宿成田市
                 </div>
                 <div class="intro-item">
-                    <strong>🎯 核心亮點</strong>
-                    修善寺、大室山、小丸子博物館、三保松原、日本平、御殿場 Outlet、三島天空步道
+                    <strong>🎯 核心亮點景點</strong>
+                    修善寺、大室山、三保松原、櫻桃小丸子博物館、日本平、御殿場 Outlet、三島天空步道
                 </div>
             </div>
         </div>
@@ -357,37 +424,97 @@
                 <div class="day-title">✈️ 抵達成田 ➔ 取車自駕 ➔ 直奔沼津港海鮮晚餐</div>
                 <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <div class="section-block">
-                <div class="section-title">🚗 自駕車程與動線</div>
-                <p>成田機場取車 ➔ 經東關東自動車道/首都高/東名高速駛往西部的靜岡縣沼津市（車程約 2.5 ~ 3 小時）。</p>
+
+            <div class="attraction-gallery">
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=80" alt="沼津港海鮮料理" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🐟 沼津港海鮮街</div>
+                        <div class="attraction-desc">以新鮮深海魚、巨型海鮮天婦羅塔與海鮮丼聞名的美食港口。</div>
+                    </div>
+                </div>
             </div>
+
             <div class="section-block">
-                <div class="section-title">⏱️ 當日重點行程</div>
-                <ul class="itinerary-list">
-                    <li><strong>成田機場取車：</strong>完成租車手續，確認已加租 ETC 卡並設定好導航。</li>
-                    <li><strong>抵達沼津：</strong>前往飯店辦理 Check-in。</li>
-                    <li><strong>沼津港海鮮晚餐：</strong>品嚐著名的深海魚與新鮮海鮮丼。推薦人氣名店 <a href="https://www.uohiro.com/" class="link-btn" target="_blank">沼津港魚河岸丸天 ➔</a>，享用招牌巨型海鮮天婦羅塔。</li>
-                </ul>
+                <div class="section-title">⏱️ 詳細路線與點對點行車時間</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>13:30 - 14:30 📍 成田國際機場 (NRT)</strong>
+                        <p>於機場租車櫃檯辦理手續，確認 ETC 卡與車況。</p>
+                        <div class="drive-badge">🚗 車程：約 175 km ｜ 時間：約 2 小時 30 分 ~ 3 小時（經東關東道/首都高/東名高速）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>17:30 📍 抵達沼津飯店 Check-in</strong>
+                        <p>辦理入住並放置行李，稍作休息。</p>
+                        <div class="drive-badge">🚗 車程：約 3 km ｜ 時間：約 8 ~ 10 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>18:30 📍 沼津港海鮮晚餐</strong>
+                        <p>享用新鮮海鮮丼與天婦羅。推薦名店 <a href="https://www.uohiro.com/" class="link-btn" target="_blank">沼津港魚河岸丸天 ➔</a>。</p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- D2 內容 -->
         <div id="day2" class="day-content">
             <div class="day-header">
-                <div class="day-title">⛩️ 修善寺溫泉街 ➔ 大室山 ➔ 城崎海岸絕景</div>
+                <div class="day-title">⛩️ 修善寺古都 ➔ 大室山纜車 ➔ 城崎海岸絕景</div>
                 <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <div class="section-block">
-                <div class="section-title">🚗 自駕車程</div>
-                <p>沼津 ➔ 修善寺（約 40 分鐘）➔ 大室山（約 35 分鐘）➔ 返回沼津（約 1 小時 15 分鐘）</p>
+
+            <div class="attraction-gallery">
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80" alt="修善寺竹林" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🎍 修善寺竹林小徑</div>
+                        <div class="attraction-desc">伊豆最古老溫泉鎮，擁有浪漫朱紅橋與清幽竹林。</div>
+                    </div>
+                </div>
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=80" alt="大室山" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🌋 大室山纜車</div>
+                        <div class="attraction-desc">抹茶山般的火山口，環狀步道可同時遠眺富士山與相模灣。</div>
+                    </div>
+                </div>
             </div>
+
             <div class="section-block">
-                <div class="section-title">⏱️ 當日重點行程</div>
-                <ul class="itinerary-list">
-                    <li><strong>修善寺溫泉街：</strong>漫步伊豆最古老的溫泉小鎮，走訪竹林小徑與朱紅色虎溪橋，感受濃厚古都風情。</li>
-                    <li><strong>大室山：</strong>搭乘單人纜車登上抹茶碗般的火山口，沿環狀步道漫步，遠眺富士山與相模灣。 <a href="https://omuroyama.com/" class="link-btn" target="_blank">大室山官網 ➔</a></li>
-                    <li><strong>城崎海岸 & 門脅吊橋：</strong>欣賞太平洋海浪拍打火山岩岸的壯麗奇景。</li>
-                </ul>
+                <div class="section-title">⏱️ 詳細路線與點對點行車時間</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:00 📍 沼津飯店出發</strong>
+                        <div class="drive-badge">🚗 車程：約 25 km ｜ 時間：約 40 分鐘（經伊豆縱貫道）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:40 - 11:30 📍 修善寺溫泉街 & 竹林小徑</strong>
+                        <p>散步古都古剎、走過朱紅色虎溪橋，體驗足湯。</p>
+                        <div class="drive-badge">🚗 車程：約 24 km ｜ 時間：約 35 分鐘（經中伊豆バイパス）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>12:10 - 14:30 📍 大室山 (登山纜車 & 火山口漫步)</strong>
+                        <p>搭乘纜車登頂，繞火山口步道一圈看富士山美景。 <a href="https://omuroyama.com/" class="link-btn" target="_blank">大室山官網 ➔</a></p>
+                        <div class="drive-badge">🚗 車程：約 8 km ｜ 時間：約 15 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>14:45 - 16:30 📍 城崎海岸 & 門脅吊橋</strong>
+                        <p>漫步火山岩峭壁與高空懸空吊橋，欣賞太平洋浪花。</p>
+                        <div class="drive-badge">🚗 車程：約 45 km ｜ 時間：約 1 小時 15 分鐘（返回沼津）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>17:45 📍 返回沼津市區晚餐</strong>
+                        <p>享用靜岡在地黑關東煮或日式燒肉。</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -397,18 +524,55 @@
                 <div class="day-title">🍡 清水小丸子 ➔ 三保松原絕景 ➔ 日本平夢之Terrace</div>
                 <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <div class="section-block">
-                <div class="section-title">🚗 自駕車程</div>
-                <p>沼津 ↔ 清水/三保松原/日本平（單程約 45 分鐘 ~ 1 小時）</p>
+
+            <div class="attraction-gallery">
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80" alt="三保松原與富士山" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🌲 三保松原</div>
+                        <div class="attraction-desc">三大松原之一，黑松林與黑色沙灘交織出的經典富士山浮世繪景致。</div>
+                    </div>
+                </div>
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" alt="日本平展望台" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">⛩️ 日本平夢之Terrace</div>
+                        <div class="attraction-desc">隈研吾建築美學，360度無死角俯瞰駿河灣與富士山。</div>
+                    </div>
+                </div>
             </div>
+
             <div class="section-block">
-                <div class="section-title">⏱️ 當日重點行程</div>
-                <ul class="itinerary-list">
-                    <li><strong>櫻桃小丸子博物館：</strong>造訪 S-Pulse Dream Plaza，重現小丸子經典童年場景。 <a href="https://www.chibimarukochan-land.com/" class="link-btn" target="_blank">小丸子博物館 ➔</a></li>
-                    <li><strong>清水港午餐：</strong>於商場內品嚐日本第一的清水港新鮮鮪魚丼。</li>
-                    <li><strong>三保松原：</strong>造訪日本三大松原，欣賞千株黑松林與黑色沙灘交織出的經典富士山浮世繪美景。</li>
-                    <li><strong>日本平夢之Terrace：</strong>由隈研吾團隊設計的木造展望台，擁有 360 度眺望駿河灣與富士山的頂級絕景。 <a href="https://nihondaira-yume-terrace.jp/" class="link-btn" target="_blank">日本平展望台 ➔</a></li>
-                </ul>
+                <div class="section-title">⏱️ 詳細路線與點對點行車時間</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:30 📍 沼津飯店出發</strong>
+                        <div class="drive-badge">🚗 車程：約 42 km ｜ 時間：約 45 分鐘（經東名高速）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>10:15 - 13:00 📍 櫻桃小丸子博物館 & 清水港午餐</strong>
+                        <p>重溫小丸子童年經典場景，午餐享用清水港鮪魚丼。 <a href="https://www.chibimarukochan-land.com/" class="link-btn" target="_blank">小丸子博物館 ➔</a></p>
+                        <div class="drive-badge">🚗 車程：約 8 km ｜ 時間：約 15 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>13:15 - 14:45 📍 三保松原 (黑松林與富士山海景)</strong>
+                        <p>漫步海岸松林，拍攝富士山倒映駿河灣景色。</p>
+                        <div class="drive-badge">🚗 車程：約 11 km ｜ 時間：約 20 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>15:05 - 16:45 📍 日本平夢之Terrace</strong>
+                        <p>走訪 360 度環景迴廊，欣賞黃昏富士山絕景。 <a href="https://nihondaira-yume-terrace.jp/" class="link-btn" target="_blank">日本平展望台 ➔</a></p>
+                        <div class="drive-badge">🚗 車程：約 45 km ｜ 時間：約 50 分鐘（返回沼津）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>17:35 📍 返回沼津港夜間海鮮食堂</strong>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -418,16 +582,49 @@
                 <div class="day-title">🛍️ 御殿場 Premium Outlets ➔ 山中湖夕陽富士山</div>
                 <span class="day-badge">🏨 住：沼津市</span>
             </div>
-            <div class="section-block">
-                <div class="section-title">🚗 自駕車程</div>
-                <p>沼津 ↔ 御殿場（約 35 分鐘）➔ 山中湖（約 25 分鐘）</p>
+
+            <div class="attraction-gallery">
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="御殿場 Outlet 富士山" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🛍️ 御殿場 Outlets</div>
+                        <div class="attraction-desc">日本規模最大購物中心之一，邊採購邊遠眺雄偉富士山。</div>
+                    </div>
+                </div>
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=800&q=80" alt="山中湖富士山夕陽" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🗻 山中湖長池親水公園</div>
+                        <div class="attraction-desc">拍攝黃昏夕陽映照下的富士山巨幅湖光倒影。</div>
+                    </div>
+                </div>
             </div>
+
             <div class="section-block">
-                <div class="section-title">⏱️ 當日重點行程</div>
-                <ul class="itinerary-list">
-                    <li><strong>御殿場 Outlet：</strong>全日本規模最大的購物天堂，邊血拼邊欣賞巨大富士山。午餐推薦抽號碼牌品嚐超人氣「炭烤漢堡排 爽快 (Sawayaka)」。 <a href="https://www.premiumoutlets.co.jp/gotemba/" class="link-btn" target="_blank">御殿場 Outlet ➔</a></li>
-                    <li><strong>山中湖/長池親水公園：</strong>前往拍攝傍晚夕陽下的富士山倒影。</li>
-                </ul>
+                <div class="section-title">⏱️ 詳細路線與點對點行車時間</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:30 📍 沼津飯店出發</strong>
+                        <div class="drive-badge">🚗 車程：約 30 km ｜ 時間：約 35 分鐘（經東名高速）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>10:05 - 15:00 📍 御殿場 Premium Outlets 購物 & 午餐</strong>
+                        <p>暢逛國際精品與日系品牌，推薦享用「爽快 (Sawayaka)」炭烤牛肉漢堡排。 <a href="https://www.premiumoutlets.co.jp/gotemba/" class="link-btn" target="_blank">御殿場 Outlet ➔</a></p>
+                        <div class="drive-badge">🚗 車程：約 18 km ｜ 時間：約 25 分鐘（經國道138號）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>15:25 - 17:00 📍 山中湖 (長池親水公園) / 忍野八海</strong>
+                        <p>捕捉傍晚夕陽餘暉下的逆富士絕景。</p>
+                        <div class="drive-badge">🚗 車程：約 45 km ｜ 時間：約 50 分鐘（返回沼津）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>17:50 📍 返回沼津飯店休息</strong>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -437,17 +634,43 @@
                 <div class="day-title">🌉 三島天空步道 ➔ 橫跨關東 ➔ 開車前往成田飯店</div>
                 <span class="day-badge">🏨 住：成田市</span>
             </div>
-            <div class="section-block">
-                <div class="section-title">🚗 自駕車程</div>
-                <p>沼津 ➔ 三島（25分鐘）➔ 成田（經東名高速/首都高，約 2 小時 45 分鐘 ~ 3 小時）</p>
+
+            <div class="attraction-gallery">
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="三島天空步道" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">🌉 三島天空步道 (Mishima Skywalk)</div>
+                        <div class="attraction-desc">日本最長 400 公尺大吊橋，站在橋上俯瞰富士山與駿河灣。</div>
+                    </div>
+                </div>
             </div>
+
             <div class="section-block">
-                <div class="section-title">⏱️ 當日重點行程</div>
-                <ul class="itinerary-list">
-                    <li><strong>三島天空步道 (Mishima Skywalk)：</strong>走過日本最長大吊橋，俯瞰富士山與駿河灣全景。 <a href="https://mishima-skywalk.jp/" class="link-btn" target="_blank">三島天空步道 ➔</a></li>
-                    <li><strong>三島午餐：</strong>品嚐當地特產鰻魚飯（如老店「櫻家」）。</li>
-                    <li><strong>開車前往成田：</strong>午後由靜岡出發，一路向東開往成田市飯店 Check-in，晚餐可於成田 AEON 享用。</li>
-                </ul>
+                <div class="section-title">⏱️ 詳細路線與點對點行車時間</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:00 📍 沼津飯店辦理退房</strong>
+                        <div class="drive-badge">🚗 車程：約 14 km ｜ 時間：約 25 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:25 - 12:00 📍 三島天空步道 (Mishima Skywalk)</strong>
+                        <p>漫步 400 公尺長大吊橋，眺望壯麗富士山景緻。 <a href="https://mishima-skywalk.jp/" class="link-btn" target="_blank">三島天空步道 ➔</a></p>
+                        <div class="drive-badge">🚗 車程：約 10 km ｜ 時間：約 18 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>12:20 - 13:40 📍 三島市區午餐 (享用特產三島鰻魚飯)</strong>
+                        <p>推薦老店「櫻家」或「元祖 鰻よし」。</p>
+                        <div class="drive-badge">🚗 車程：約 190 km ｜ 時間：約 2 小時 45 分 ~ 3 小時 15 分（長途長安 driving）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>17:00 📍 抵達成田市飯店 Check-in</strong>
+                        <p>中途可於海老名 SA 服務區休息。晚上可於成田 AEON 購物商場享用晚餐。</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -457,17 +680,43 @@
                 <div class="day-title">⛩️ 成田山新勝寺漫步 ➔ 滿油還車 ➔ 機場搭機返家</div>
                 <span class="day-badge">✈️ 返回溫馨的家</span>
             </div>
-            <div class="section-block">
-                <div class="section-title">🚗 自駕車程</div>
-                <p>成田市區 ➔ 成田機場租車營業所（約 15 ~ 20 分鐘）</p>
+
+            <div class="attraction-gallery">
+                <div class="attraction-card">
+                    <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=800&q=80" alt="成田山新勝寺" class="attraction-img">
+                    <div class="attraction-info">
+                        <div class="attraction-name">⛩️ 成田山新勝寺</div>
+                        <div class="attraction-desc">千年歷史古寺與經典表參道老街，享用現烤川豐鰻魚飯。</div>
+                    </div>
+                </div>
             </div>
+
             <div class="section-block">
-                <div class="section-title">⏱️ 當日重點行程</div>
-                <ul class="itinerary-list">
-                    <li><strong>成田山新勝寺 & 表參道：</strong>參訪歷史悠久的古寺，在古色古香的表參道上品嚐川豐鰻魚飯與買伴手禮。</li>
-                    <li><strong>滿油還車：</strong>務必在還車前至機場附近加油站將油箱加滿，並保留加油收據。</li>
-                    <li><strong>搭機返家：</strong>前往航廈辦理登機，結束完美的 6 天自駕之旅！</li>
-                </ul>
+                <div class="section-title">⏱️ 詳細路線與點對點行車時間</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:30 📍 成田飯店出發</strong>
+                        <div class="drive-badge">🚗 車程：約 3 km ｜ 時間：約 8 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>09:40 - 12:30 📍 成田山新勝寺與表參道散策</strong>
+                        <p>漫步歷史古寺與表參道商店街，享用午餐川豐鰻魚飯。</p>
+                        <div class="drive-badge">🚗 車程：約 8 km ｜ 時間：約 15 分鐘（前往加油站）</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>13:00 📍 機場周邊加油站 (加滿 Regular 汽油)</strong>
+                        <p>滿油還車必備手續，請保留收據。</p>
+                        <div class="drive-badge">🚗 車程：約 3 km ｜ 時間：約 5 分鐘</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <strong>13:30 📍 租車營業所還車 ➔ 結清 ETC ➔ 搭機返家</strong>
+                        <p>完成還車手續，搭接駁車至航廈辦理登機。</p>
+                    </div>
+                </div>
             </div>
         </div>
 
