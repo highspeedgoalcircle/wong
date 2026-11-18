@@ -3,650 +3,1433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>靜岡、伊豆、富士山與成田 6天5夜自駕之旅｜V4.1 配圖優化</title>
+    <title>靜岡、伊豆、富士山與成田 6天5夜自駕豪華之旅</title>
+    <!-- 引入 Google Fonts「Huninn」粉圓體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0284c7;
-            --primary-dark: #0369a1;
-            --secondary: #f59e0b;
-            --accent: #e11d48;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif; }
-        body { background: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 60px; }
-        header { background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%); color: white; padding: 36px 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
-        .header-badge { background: var(--secondary); color: #000; font-weight: 700; padding: 6px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px; font-size: .9rem; letter-spacing: 1px; }
-        header h1 { font-size: 1.65rem; margin-bottom: 10px; font-weight: 800; }
-        .header-meta { font-size: .95rem; opacity: .95; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
-        .tools-bar { max-width: 1050px; margin: 12px auto 0; padding: 10px 20px; display: flex; justify-content: flex-end; gap: 10px; position: sticky; top: 0; z-index: 50; background: rgba(248,250,252,.94); backdrop-filter: blur(10px); }
-        .tool-btn { background: #fff; border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; font-size: .85rem; cursor: pointer; font-weight: 700; color: var(--text); box-shadow: 0 2px 5px rgba(0,0,0,.03); transition: .2s; }
-        .tool-btn:hover { background: #f1f5f9; border-color: var(--primary); color: var(--primary); }
-        .container { max-width: 1050px; margin: 18px auto; padding: 0 20px; }
-        .intro-card { background: var(--card); border-radius: 14px; padding: 24px; margin-bottom: 22px; box-shadow: 0 4px 12px rgba(0,0,0,.04); border-top: 5px solid var(--secondary); }
-        .intro-card h3 { margin-bottom: 12px; color: var(--primary); font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
-        .intro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 14px; }
-        .intro-item { background: #f1f5f9; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border); font-size: .95rem; }
-        .intro-item strong { color: var(--primary); display: block; margin-bottom: 4px; }
-        .progress-wrap { max-width: 1010px; margin: 12px auto 18px; padding: 14px 20px; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 3px 12px rgba(15,23,42,.04); }
-        .progress-top { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; }
-        .progress-top strong { color: var(--primary); }
-        .progress-track { height: 9px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-top: 9px; }
-        .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #0284c7, #10b981); border-radius: 99px; transition: width .25s ease; }
-        .progress-note { color: var(--muted); font-size: .75rem; margin-top: 7px; }
-        .day-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 18px; }
-        .tab-btn { padding: 12px 8px; background: var(--card); border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: .2s; text-align: center; font-weight: 700; }
-        .tab-btn:hover { border-color: var(--primary); background: #f0f9ff; }
-        .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 10px rgba(2,132,199,.25); }
-        .tab-btn .day-num { font-size: 1.1rem; display: block; }
-        .tab-btn .day-date { font-size: .75rem; opacity: .9; display: block; margin-top: 2px; }
-        .day-content { display: none; background: var(--card); border-radius: 14px; padding: 28px; box-shadow: 0 8px 20px rgba(0,0,0,.06); border: 1px solid var(--border); animation: fadeIn .3s ease; }
-        .day-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .day-header { border-bottom: 2px dashed var(--border); padding-bottom: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .day-title { font-size: 1.25rem; color: var(--primary); font-weight: 800; }
-        .day-badge { background: #e0f2fe; color: #0369a1; padding: 5px 14px; border-radius: 6px; font-size: .85rem; font-weight: 700; }
-        .section-block { margin-bottom: 18px; background: #f8fafc; padding: 16px; border-radius: 10px; border-left: 4px solid var(--primary); }
-        .section-title { font-size: 1.05rem; color: #0f172a; margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-        .drive-info { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 6px; font-size: .9rem; color: #92400e; margin-bottom: 14px; font-weight: 700; line-height: 1.8; }
-        .attraction-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
-        .attraction-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.03); position: relative; display: flex; flex-direction: column; transition: transform .2s; }
-        .attraction-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,.06); }
-        .checkbox-container { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,.93); padding: 4px 8px; border-radius: 6px; font-size: .8rem; font-weight: 700; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,.12); z-index: 10; cursor: pointer; }
-        .attraction-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: linear-gradient(135deg, #dbeafe, #e2e8f0 55%, #fef3c7); display: block; }
-        .attraction-body { padding: 14px; display: flex; flex-direction: column; flex: 1; }
-        .attraction-name { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.45; }
-        .attraction-desc { font-size: .85rem; color: var(--muted); margin-bottom: 10px; flex: 1; line-height: 1.7; }
-        .gps-badge { background: #f1f5f9; border: 1px dashed #94a3b8; border-radius: 6px; padding: 6px 10px; font-size: .8rem; color: #334155; margin-bottom: 8px; }
-        .btn-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; }
-        .link-btn { display: inline-flex; align-items: center; background: var(--primary); color: #fff; text-decoration: none; padding: 5px 10px; border-radius: 5px; font-size: .75rem; font-weight: 700; transition: .2s; min-height: 32px; }
-        .link-btn:hover { background: var(--primary-dark); }
-        .map-btn { background: #10b981; }
-        .map-btn:hover { background: #059669; }
-        .full-route-btn { background: #8b5cf6; margin-top: 8px; padding: 6px 12px; font-size: .85rem; }
-        .full-route-btn:hover { background: #7c3aed; }
-        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 28px; }
-        .tip-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: 0 3px 10px rgba(0,0,0,.02); border-top: 4px solid var(--primary); }
-        .tip-card.alert { border-top-color: var(--accent); }
-        .tip-card h4 { color: var(--primary); margin-bottom: 10px; font-size: 1.05rem; }
-        .tip-card ul { padding-left: 18px; font-size: .9rem; }
-        .tip-card li { margin-bottom: 6px; }
-        .v3-panel { background: #fff; border: 1px solid #dbeafe; border-radius: 18px; padding: 22px; margin: 0 0 22px; box-shadow: 0 8px 24px rgba(15,23,42,.06); }
-        .v3-heading { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 16px; }
-        .v3-kicker { font-size: .7rem; letter-spacing: .16em; font-weight: 800; color: var(--primary); }
-        .v3-heading h2 { font-size: 1.3rem; color: #0f3b5f; margin: 3px 0; }
-        .v3-heading p { font-size: .88rem; color: var(--muted); }
-        .v3-version { background: #e0f2fe; color: #0369a1; font-weight: 900; border-radius: 999px; padding: 8px 13px; white-space: nowrap; }
-        .v3-alert { background: linear-gradient(120deg, #eff6ff, #f0fdfa); border: 1px solid #bae6fd; border-radius: 13px; padding: 16px; margin-bottom: 14px; }
-        .v3-alert strong { color: #075985; display: block; margin-bottom: 6px; }
-        .v3-alert p { font-size: .9rem; color: #334155; }
-        .v3-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .v3-link { display: inline-block; background: #fff; border: 1px solid #bfdbfe; color: #075985; text-decoration: none; border-radius: 8px; padding: 7px 10px; font-size: .82rem; font-weight: 700; }
-        .v3-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 14px; margin-bottom: 14px; }
-        .v3-mini { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 13px; padding: 15px; min-width: 0; }
-        .v3-mini h3, .v3-notes h3 { font-size: 1rem; color: #0f3b5f; margin-bottom: 10px; }
-        .v3-drive-row { display: grid; grid-template-columns: 76px minmax(0,1fr) auto; gap: 8px; padding: 8px 0; border-bottom: 1px solid #e2e8f0; font-size: .8rem; align-items: start; }
-        .v3-drive-row b { color: #0369a1; } .v3-drive-row span { color: #475569; } .v3-drive-row strong { color: #0f172a; white-space: nowrap; }
-        .v3-small, .v3-footnote { font-size: .76rem; color: var(--muted); margin-top: 10px; }
-        .v3-checklist { padding-left: 19px; color: #475569; font-size: .85rem; }
-        .v3-checklist li { margin: 0 0 9px; }
-        .v3-notes { border-top: 1px solid #e2e8f0; padding-top: 15px; }
-        .v3-note-row { display: grid; grid-template-columns: 155px minmax(0,1fr) auto; gap: 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: .82rem; }
-        .v3-note-row b { color: #0f3b5f; } .v3-note-row span { color: #475569; } .v3-note-row a { color: var(--primary); font-weight: 700; white-space: nowrap; }
-        .image-fallback { aspect-ratio: 16/9; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px; text-align: center; color: #334155; background: radial-gradient(circle at 80% 15%, rgba(255,255,255,.8), transparent 28%), linear-gradient(135deg, #dbeafe 0%, #e0f2fe 48%, #fef3c7 100%); }
-        .image-fallback .fallback-icon { font-size: 2rem; }
-        .image-fallback .fallback-label { font-size: .88rem; font-weight: 700; }
-        @media (max-width: 980px) { .attraction-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-        @media (max-width: 760px) {
-            .v3-grid { grid-template-columns: 1fr; }
-            .v3-panel { padding: 15px; }
-            .v3-drive-row { grid-template-columns: 58px minmax(0,1fr); }
-            .v3-drive-row strong { grid-column: 2; }
-            .v3-note-row { grid-template-columns: 1fr; gap: 4px; }
-            .v3-note-row a { white-space: normal; }
-            .v3-heading h2 { font-size: 1.15rem; }
-            header { padding: 28px 16px; }
-            header h1 { font-size: 1.3rem; line-height: 1.45; }
-            .day-tabs { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-            .attraction-grid { grid-template-columns: 1fr; }
-            .tools-bar { justify-content: center; flex-wrap: wrap; }
-        }
-        @media print {
-            body { background: #fff; padding: 0; color: #111827; }
-            header { padding: 18px; box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .tools-bar, .day-tabs, .checkbox-container, .btn-group, .full-route-btn, .progress-wrap, .v3-actions { display: none !important; }
-            .container { max-width: none; margin: 10px 0; padding: 0; }
-            .day-content { display: block !important; box-shadow: none; border: 0; padding: 14px 0; page-break-after: always; animation: none; }
-            .day-content:last-of-type { page-break-after: auto; }
-            .attraction-grid { grid-template-columns: repeat(2, 1fr); }
-            .tips-grid { page-break-before: always; }
-            a { color: #111827; text-decoration: none; }
-        }
-        .tab-btn:focus-visible, .tool-btn:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="header-badge">🚗 靜岡・伊豆・富士山 6天5夜自駕特輯｜V4.1 配圖優化</div>
-        <h1>HKG ✈️ NRT 成田進出 ➔ 沼津／成田雙飯店自駕遊</h1>
-        <div class="header-meta">
-            <span>📅 日期：12/1 (二) ～ 12/6 (日)</span>
-            <span>✈️ 香港航空 HX608 去程 / HX605 回程</span>
-        </div>
-    </header>
-
-    <div class="tools-bar">
-        <button class="tool-btn" onclick="window.print()">🖨️ 列印 / 存成 PDF</button>
-        <button class="tool-btn" onclick="resetCheckboxes()">🔄 重置打卡狀態</button>
-    </div>
-
-    <div class="progress-wrap" aria-live="polite">
-        <div class="progress-top">
-            <strong>旅程打卡進度</strong>
-            <span id="progressText">已完成 0 / 0 項</span>
-        </div>
-        <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
-        <p class="progress-note">打卡狀態會保存在目前裝置的瀏覽器，重新開啟網頁仍可保留。</p>
-    </div>
-
-    <div class="container">
-        <div class="intro-card">
-            <h3>💡 航班與預定飯店資訊</h3>
-            <div class="intro-grid">
-                <div class="intro-item">
-                    <strong>✈️ 航班資訊 (Hong Kong Airlines)</strong>
-                    • 去程 (12/1 二)：HX608 HKG ➔ NRT（建議 15:00 前取車）<br>
-                    • 回程 (12/6 日)：HX605 NRT ➔ HKG（14:30 起飛）
-                </div>
-                <div class="intro-item">
-                    <strong>🏨 飯店與泊車</strong>
-                    • 12/1–12/5（4晚）：Numazu Riverside Hotel<br>
-                    📌 Mapcode 396 594 258*88<br>
-                    🅿️ 地下「ナティ駐車場」住宿者 ¥1,000／24小時<br>
-                    • 12/5–12/6（1晚）：Hotel Welco Narita<br>
-                    🅿️ 多數來源顯示有免費自助泊車，建議出發前再確認；備案 Times 成田約 ¥1,200／晚
-                </div>
-            </div>
-        </div>
-
-        <section class="v3-panel" aria-label="V4.1旅程總覽">
-            <div class="v3-heading">
-                <div>
-                    <span class="v3-kicker">TRIP CONTROL CENTRE</span>
-                    <h2>V4.1 自駕旅程控制台</h2>
-                    <p>路線時間、冬季提示、天氣查詢及官方營運資訊集中管理｜配圖已優化</p>
-                </div>
-                <span class="v3-version">V4.1</span>
-            </div>
-
-            <div class="v3-alert">
-                <strong>🌤️ 天氣安排提示｜12月1日至6日</strong>
-                <p>目前距離出發仍有一段時間，未適合當作可靠的逐日預報。伊豆沿海、富士五湖及山區體感可能有明顯差異；富士山能否看見亦受雲量影響。建議出發前 7–10 日及每日早上再查看最新預報、風速與道路資訊。</p>
-                <div class="v3-actions">
-                    <a class="v3-link" href="https://www.jma.go.jp/bosai/forecast/" target="_blank" rel="noopener">日本氣象廳天氣預報 ↗</a>
-                    <a class="v3-link" href="https://www.jma.go.jp/bosai/warning/" target="_blank" rel="noopener">日本氣象警報 ↗</a>
-                    <a class="v3-link" href="https://www.c-ihighway.jp/" target="_blank" rel="noopener">NEXCO 高速公路路況 ↗</a>
-                </div>
-            </div>
-
-            <div class="v3-grid">
-                <article class="v3-mini">
-                    <h3>🚘 每日駕駛時間概覽</h3>
-                    <div class="v3-drive-row"><b>D1｜12/1</b><span>成田 → 沼津</span><strong>約 2.5–3 小時</strong></div>
-                    <div class="v3-drive-row"><b>D2｜12/2</b><span>沼津 → 城崎 → 大室山 → 修善寺 → 沼津</span><strong>約 3–4 小時</strong></div>
-                    <div class="v3-drive-row"><b>D3｜12/3</b><span>沼津 → 三保 → 清水 → 日本平 → 沼津</span><strong>約 3–3.5 小時</strong></div>
-                    <div class="v3-drive-row"><b>D4｜12/4</b><span>沼津 → 御殿場 → 山中湖 → 沼津</span><strong>約 2.5–3 小時</strong></div>
-                    <div class="v3-drive-row"><b>D5｜12/5</b><span>沼津 → 三島 → 酒酒井 → 成田</span><strong>約 3.5–4.5 小時</strong></div>
-                    <div class="v3-drive-row"><b>D6｜12/6</b><span>成田市內 → 租車中心</span><strong>約 30–45 分鐘</strong></div>
-                    <p class="v3-small">以上為行程規劃估算，並非即時路況；實際以導航及當日交通為準。</p>
-                </article>
-
-                <article class="v3-mini">
-                    <h3>❄️ 12月自駕重點</h3>
-                    <ul class="v3-checklist">
-                        <li>向租車公司確認冬季輪胎／雪鏈政策及可行駛道路限制。</li>
-                        <li>清晨及日落後氣溫較低，山中湖、御殿場及富士山周邊要留意低溫、結霜與能見度。</li>
-                        <li>避免為追日落或富士山景色而趕路；天色轉暗前完成山區路段較穩妥。</li>
-                        <li>高速公路出發前查看事故、施工、封路及強風資訊。</li>
-                        <li>確認 ETC 卡、燃油種類、還車油站及租車公司還車流程。</li>
-                    </ul>
-                </article>
-            </div>
-
-            <div class="v3-notes">
-                <h3>📌 已核對的景點營運提示</h3>
-                <div class="v3-note-row">
-                    <b>大室山登山吊椅</b>
-                    <span>10月～2月上山最終 16:00、下山最終 16:15。成人來回 ¥1,000。12/7–12/18 有設備檢修停運公告，行程安排在 12/2，仍建議出發當日再確認運行狀態。</span>
-                    <a href="https://omuroyama.com/" target="_blank" rel="noopener">官方運行資訊 ↗</a>
-                </div>
-                <div class="v3-note-row">
-                    <b>日本平夢之Terrace</b>
-                    <span>日～五一般開放至 17:00（最終入館 16:30）。自 2026/10/1 起展望設施收費（一般 ¥100），戶外展望回廊免費。12/3（四）15:30 到達時間較緊湊，建議優先安排。</span>
-                    <a href="https://nihondaira-yume-terrace.jp/guide/" target="_blank" rel="noopener">官方開館資訊 ↗</a>
-                </div>
-                <div class="v3-note-row">
-                    <b>三保松原「みほしるべ」</b>
-                    <span>展示設施開放時間為 9:00–16:30；12/3 建議不要把室內參觀排得太遲。</span>
-                    <a href="https://miho-no-matsubara.jp/faq" target="_blank" rel="noopener">官方 FAQ ↗</a>
-                </div>
-            </div>
-            <p class="v3-footnote">資料核對日期：2026年11月6日。景點營運時間、道路狀況及天氣均可能變動，請以官方最新公告為準。</p>
-        </section>
-
-        <!-- 每日分頁 -->
-        <div class="day-tabs" role="tablist">
-            <button class="tab-btn active" role="tab" aria-selected="true" onclick="showDay(event, 1)"><span class="day-num">D1</span><span class="day-date">12/1 (二)</span></button>
-            <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay(event, 2)"><span class="day-num">D2</span><span class="day-date">12/2 (三)</span></button>
-            <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay(event, 3)"><span class="day-num">D3</span><span class="day-date">12/3 (四)</span></button>
-            <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay(event, 4)"><span class="day-num">D4</span><span class="day-date">12/4 (五)</span></button>
-            <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay(event, 5)"><span class="day-num">D5</span><span class="day-date">12/5 (六)</span></button>
-            <button class="tab-btn" role="tab" aria-selected="false" onclick="showDay(event, 6)"><span class="day-num">D6</span><span class="day-date">12/6 (日)</span></button>
-        </div>
-
-        <!-- D1 -->
-        <div id="day1" class="day-content active">
-            <div class="day-header">
-                <div class="day-title">✈️ Day 1：15:00 取車 ➔ 東名高速 ➔ 19:30 沼津港丸天 ➔ 20:30 入住飯店</div>
-                <span class="day-badge">🏨 住：Numazu Riverside Hotel</span>
-            </div>
-            <div class="drive-info">
-                🚗 全程行車：成田機場 ➔ 15:00 取車直去酒店（約 2.5～3 小時／160km）<br>
-                <a href="https://www.google.com/maps/dir/Narita+Airport/Numazu+Riverside+Hotel,+Numazu/" class="link-btn full-route-btn" target="_blank">📍 點擊開啟 Day 1 Google Maps 全程一鍵導航</a>
-            </div>
-            <div class="section-block">
-                <div class="section-title">⏱️ 當日景點與餐飲介紹</div>
-                <div class="attraction-grid">
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&auto=format&fit=crop&q=80" alt="成田機場" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">15:00 成田機場取車</div>
-                            <div class="attraction-desc">搭乘 HX608 抵達，辦理租車與領取 ETC 卡，經東名高速直奔沼津。</div>
-                            <div class="btn-group">
-                                <a href="https://www.narita-airport.jp/ch2/" class="link-btn" target="_blank">機場官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?w=800&auto=format&fit=crop&q=80" alt="沼津港海鮮" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">19:30 魚河岸丸天（沼津港）</div>
-                            <div class="attraction-desc">抵達沼津港品嚐名物「巨型海鮮天婦羅塔」與新鮮海鮮丼。建議提前查詢當日營業時間。</div>
-                            <div class="btn-group">
-                                <a href="https://uogashi-maruten.co.jp/" class="link-btn" target="_blank">丸天官網 ➔</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=魚河岸丸天+沼津港" class="link-btn map-btn" target="_blank">📍 單點導航</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已入住</label>
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop&q=80" alt="Numazu Riverside Hotel" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">20:30 Check-in 飯店</div>
-                            <div class="gps-badge">📌 Mapcode: <b>396 594 258*88</b><br>🅿️ 地下ナティ駐車場 ¥1,000／24小時（住宿者）</div>
-                            <div class="attraction-desc">入住 Numazu Riverside Hotel。</div>
-                            <div class="btn-group">
-                                <a href="https://www.numazu-rs-hotel.com/" class="link-btn" target="_blank">飯店官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- D2 -->
-        <div id="day2" class="day-content">
-            <div class="day-header">
-                <div class="day-title">⛩️ Day 2：伊豆東海岸小圈（沼津 ➔ 城崎海岸 ➔ 大室山 ➔ 修善寺 ➔ 返沼津）</div>
-                <span class="day-badge">🏨 住：Numazu Riverside Hotel</span>
-            </div>
-            <div class="drive-info">
-                🚗 區間行車：08:00 出發 ➔ 09:30 城崎海岸 ➔ 11:30 大室山 ➔ 15:00 修善寺 ➔ 返沼津<br>
-                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Jogasaki+Coast,+Ito/Mt.+Omuro,+Ito/Shuzenji,+Izu/Numazu+Riverside+Hotel/" class="link-btn full-route-btn" target="_blank">📍 點擊開啟 Day 2 Google Maps 全程一鍵導航</a>
-            </div>
-            <div class="section-block">
-                <div class="section-title">⏱️ 當日景點介紹</div>
-                <div class="attraction-grid">
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://exploreshizuoka.jp/activities/wp-content/uploads/sites/2/2022/07/D71_8145-1536x1024.jpg" alt="城崎海岸 門脇吊橋" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">09:30 城崎海岸・門脇吊橋</div>
-                            <div class="gps-badge">📞 電話導航: <b>0557-51-1158</b><br>🅿️ 伊豆海洋公園 parking（¥500／次，步行 5 分）</div>
-                            <div class="attraction-desc">欣賞太平洋海浪拍打火山岩岸與懸空吊橋的壯麗奇景。</div>
-                            <div class="btn-group">
-                                <a href="https://itospa.com/spot/detail_525.html" class="link-btn" target="_blank">伊東觀光 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&auto=format&fit=crop&q=80" alt="大室山 綠色火山" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">11:30 大室山吊椅</div>
-                            <div class="gps-badge">📞 電話導航: <b>0557-51-0258</b><br>🅿️ 登山口駐車場（¥500）<br>吊椅成人來回 <b>¥1,000</b></div>
-                            <div class="attraction-desc">搭乘開放式雙人吊椅登頂（風大較冷，請多穿）。山頂火山口步道約 20–30 分鐘。建議 13:30 前完成，伊豆高原午餐。</div>
-                            <div class="btn-group">
-                                <a href="https://omuroyama.com/" class="link-btn" target="_blank">大室山官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&auto=format&fit=crop&q=80" alt="修善寺 竹林" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">15:00 修善寺竹林小徑</div>
-                            <div class="attraction-desc">漫步伊豆最古老溫泉小鎮，感受竹林小徑與朱紅色愛之橋韻味。</div>
-                            <div class="btn-group">
-                                <a href="https://kanko.city.izu.shizuoka.jp/s_shuzenji/" class="link-btn" target="_blank">修善寺觀光網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- D3 -->
-        <div id="day3" class="day-content">
-            <div class="day-header">
-                <div class="day-title">🍡 Day 3：清水世界遺產圈（沼津 ➔ 三保松原 ➔ 清水港 ➔ 小丸子 ➔ 日本平 ➔ 返沼津）</div>
-                <span class="day-badge">🏨 住：Numazu Riverside Hotel</span>
-            </div>
-            <div class="drive-info">
-                🚗 區間行車：08:30 出發 ➔ 10:00 三保松原 ➔ 12:00 清水港 ➔ 14:00 小丸子 ➔ 15:30 日本平<br>
-                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Miho+no+Matsubara,+Shimizu/S-Pulse+Dream+Plaza/Nihondaira+Yume+Terrace/Numazu+Riverside+Hotel/" class="link-btn full-route-btn" target="_blank">📍 點擊開啟 Day 3 Google Maps 全程一鍵導航</a>
-            </div>
-            <div class="section-block">
-                <div class="section-title">⏱️ 當日景點介紹</div>
-                <div class="attraction-grid">
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://exploreshizuoka.jp/wp-content/uploads/2022/02/%E4%B8%89%E4%BF%9D%E6%B5%B7%E5%B2%B8%E3%81%8B%E3%82%89%E3%81%AE%E5%AF%8C%E5%A3%AB%E5%B1%B143-scaled.jpg" alt="三保松原 富士山" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">10:00 三保松原（世界遺產）</div>
-                            <div class="gps-badge">📞 電話導航: <b>054-237-0055</b><br>🅿️ 三保松原駐車場（免費，步行約 10 分到神之道）</div>
-                            <div class="attraction-desc">欣賞黑松林與黑色沙灘交織的富士山絕景。</div>
-                            <div class="btn-group">
-                                <a href="https://www.visit-shizuoka.com/spots/detail.php?n=357" class="link-btn" target="_blank">觀光介紹 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&auto=format&fit=crop&q=80" alt="日本卡通博物館氛圍" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">14:00 櫻桃小丸子博物館</div>
-                            <div class="attraction-desc">12:00 清水港食鮪魚後，前往 S-Pulse Dream Plaza 館內重溫童年夢想。</div>
-                            <div class="btn-group">
-                                <a href="https://www.chibimarukochan-land.com/" class="link-btn" target="_blank">小丸子官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&auto=format&fit=crop&q=80" alt="日本平展望台氛圍" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">15:30 日本平夢之Terrace</div>
-                            <div class="attraction-desc">隈研吾團隊設計，360° 展望台。自 2026/10 起展望設施收費（一般 ¥100），戶外回廊免費。17:00 閉館，請把握時間。</div>
-                            <div class="btn-group">
-                                <a href="https://nihondaira-yume-terrace.jp/" class="link-btn" target="_blank">官方網站 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- D4 -->
-        <div id="day4" class="day-content">
-            <div class="day-header">
-                <div class="day-title">🛍️ Day 4：富士山購物日（沼津 ➔ 御殿場 Outlet ➔ 山中湖逆富士 ➔ 返沼津）</div>
-                <span class="day-badge">🏨 住：Numazu Riverside Hotel</span>
-            </div>
-            <div class="drive-info">
-                🚗 區間行車：09:00 出發 ➔ 09:35 御殿場 Outlet ➔ 14:15 山中湖長池公園 ➔ 16:40 日落後返沼津<br>
-                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Gotemba+Premium+Outlets/Yamanakako+Nagaike+Waterside+Park/Numazu+Riverside+Hotel/" class="link-btn full-route-btn" target="_blank">📍 點擊開啟 Day 4 Google Maps 全程一鍵導航</a>
-            </div>
-            <div class="section-block">
-                <div class="section-title">⏱️ 當日景點介紹</div>
-                <div class="attraction-grid">
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&auto=format&fit=crop&q=80" alt="御殿場 Outlet 購物" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">09:35 御殿場 Premium Outlets</div>
-                            <div class="gps-badge">🅿️ 導航至 <b>P2 停車場</b><br>📸 A區對正富士山，打卡位在 Hill Side</div>
-                            <div class="attraction-desc">全日最大 Outlet 購物血拼，建議 13:30 出發往山中湖。天氣好時可從走道遠眺富士山。</div>
-                            <div class="btn-group">
-                                <a href="https://www.premiumoutlets.co.jp/gotemba/" class="link-btn" target="_blank">官方網站 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?w=800&auto=format&fit=crop&q=80" alt="山中湖 富士山倒影" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">14:15 山中湖長池親水公園</div>
-                            <div class="gps-badge">📞 電話導航: <b>0555-62-0648</b><br>🅿️ 長池親水公園駐車場（免費，逆富士正前方）</div>
-                            <div class="attraction-desc">靜候日落與逆富士倒影，16:40 日落後返沼津（晚餐可去 LaLaport）。</div>
-                            <div class="btn-group">
-                                <a href="https://lake-yamanakako.com/" class="link-btn" target="_blank">山中湖觀光 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- D5 -->
-        <div id="day5" class="day-content">
-            <div class="day-header">
-                <div class="day-title">🌉 Day 5：橫斷關東（搬酒店日：沼津 ➔ 三島Skywalk ➔ 酒酒井 Outlet ➔ 成田 Hotel Welco）</div>
-                <span class="day-badge">🏨 住：Hotel Welco Narita</span>
-            </div>
-            <div class="drive-info">
-                🚗 區間行車：08:00 Check-out ➔ 08:20 三島 Skywalk ➔ 10:00 跨區開車 ➔ 13:00 酒酒井 ➔ 16:00 成田<br>
-                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Mishima+Skywalk/Mishima/Shisui+Premium+Outlets/Hotel+Welco+Narita/" class="link-btn full-route-btn" target="_blank">📍 點擊開啟 Day 5 Google Maps 全程一鍵導航（修正版）</a>
-            </div>
-            <div class="section-block">
-                <div class="section-title">⏱️ 當日景點與飯店介紹</div>
-                <div class="attraction-grid">
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&auto=format&fit=crop&q=80" alt="三島天空步道 吊橋" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">08:20 三島 Skywalk</div>
-                            <div class="attraction-desc">08:30 開門人少最爽，站在 400m 最長吊橋中間睇富士山。10:00 出發去酒酒井。</div>
-                            <div class="btn-group">
-                                <a href="https://mishima-skywalk.jp/" class="link-btn" target="_blank">官方網站 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&auto=format&fit=crop&q=80" alt="酒酒井 Outlet" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">13:00 酒酒井 Premium Outlets</div>
-                            <div class="attraction-desc">行東名➔圈央道➔東關道（約 2 小時 15 分）。星期六下午酒酒井往成田可能較繁忙，請預留交通緩衝時間。</div>
-                            <div class="btn-group">
-                                <a href="https://www.premiumoutlets.co.jp/shisui/" class="link-btn" target="_blank">官方網站 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已入住</label>
-                        <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=800&auto=format&fit=crop&q=80" alt="Hotel Welco Narita" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">16:00 Hotel Welco Narita</div>
-                            <div class="gps-badge">📍 千葉縣成田市花崎町 818<br>🅿️ 多數來源顯示有免費自助泊車，建議出發前再確認；備案隔壁 Times 約 ¥1,200／晚</div>
-                            <div class="attraction-desc">辦理入住，步行約 3 分鐘回飯店。</div>
-                            <div class="btn-group">
-                                <a href="https://www.hotel-welco.com/narita/" class="link-btn" target="_blank">飯店官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- D6 -->
-        <div id="day6" class="day-content">
-            <div class="day-header">
-                <div class="day-title">⛩️ Day 6：成田市內步行（新勝寺 ➔ 川豐鰻魚飯 ➔ 出光加油 ➔ 還車 ➔ 14:30 HX605）</div>
-                <span class="day-badge">✈️ 返回溫馨的家</span>
-            </div>
-            <div class="drive-info">
-                🚗 區間行車：Hotel Welco 行 5 分到表參道 ➔ 08:00 新勝寺 ➔ 09:30 川豐 ➔ 11:00 出光加油 ➔ 還車 ➔ 14:30 HX605<br>
-                <a href="https://www.google.com/maps/dir/Hotel+Welco+Narita/Naritasan+Shinshoji+Temple/Kawatoyo+Honten,+Narita/Idemitsu+Narita+Airport+SS/Narita+Airport+Rental+Car+Center/" class="link-btn full-route-btn" target="_blank">📍 點擊開啟 Day 6 Google Maps 全程一鍵導航</a>
-            </div>
-            <div class="section-block">
-                <div class="section-title">⏱️ 當日景點與航班介紹</div>
-                <div class="attraction-grid">
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/120803_Narita-san_Shinsho-ji_Narita_Chiba_pref_Japan01n.jpg/1280px-120803_Narita-san_Shinsho-ji_Narita_Chiba_pref_Japan01n.jpg" alt="成田山新勝寺" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">08:00 新勝寺 & 09:30 川豐鰻魚飯</div>
-                            <div class="attraction-desc">Hotel Welco 行 5 分鐘到表參道參拜，並排隊食川豐鰻魚飯（排隊名店）。</div>
-                            <div class="btn-group">
-                                <a href="https://www.naritasan.or.jp/" class="link-btn" target="_blank">新勝寺官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attraction-card">
-                        <label class="checkbox-container"><input type="checkbox"> 已造訪</label>
-                        <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&auto=format&fit=crop&q=80" alt="成田機場" class="attraction-img" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-                        <div class="attraction-body">
-                            <div class="attraction-name">11:00 加油還車（HX605 14:30 飛）</div>
-                            <div class="gps-badge">⛽ 加油: <b>出光成田空港前 SS</b>（還車前入滿油通常最平）</div>
-                            <div class="attraction-desc">還車後至成田機場租車中心，搭乘 14:30 HX605 返港。</div>
-                            <div class="btn-group">
-                                <a href="https://www.narita-airport.jp/ch2/" class="link-btn" target="_blank">機場官網 ➔</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tips-grid">
-            <div class="tip-card">
-                <h4>🗺️ Google Maps 6日一鍵導航總覽</h4>
-                <ul>
-                    <li><strong>選路建議：</strong>開車前登入 Google 帳號，選「避開收費」會平啲，但<strong>東名高速建議照行</strong>快好多！</li>
-                    <li><strong>Day 1 成田→沼津：</strong><a href="https://www.google.com/maps/dir/Narita+Airport/Numazu+Riverside+Hotel,+Numazu/" target="_blank">開啟導航 ➔</a></li>
-                    <li><strong>Day 2 伊豆東海岸：</strong><a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Jogasaki+Coast,+Ito/Mt.+Omuro,+Ito/Shuzenji,+Izu/Numazu+Riverside+Hotel/" target="_blank">開啟導航 ➔</a></li>
-                    <li><strong>Day 3 清水世界遺產：</strong><a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Miho+no+Matsubara,+Shimizu/S-Pulse+Dream+Plaza/Nihondaira+Yume+Terrace/Numazu+Riverside+Hotel/" target="_blank">開啟導航 ➔</a></li>
-                    <li><strong>Day 4 富士山購物：</strong><a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Gotemba+Premium+Outlets/Yamanakako+Nagaike+Waterside+Park/Numazu+Riverside+Hotel/" target="_blank">開啟導航 ➔</a></li>
-                    <li><strong>Day 5 橫斷關東（修正版）：</strong><a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Mishima+Skywalk/Mishima/Shisui+Premium+Outlets/Hotel+Welco+Narita/" target="_blank">開啟導航 ➔</a></li>
-                    <li><strong>Day 6 成田市內：</strong><a href="https://www.google.com/maps/dir/Hotel+Welco+Narita/Naritasan+Shinshoji+Temple/Kawatoyo+Honten,+Narita/Idemitsu+Narita+Airport+SS/Narita+Airport+Rental+Car+Center/" target="_blank">開啟導航 ➔</a></li>
-                </ul>
-            </div>
-            <div class="tip-card alert">
-                <h4>💡 溫馨提示與車機 Double Check</h4>
-                <ul>
-                    <li><strong>Mapcode 輔助：</strong>日本 Google Maps 導航有時山路不夠準確，建議搭配車機輸入 Mapcode 做 Double Check！</li>
-                    <li><strong>週末交通預警：</strong>Day 5 為星期六，酒酒井及成田周邊可能較繁忙，建議預留交通緩衝時間，並以即時導航為準。</li>
-                    <li><strong>泊車提醒：</strong>沼津 Riverside 住宿者地下停車場 ¥1,000／晚；Welco 建議出發前再確認免費泊車狀況。</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const STORAGE_KEY = 'shizuoka_izu_roadtrip_checklist_v4_1';
-
-        function getCheckboxes() {
-            return Array.from(document.querySelectorAll('.checkbox-container input[type="checkbox"]'));
+            --bg-washi: #FFFCF6;
+            --ink-gray: #3E3A39;
+            --ink-muted: #6E6866;
+            --coral-pink: #F2A497;
+            --yamabuki-yellow: #F6D27A;
+            --mizu-blue: #A8D3E6;
+            --wakatake-green: #B9DAA5;
+            --card-white: #FFFFFF;
+            --border-w: 3px;
+            --hard-shadow: 4px 4px 0px #3E3A39;
+            --hard-shadow-sm: 2px 2px 0px #3E3A39;
         }
 
-        function updateProgress() {
-            const boxes = getCheckboxes();
-            const done = boxes.filter(box => box.checked).length;
-            const total = boxes.length;
-            const text = document.getElementById('progressText');
-            const fill = document.getElementById('progressFill');
-            if (text) text.textContent = `已完成 ${done} / ${total} 項`;
-            if (fill) fill.style.width = total ? `${(done / total) * 100}%` : '0%';
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Huninn', -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        function saveCheckboxes() {
-            const state = getCheckboxes().map(box => box.checked);
-            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
-            updateProgress();
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 76px;
         }
 
-        function restoreCheckboxes() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-                if (Array.isArray(saved)) {
-                    getCheckboxes().forEach((box, index) => {
-                        box.checked = Boolean(saved[index]);
-                    });
-                }
-            } catch (e) {}
-            updateProgress();
+        body {
+            background-color: var(--bg-washi);
+            color: var(--ink-gray);
+            line-height: 1.65;
+            padding-bottom: 70px;
+            /* 細微和紙點狀紋理（純色點點，無漸層） */
+            background-image: radial-gradient(#E8E2D5 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        function showDay(event, dayNum) {
-            document.querySelectorAll('.tab-btn').forEach(tab => {
-                tab.classList.remove('active');
-                tab.setAttribute('aria-selected', 'false');
-            });
-            const selectedTab = event.currentTarget;
-            selectedTab.classList.add('active');
-            selectedTab.setAttribute('aria-selected', 'true');
+        /* 頂端固定選單 */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-white);
+            border-bottom: var(--border-w) solid var(--ink-gray);
+            z-index: 1000;
+            padding: 10px 12px;
+        }
 
-            document.querySelectorAll('.day-content').forEach(content => content.classList.remove('active'));
-            const selectedDay = document.getElementById(`day${dayNum}`);
-            if (selectedDay) selectedDay.classList.add('active');
+        .nav-inner {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4px;
+            overflow-x: auto;
+        }
 
-            if (window.innerWidth < 768) {
-                document.querySelector('.day-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        .nav-link {
+            text-decoration: none;
+            color: var(--ink-gray);
+            font-size: 0.88rem;
+            padding: 6px 10px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            white-space: nowrap;
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            background-color: var(--yamabuki-yellow);
+            border-color: var(--ink-gray);
+            box-shadow: var(--hard-shadow-sm);
+            transform: translate(-1px, -1px);
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 780px;
+            margin: 76px auto 0;
+            padding: 12px 16px;
+        }
+
+        /* 繪本風通用大卡片 */
+        .storybook-card {
+            background-color: var(--card-white);
+            border: var(--border-w) solid var(--ink-gray);
+            border-radius: 24px;
+            padding: 22px 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--hard-shadow);
+            position: relative;
+        }
+
+        /* 首頁 Hero 卡片 */
+        .hero-card {
+            text-align: center;
+            background-color: var(--card-white);
+            overflow: hidden;
+        }
+
+        .hero-ribbon {
+            display: inline-block;
+            background-color: var(--yamabuki-yellow);
+            border: var(--border-w) solid var(--ink-gray);
+            border-radius: 999px;
+            padding: 5px 16px;
+            font-size: 0.88rem;
+            box-shadow: var(--hard-shadow-sm);
+            margin-bottom: 14px;
+        }
+
+        .hero-title {
+            font-size: 1.45rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            color: var(--ink-gray);
+        }
+
+        .hero-date {
+            font-size: 0.95rem;
+            color: var(--ink-muted);
+            margin-bottom: 16px;
+        }
+
+        /* SVG 插畫舞台 */
+        .illustration-stage {
+            background-color: var(--bg-washi);
+            border: var(--border-w) solid var(--ink-gray);
+            border-radius: 20px;
+            padding: 14px 10px 8px;
+            margin: 14px 0 18px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .svg-bob-1 {
+            animation: gentleBob 3.2s ease-in-out infinite;
+        }
+
+        .svg-bob-2 {
+            animation: gentleBob 2.8s ease-in-out infinite 0.7s;
+        }
+
+        .svg-bob-3 {
+            animation: gentleBob 3.5s ease-in-out infinite 1.3s;
+        }
+
+        @keyframes gentleBob {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(1.5deg); }
+        }
+
+        /* 出發倒數計時器 */
+        .countdown-wrapper {
+            background-color: var(--mizu-blue);
+            border: var(--border-w) solid var(--ink-gray);
+            border-radius: 20px;
+            padding: 14px 12px;
+            box-shadow: var(--hard-shadow-sm);
+        }
+
+        .countdown-label-top {
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
+        .cd-box {
+            background-color: var(--card-white);
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 14px;
+            padding: 8px 4px;
+            box-shadow: var(--hard-shadow-sm);
+        }
+
+        .cd-num {
+            font-size: 1.35rem;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .cd-unit {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+        }
+
+        /* 區塊標題 */
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.25rem;
+            margin: 26px 0 14px 4px;
+        }
+
+        .heading-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2.5px solid var(--ink-gray);
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        /* 航班卡片 */
+        .flight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        .flight-leg {
+            background-color: var(--bg-washi);
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 18px;
+            padding: 14px 16px;
+            position: relative;
+        }
+
+        .flight-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 10px;
+            border: 2px solid var(--ink-gray);
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .flight-route {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flight-detail {
+            font-size: 0.88rem;
+            color: var(--ink-muted);
+        }
+
+        /* 日期分頁按鈕列 */
+        .day-tabs {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .day-tabs {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        function resetCheckboxes() {
-            if (!confirm('確定要重置全部六日的打卡紀錄嗎？')) return;
-            getCheckboxes().forEach(box => box.checked = false);
-            saveCheckboxes();
+        .day-tab-btn {
+            background-color: var(--card-white);
+            border: var(--border-w) solid var(--ink-gray);
+            border-radius: 16px;
+            padding: 10px 6px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: var(--hard-shadow-sm);
+            color: var(--ink-gray);
+            transition: background-color 0.15s ease, transform 0.15s ease;
         }
 
-        function installImageFallbacks() {
-            document.querySelectorAll('img.attraction-img').forEach(img => {
-                const showFallback = () => {
-                    if (img.dataset.fallbackShown === '1') return;
-                    img.dataset.fallbackShown = '1';
-                    const fallback = document.createElement('div');
-                    fallback.className = 'image-fallback';
-                    fallback.setAttribute('role', 'img');
-                    fallback.setAttribute('aria-label', img.alt || '景點圖片暫時未能載入');
-                    const icon = document.createElement('span');
-                    icon.className = 'fallback-icon';
-                    icon.textContent = '🗾';
-                    const label = document.createElement('span');
-                    label.className = 'fallback-label';
-                    label.textContent = (img.alt || '景點圖片') + '｜圖片暫時未能載入';
-                    fallback.append(icon, label);
-                    img.replaceWith(fallback);
-                };
-                img.addEventListener('error', showFallback, { once: true });
-                if (img.complete && img.naturalWidth === 0) showFallback();
+        .day-tab-btn:hover {
+            background-color: var(--yamabuki-yellow);
+        }
+
+        .day-tab-btn.active {
+            background-color: var(--coral-pink);
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px var(--ink-gray);
+        }
+
+        .tab-d {
+            font-size: 1.05rem;
+            display: block;
+        }
+
+        .tab-date {
+            font-size: 0.78rem;
+            display: block;
+        }
+
+        /* 每日行程內容面板與彈跳動畫 */
+        .day-panel {
+            display: none;
+        }
+
+        .day-panel.active {
+            display: block;
+            animation: tabBounce 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes tabBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(14px) scale(0.96);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-4px) scale(1.01);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .day-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+            border-bottom: 2.5px dashed var(--ink-gray);
+        }
+
+        .day-heading-text {
+            font-size: 1.18rem;
+        }
+
+        .stay-pill {
+            background-color: var(--wakatake-green);
+            border: 2px solid var(--ink-gray);
+            border-radius: 12px;
+            padding: 4px 12px;
+            font-size: 0.82rem;
+            box-shadow: var(--hard-shadow-sm);
+        }
+
+        /* 全程行車導航橫幅 */
+        .route-banner {
+            background-color: var(--yamabuki-yellow);
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 18px;
+            padding: 14px 16px;
+            margin-bottom: 22px;
+        }
+
+        .route-text {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-storybook {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--ink-gray);
+            background-color: var(--card-white);
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 12px;
+            padding: 7px 14px;
+            font-size: 0.85rem;
+            box-shadow: var(--hard-shadow-sm);
+            cursor: pointer;
+            transition: transform 0.12s ease, background-color 0.12s ease;
+        }
+
+        .btn-storybook:hover {
+            background-color: var(--mizu-blue);
+            transform: translate(-1px, -1px);
+        }
+
+        .btn-storybook:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        .btn-green {
+            background-color: var(--wakatake-green);
+        }
+
+        .btn-coral {
+            background-color: var(--coral-pink);
+        }
+
+        /* 時間軸樣式 */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background-color: var(--ink-gray);
+            border-radius: 3px;
+        }
+
+        .tl-node {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .tl-node:last-child {
+            margin-bottom: 0;
+        }
+
+        .tl-marker {
+            position: absolute;
+            left: -24px;
+            top: 14px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background-color: var(--yamabuki-yellow);
+            border: 3px solid var(--ink-gray);
+            z-index: 2;
+        }
+
+        .tl-marker.must-dot {
+            background-color: var(--coral-pink);
+        }
+
+        .spot-card {
+            background-color: var(--bg-washi);
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 18px;
+            padding: 15px 16px;
+            box-shadow: var(--hard-shadow-sm);
+        }
+
+        .spot-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .spot-title {
+            font-size: 1.05rem;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .mini-tag {
+            font-size: 0.76rem;
+            padding: 2px 9px;
+            border-radius: 10px;
+            border: 2px solid var(--ink-gray);
+            background-color: var(--card-white);
+        }
+
+        .tag-drive { background-color: var(--mizu-blue); }
+        .tag-walk { background-color: var(--wakatake-green); }
+        .tag-ropeway { background-color: var(--yamabuki-yellow); }
+        .tag-must { background-color: var(--coral-pink); }
+
+        .navi-box {
+            background-color: var(--card-white);
+            border: 2px dashed var(--ink-gray);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.84rem;
+            margin-bottom: 10px;
+        }
+
+        .spot-desc {
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            margin-bottom: 10px;
+        }
+
+        /* 住宿卡片 */
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .hotel-item {
+            background-color: var(--bg-washi);
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 18px;
+            padding: 16px;
+        }
+
+        .hotel-nights {
+            display: inline-block;
+            background-color: var(--wakatake-green);
+            border: 2px solid var(--ink-gray);
+            border-radius: 10px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .hotel-name {
+            font-size: 1.08rem;
+            margin-bottom: 6px;
+        }
+
+        .hotel-meta {
+            font-size: 0.88rem;
+            color: var(--ink-muted);
+            margin-bottom: 10px;
+        }
+
+        /* 可打勾清單區塊 */
+        .checklist-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .progress-pill {
+            background-color: var(--yamabuki-yellow);
+            border: 2px solid var(--ink-gray);
+            border-radius: 12px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .check-group {
+            background-color: var(--card-white);
+            border: var(--border-w) solid var(--ink-gray);
+            border-radius: 22px;
+            padding: 18px 16px;
+            box-shadow: var(--hard-shadow);
+        }
+
+        .check-group-title {
+            font-size: 1.02rem;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            border-bottom: 2.5px solid var(--ink-gray);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .check-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 7px 6px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.15s ease;
+        }
+
+        .check-label:hover {
+            background-color: var(--bg-washi);
+        }
+
+        .check-label input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid var(--ink-gray);
+            border-radius: 6px;
+            background-color: var(--card-white);
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .check-label input[type="checkbox"]:checked {
+            background-color: var(--wakatake-green);
+        }
+
+        .check-label input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: -3px;
+            left: 3px;
+            font-size: 15px;
+            color: var(--ink-gray);
+        }
+
+        .check-label input[type="checkbox"]:checked + span {
+            text-decoration: line-through;
+            color: var(--ink-muted);
+        }
+
+        /* 提示框（取代 alert） */
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background-color: var(--yamabuki-yellow);
+            border: 3px solid var(--ink-gray);
+            border-radius: 16px;
+            padding: 10px 20px;
+            box-shadow: var(--hard-shadow);
+            font-size: 0.92rem;
+            z-index: 2000;
+            opacity: 0;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            pointer-events: none;
+        }
+
+        .toast-msg.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+        }
+
+        /* 完整支援減少動態效果設定 */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            .svg-bob-1, .svg-bob-2, .svg-bob-3 {
+                animation: none !important;
+            }
+            .day-panel.active {
+                animation: none !important;
+            }
+            .nav-link, .day-tab-btn, .btn-storybook, .toast-msg {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 頂端固定選單 -->
+    <nav class="top-nav" aria-label="主導航列">
+        <div class="nav-inner">
+            <a href="#home" class="nav-link">🏠 首頁</a>
+            <a href="#flight" class="nav-link">✈️ 航班</a>
+            <a href="#itinerary" class="nav-link">🗺️ 每日行程</a>
+            <a href="#hotel" class="nav-link">🏨 住宿</a>
+            <a href="#checklist" class="nav-link">🎒 清單</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- 2. 首頁 Hero 卡片（SVG 插圖 + 標題 + 出發倒數） -->
+        <header id="home" class="storybook-card hero-card">
+            <div class="hero-ribbon">🚗 靜岡・伊豆・富士山 6天5夜自駕豪華之旅</div>
+            <h1 class="hero-title">HKG ✈️ NRT 成田進出 ➔ 沼津/成田雙飯店自駕遊</h1>
+            <p class="hero-date">📅 2026年 12/1 (二) ～ 12/6 (日)</p>
+
+            <!-- 手繪風 SVG 插圖舞台 -->
+            <div class="illustration-stage" aria-hidden="true">
+                <!-- 小飛機 SVG -->
+                <svg class="svg-bob-1" width="96" height="68" viewBox="0 0 110 80">
+                    <path d="M12,48 Q28,36 48,40" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round"/>
+                    <g transform="rotate(-12 62 36)">
+                        <path d="M25,38 L82,30 Q96,30 96,38 Q96,46 82,46 L25,44 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M48,34 L38,14 L54,14 L66,32 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M48,45 L40,62 L54,62 L64,45 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M24,38 L16,24 L28,24 L34,37 Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+                        <circle cx="78" cy="37" r="3" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"/>
+                        <circle cx="67" cy="38" r="3" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2"/>
+                    </g>
+                </svg>
+
+                <!-- 富士山與太陽 SVG -->
+                <svg class="svg-bob-2" width="136" height="92" viewBox="0 0 150 100">
+                    <!-- 太陽 -->
+                    <circle cx="118" cy="24" r="13" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+                    <!-- 雲朵 -->
+                    <path d="M22,34 Q22,25 31,25 Q35,19 43,21 Q51,21 52,29 Q58,30 58,36 Q58,42 50,42 L25,42 Q19,42 22,34 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+                    <!-- 富士山山體 -->
+                    <path d="M18,90 L58,26 Q65,18 75,18 Q85,18 92,26 L132,90 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+                    <!-- 山頂積雪 -->
+                    <path d="M58,26 Q65,18 75,18 Q85,18 92,26 L101,41 L90,36 L82,44 L75,36 L67,44 L59,36 L49,41 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+                    <!-- 可愛腮紅 -->
+                    <ellipse cx="64" cy="58" rx="4" ry="2.5" fill="#F2A497"/>
+                    <ellipse cx="86" cy="58" rx="4" ry="2.5" fill="#F2A497"/>
+                    <path d="M71,59 Q75,63 79,59" fill="none" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+
+                <!-- 自駕小車 SVG -->
+                <svg class="svg-bob-3" width="110" height="72" viewBox="0 0 120 78">
+                    <!-- 車頂行李箱 -->
+                    <rect x="42" y="12" width="36" height="8" rx="4" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.5"/>
+                    <!-- 車身 -->
+                    <path d="M30,36 L42,20 L78,20 L90,36 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+                    <rect x="16" y="35" width="88" height="24" rx="10" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/>
+                    <!-- 車窗分隔 -->
+                    <line x1="60" y1="20" x2="60" y2="35" stroke="#3E3A39" stroke-width="3"/>
+                    <!-- 車燈 -->
+                    <circle cx="98" cy="45" r="4" fill="#F6D27A" stroke="#3E3A39" stroke-width="2"/>
+                    <!-- 車輪 -->
+                    <circle cx="36" cy="60" r="10" fill="#3E3A39"/>
+                    <circle cx="36" cy="60" r="4" fill="#FFFCF6"/>
+                    <circle cx="84" cy="60" r="10" fill="#3E3A39"/>
+                    <circle cx="84" cy="60" r="4" fill="#FFFCF6"/>
+                </svg>
+            </div>
+
+            <!-- 即時倒數計時器 -->
+            <div class="countdown-wrapper">
+                <span class="countdown-label-top">⏳ 距離 12/1 15:00 成田機場取車出發還有</span>
+                <div class="countdown-grid" id="countdownDisplay">
+                    <div class="cd-box"><span class="cd-num" id="cdDays">--</span><span class="cd-unit">天</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cdHours">--</span><span class="cd-unit">小時</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cdMins">--</span><span class="cd-unit">分</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cdSecs">--</span><span class="cd-unit">秒</span></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 3. 航班卡片 -->
+        <h2 id="flight" class="section-heading">
+            <span class="heading-dot" style="background-color: var(--mizu-blue);"></span>
+            ✈️ 航班資訊 (香港航空 Hong Kong Airlines)
+        </h2>
+        <section class="storybook-card">
+            <div class="flight-grid">
+                <div class="flight-leg">
+                    <span class="flight-badge" style="background-color: var(--mizu-blue);">🛫 去程｜12/1 (二)</span>
+                    <div class="flight-route"><strong>HX608</strong> <span>HKG ➔ NRT</span></div>
+                    <div class="flight-detail">抵達東京成田機場後，預計 <strong>15:00 取車</strong> 展開自駕旅程。</div>
+                </div>
+                <div class="flight-leg">
+                    <span class="flight-badge" style="background-color: var(--coral-pink);">🛬 回程｜12/6 (日)</span>
+                    <div class="flight-route"><strong>HX605</strong> <span>NRT ➔ HKG</span></div>
+                    <div class="flight-detail">成田機場 <strong>14:30 起飛</strong>（建議 11:00 加油還車）。</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 每日行程（上方日期切換 + 下方時間軸） -->
+        <h2 id="itinerary" class="section-heading">
+            <span class="heading-dot" style="background-color: var(--coral-pink);"></span>
+            🗺️ 每日行程與一鍵導航
+        </h2>
+
+        <!-- 上方 6 天日期切換鈕 -->
+        <div class="day-tabs" role="tablist" aria-label="行程日期選擇">
+            <button class="day-tab-btn active" role="tab" aria-selected="true" onclick="selectDay(event, 1)">
+                <span class="tab-d">D1</span>
+                <span class="tab-date">12/1 (二)</span>
+            </button>
+            <button class="day-tab-btn" role="tab" aria-selected="false" onclick="selectDay(event, 2)">
+                <span class="tab-d">D2</span>
+                <span class="tab-date">12/2 (三)</span>
+            </button>
+            <button class="day-tab-btn" role="tab" aria-selected="false" onclick="selectDay(event, 3)">
+                <span class="tab-d">D3</span>
+                <span class="tab-date">12/3 (四)</span>
+            </button>
+            <button class="day-tab-btn" role="tab" aria-selected="false" onclick="selectDay(event, 4)">
+                <span class="tab-d">D4</span>
+                <span class="tab-date">12/4 (五)</span>
+            </button>
+            <button class="day-tab-btn" role="tab" aria-selected="false" onclick="selectDay(event, 5)">
+                <span class="tab-d">D5</span>
+                <span class="tab-date">12/5 (六)</span>
+            </button>
+            <button class="day-tab-btn" role="tab" aria-selected="false" onclick="selectDay(event, 6)">
+                <span class="tab-d">D6</span>
+                <span class="tab-date">12/6 (日)</span>
+            </button>
+        </div>
+
+        <!-- Day 1 -->
+        <section id="day-panel-1" class="storybook-card day-panel active">
+            <div class="day-top-bar">
+                <h3 class="day-heading-text">✈️ Day 1：成田取車 ➔ 東名高速 ➔ 沼津港</h3>
+                <span class="stay-pill">🏨 住：Numazu Riverside Hotel</span>
+            </div>
+            <div class="route-banner">
+                <div class="route-text">🚗 <strong>當日路線：</strong>成田機場 ➔ 15:00 取車直奔沼津 (~2.5~3小時 / 160km)</div>
+                <a href="https://www.google.com/maps/dir/Narita+Airport/Numazu+Riverside+Hotel,+Numazu/" target="_blank" rel="noopener" class="btn-storybook">
+                    🌐 開啟 Day 1 Google Maps 全程一鍵導航
+                </a>
+            </div>
+            <div class="timeline">
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">15:00 成田機場取車</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 東名高速 ~2.5-3hr</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">搭乘 HX608 抵達後辦理租車手續、領取 ETC 卡並檢查車況，沿東名高速西行前往靜岡沼津。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Narita+Airport+Rental+Car" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">19:30 魚河岸丸天 (沼津港)</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 自駕抵達</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">沼津港超人氣海鮮名店！必點招牌「巨型海鮮天婦羅塔」與新鮮滿溢的駿河灣海鮮丼。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=魚河岸丸天+沼津港" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">20:30 入住 Numazu Riverside Hotel</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 自駕泊車</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            📌 <strong>車機 Mapcode：</strong>396 594 258*88<br>
+                            🅿️ <strong>泊車貼士：</strong>酒店後面平面車位免費停放
+                        </div>
+                        <p class="spot-desc">辦理入住，連住 5 晚免搬行李，輕鬆開啟伊豆與富士山自駕假期。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Numazu+Riverside+Hotel" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 2 -->
+        <section id="day-panel-2" class="storybook-card day-panel">
+            <div class="day-top-bar">
+                <h3 class="day-heading-text">⛩️ Day 2：伊豆東海岸小圈 (城崎海岸 ➔ 大室山 ➔ 修善寺)</h3>
+                <span class="stay-pill">🏨 住：Numazu Riverside Hotel</span>
+            </div>
+            <div class="route-banner">
+                <div class="route-text">🚗 <strong>當日路線：</strong>08:00 出發 ➔ 城崎海岸 ➔ 大室山 ➔ 修善寺 ➔ 返沼津</div>
+                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Jogasaki+Coast,+Ito/Mt.+Omuro,+Ito/Shuzenji,+Izu/Numazu+Riverside+Hotel/" target="_blank" rel="noopener" class="btn-storybook">
+                    🌐 開啟 Day 2 Google Maps 全程一鍵導航
+                </a>
+            </div>
+            <div class="timeline">
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">09:30 城崎海岸・門脅吊橋</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 08:00 沼津出發</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            📞 <strong>電話導航：</strong>0557-51-1158<br>
+                            🅿️ <strong>泊車資訊：</strong>伊豆海洋公園 parking (¥500/次，步行約 5 分鐘)
+                        </div>
+                        <p class="spot-desc">漫步火山熔岩形成的壯麗海岸線，走上懸空門脅吊橋感受太平洋海浪拍岸震撼。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Jogasaki+Coast,+Ito" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">11:30 大室山纜車</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-ropeway">🚡 登山吊椅 ¥700/人</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            📞 <strong>電話導航：</strong>0557-51-0258<br>
+                            🅿️ <strong>泊車資訊：</strong>登山口駐車場 (¥500)
+                        </div>
+                        <p class="spot-desc">搭乘雙人吊椅登上宛如抹茶布丁的火山口，360 度遠眺富士山與相模灣（山頂風大記得保暖），13:30 於伊豆高原午餐。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Mt.+Omuro,+Ito" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">15:00 修善寺竹林小徑</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-walk">🚶 溫泉街散策</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">遊覽伊豆最古老的溫泉小鎮「伊豆小京都」，走過竹林小徑與朱紅色桂橋後返回沼津。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Shuzenji,+Izu" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 3 -->
+        <section id="day-panel-3" class="storybook-card day-panel">
+            <div class="day-top-bar">
+                <h3 class="day-heading-text">🍡 Day 3：清水世界遺產圈 (三保松原 ➔ 小丸子 ➔ 日本平)</h3>
+                <span class="stay-pill">🏨 住：Numazu Riverside Hotel</span>
+            </div>
+            <div class="route-banner">
+                <div class="route-text">🚗 <strong>當日路線：</strong>08:30 出發 ➔ 三保松原 ➔ 清水港 ➔ 小丸子 ➔ 日本平 ➔ 返沼津</div>
+                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Miho+no+Matsubara,+Shimizu/S-Pulse+Dream+Plaza/Nihondaira+Yume+Terrace/Numazu+Riverside+Hotel/" target="_blank" rel="noopener" class="btn-storybook">
+                    🌐 開啟 Day 3 Google Maps 全程一鍵導航
+                </a>
+            </div>
+            <div class="timeline">
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">10:00 三保松原 (世界遺產)</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 08:30 沼津出發</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            📞 <strong>電話導航：</strong>054-237-0055<br>
+                            🅿️ <strong>泊車資訊：</strong>三保松原免費停車場（步行 10 分鐘到神之道）
+                        </div>
+                        <p class="spot-desc">走過莊嚴的「神之道」松林步道，在駿河灣黑沙灘前欣賞富士山的經典浮世繪構圖。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Miho+no+Matsubara,+Shimizu" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">12:00 清水港食鮪魚午餐</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 短程移動</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">日本鮪魚漁獲量第一的清水港，大啖新鮮肥美的黑鮪魚定食與海鮮料理。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Shimizu+Fish+Market+Kashi-no-Ichi" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">14:00 櫻桃小丸子博物館 (S-Pulse Dream Plaza)</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-walk">🚶 商場內參觀</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">走進小丸子的家與三年四班教室場景，重溫滿滿童年回憶並選購靜岡限定周邊。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=S-Pulse+Dream+Plaza" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">15:30 日本平夢之Terrace</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 盤山公路自駕</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">建築大師隈研吾團隊設計的木構展望台，360 度俯瞰清水港、三保松原與黃昏富士山後返沼津。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Nihondaira+Yume+Terrace" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 4 -->
+        <section id="day-panel-4" class="storybook-card day-panel">
+            <div class="day-top-bar">
+                <h3 class="day-heading-text">🛍️ Day 4：富士山購物日 (御殿場 Outlet ➔ 山中湖逆富士)</h3>
+                <span class="stay-pill">🏨 住：Numazu Riverside Hotel</span>
+            </div>
+            <div class="route-banner">
+                <div class="route-text">🚗 <strong>當日路線：</strong>09:00 出發 ➔ 御殿場 Outlet ➔ 山中湖長池公園 ➔ 日落後返沼津</div>
+                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Gotemba+Premium+Outlets/Yamanakako+Nagaike+Waterside+Park/Numazu+Riverside+Hotel/" target="_blank" rel="noopener" class="btn-storybook">
+                    🌐 開啟 Day 4 Google Maps 全程一鍵導航
+                </a>
+            </div>
+            <div class="timeline">
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">09:35 御殿場 Premium Outlets</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 09:00 沼津出發</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            🅿️ <strong>停車攻略：</strong>直接導航至 <strong>P2 停車場</strong><br>
+                            📸 <strong>打卡秘訣：</strong>A 區與 Hill Side 區正對超大富士山
+                        </div>
+                        <p class="spot-desc">全日本規模最大的旗艦級 Outlet 盡情血拼，13:30 準時啟程前往富士五湖之山中湖。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Gotemba+Premium+Outlets" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">14:15 山中湖長池親水公園</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 湖畔自駕</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            📞 <strong>電話導航：</strong>0555-62-0648<br>
+                            🅿️ <strong>泊車資訊：</strong>長池親水公園免費停車場（正對逆富士拍攝點）
+                        </div>
+                        <p class="spot-desc">在湖畔靜候夢幻「逆富士」倒影與染紅山頭的夕陽美景，16:40 日落後返沼津（晚餐可逛 LaLaport 沼津）。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Yamanakako+Nagaike+Waterside+Park" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 5 -->
+        <section id="day-panel-5" class="storybook-card day-panel">
+            <div class="day-top-bar">
+                <h3 class="day-heading-text">🌉 Day 5：橫斷關東搬酒店 (三島Skywalk ➔ 酒酒井 ➔ 成田)</h3>
+                <span class="stay-pill">🏨 住：Hotel Welco Narita</span>
+            </div>
+            <div class="route-banner">
+                <div class="route-text">🚗 <strong>當日路線：</strong>08:00 Check-out ➔ 三島 Skywalk ➔ 酒酒井 Outlet ➔ 成田入住</div>
+                <a href="https://www.google.com/maps/dir/Numazu+Riverside+Hotel/Mishima+Skywalk/Shisui+Premium+Outlets/Hotel+Welco+Narita/" target="_blank" rel="noopener" class="btn-storybook">
+                    🌐 開啟 Day 5 Google Maps 全程一鍵導航
+                </a>
+            </div>
+            <div class="timeline">
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">08:20 三島 Skywalk</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-walk">🚶 400m 日本最長吊橋</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">08:30 一開門即入場人最少最爽！站在全長 400 公尺的步行者專用大吊橋中央遠眺富士山與駿河灣。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Mishima+Skywalk" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">13:00 酒酒井 Premium Outlets</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 10:00 跨區高速 ~2hr15m</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">沿「東名 ➔ 圈央道 ➔ 東關道」跨區前往千葉（約 2 小時 15 分），做回程前最後補貨；留意週六午後往成田車潮。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Shisui+Premium+Outlets" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">16:00 入住 Hotel Welco Narita</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">🚗 成田市區泊車</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            📍 <strong>飯店地址：</strong>千葉縣成田市花崎町 818<br>
+                            🅿️ <strong>泊車貼士：</strong>酒店無專屬車位，請停隔壁 <strong>Times 成田</strong>（¥1,200/晚，建議早點到搶位）
+                        </div>
+                        <p class="spot-desc">停妥車輛後步行 3 分鐘即可抵達飯店辦理 Check-in，晚上可在成田站周邊輕鬆覓食。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Welco+Narita" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 6 -->
+        <section id="day-panel-6" class="storybook-card day-panel">
+            <div class="day-top-bar">
+                <h3 class="day-heading-text">⛩️ Day 6：成田表參道散策 (新勝寺 ➔ 川豐鰻魚飯 ➔ 還車飛返港)</h3>
+                <span class="stay-pill">✈️ 14:30 HX605 返港</span>
+            </div>
+            <div class="route-banner">
+                <div class="route-text">🚶🚗 <strong>當日路線：</strong>步行表參道 ➔ 08:00 新勝寺 ➔ 09:30 川豐 ➔ 11:00 加油還車 ➔ 14:30 起飛</div>
+                <a href="https://www.google.com/maps/dir/Hotel+Welco+Narita/Naritasan+Shinshoji+Temple/Kawatoyo+Honten,+Narita/Idemitsu+Narita+Airport+SS/Narita+Airport+Rental+Car+Center/" target="_blank" rel="noopener" class="btn-storybook">
+                    🌐 開啟 Day 6 Google Maps 全程一鍵導航
+                </a>
+            </div>
+            <div class="timeline">
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">08:00 成田山新勝寺</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-walk">🚶 飯店步行約 5-10 分</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">由飯店散步前往表參道，趁早晨清幽參拜千年古剎成田山新勝寺，祈求旅途平安順遂。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Naritasan+Shinshoji+Temple" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker must-dot"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">09:30 川豐鰻魚飯 (本店)</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-walk">🚶 表參道老街</span>
+                                <span class="mini-tag tag-must">★ 必去</span>
+                            </div>
+                        </div>
+                        <p class="spot-desc">表參道排隊名店！現場觀看師傅現剖現烤蒲燒鰻魚，香濃秘製醬汁配上日本米飯超滿足。</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Kawatoyo+Honten,+Narita" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+
+                <div class="tl-node">
+                    <div class="tl-marker"></div>
+                    <div class="spot-card">
+                        <div class="spot-top">
+                            <strong class="spot-title">11:00 出光成田空港前SS 加油 ➔ 機場還車</strong>
+                            <div class="badge-row">
+                                <span class="mini-tag tag-drive">⛽ 滿油還車</span>
+                            </div>
+                        </div>
+                        <div class="navi-box">
+                            ⛽ <strong>指定油站：</strong>出光成田空港前SS（還車前加滿 Regular 汽油最划算，記得保留油單）
+                        </div>
+                        <p class="spot-desc">加滿油後前往成田機場租車中心完成還車，搭乘接駁車至航廈辦理登機，14:30 搭乘 HX605 快樂回港！</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Narita+Airport+Rental+Car+Center" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 住宿資訊卡片 -->
+        <h2 id="hotel" class="section-heading">
+            <span class="heading-dot" style="background-color: var(--wakatake-green);"></span>
+            🏨 住宿與泊車資訊總覽
+        </h2>
+        <section class="storybook-card">
+            <div class="hotel-grid">
+                <div class="hotel-item">
+                    <span class="hotel-nights">🌙 12/1 - 12/5 (連住 5 晚)</span>
+                    <h3 class="hotel-name">Numazu Riverside Hotel (沼津河畔酒店)</h3>
+                    <div class="hotel-meta">
+                        📌 <strong>車機 Mapcode：</strong>396 594 258*88<br>
+                        🅿️ <strong>泊車資訊：</strong>酒店後面平面車位免費停放<br>
+                        💡 <strong>亮點：</strong>狩野川畔景觀，前往伊豆、清水、御殿場皆約 30~60 分鐘車程。
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Numazu+Riverside+Hotel" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 Google Maps 定位</a>
+                </div>
+
+                <div class="hotel-item">
+                    <span class="hotel-nights" style="background-color: var(--yamabuki-yellow);">🌙 12/5 - 12/6 (1 晚)</span>
+                    <h3 class="hotel-name">Hotel Welco Narita (成田迎賓酒店)</h3>
+                    <div class="hotel-meta">
+                        📍 <strong>地址：</strong>千葉縣成田市花崎町 818<br>
+                        🅿️ <strong>泊車資訊：</strong>泊隔壁 Times 成田（¥1,200/晚，建議早到）<br>
+                        💡 <strong>亮點：</strong>步行 5 分鐘直達成田山表參道與川豐鰻魚飯，隔天去機場超近。
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Welco+Narita" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 Google Maps 定位</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 可打勾的待辦清單、出發前清單、行李清單 -->
+        <h2 id="checklist" class="section-heading">
+            <span class="heading-dot" style="background-color: var(--yamabuki-yellow);"></span>
+            🎒 行前準備與自駕檢查清單
+        </h2>
+        <div class="checklist-toolbar">
+            <span class="progress-pill" id="checkProgress">✅ 完成進度：0 / 16</span>
+            <button type="button" class="btn-storybook btn-coral" onclick="resetAllChecks()">🔄 重置所有勾選</button>
+        </div>
+
+        <section class="checklist-grid">
+            <!-- 清單 1：行程待辦與溫馨提示 -->
+            <div class="check-group">
+                <h3 class="check-group-title">📝 行程待辦與自駕貼士</h3>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="todo_1">
+                    <span>出發前登入 Google 帳號設好 6 日導航路線（東名高速建議照行較快）</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="todo_2">
+                    <span>山路或郊區用車機輸入 Mapcode / 電話號碼做 Double Check</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="todo_3">
+                    <span>12/1 取車時確認 ETC 卡已正確插入並正常運作</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="todo_4">
+                    <span>12/5 週六午後預留時間，避開酒酒井往成田方向塞車</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="todo_5">
+                    <span>12/6 還車前於「出光成田空港前SS」加滿油並留收據</span>
+                </label>
+            </div>
+
+            <!-- 清單 2：出發前準備清單 -->
+            <div class="check-group">
+                <h3 class="check-group-title">🛂 出發前必備文件清單</h3>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pre_1">
+                    <span>有效護照（檢查有效期 6 個月以上）</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pre_2">
+                    <span>國際駕駛執照 ＋ 香港正式駕駛執照正本（缺一不可！）</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pre_3">
+                    <span>租車預約確認單、飯店預訂憑證與旅遊保險單</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pre_4">
+                    <span>完成 Visit Japan Web 入境及海關申報 QR Code</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pre_5">
+                    <span>日本上網卡 / eSIM 設定完成</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pre_6">
+                    <span>日元現金（備足 ¥500 零錢繳停車場費）與海外高回贈信用卡</span>
+                </label>
+            </div>
+
+            <!-- 清單 3：隨身與自駕行李清單 -->
+            <div class="check-group">
+                <h3 class="check-group-title">🧳 隨身與自駕行李清單</h3>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pack_1">
+                    <span>車用手機出風口/吸盤支架 ＋ 車充頭與充電線</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pack_2">
+                    <span>防風保暖外套與圍巾（12 月大室山山頂與山中湖傍晚較冷）</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pack_3">
+                    <span>暈車藥、腸胃藥、止痛藥與個人常備藥品</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pack_4">
+                    <span>大容量折疊環保購物袋（御殿場與酒酒井 Outlet 血拼必備）</span>
+                </label>
+                <label class="check-label">
+                    <input type="checkbox" class="trip-checkbox" data-key="pack_5">
+                    <span>隨身行動電源、太陽眼鏡（冬日陽光與雪地反光護眼）</span>
+                </label>
+            </div>
+        </section>
+
+        <footer>
+            ✨ 靜岡・伊豆・富士山 6天5夜自駕繪本之旅｜祝一路順風、天天看見清晰富士山！ ✨
+        </footer>
+    </div>
+
+    <!-- 自訂提示氣泡（不使用 alert） -->
+    <div id="toastMsg" class="toast-msg" role="status" aria-live="polite"></div>
+
+    <script>
+        // 1. 出發即時倒數計時器（目標時間：2026-12-01T15:00:00+09:00）
+        const departureTime = new Date('2026-12-01T15:00:00+09:00').getTime();
+
+        function updateCountdown() {
+            const now = Date.now();
+            const distance = departureTime - now;
+            const displayEl = document.getElementById('countdownDisplay');
+
+            if (distance <= 0) {
+                displayEl.innerHTML = '<div style="grid-column: 1 / -1; background:#FFFFFF; border:2px solid #3E3A39; border-radius:12px; padding:10px;">🎉 旅程已經正式開始啦！祝自駕平安、玩得盡興！</div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('cdDays').textContent = String(days).padStart(2, '0');
+            document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cdMins').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('cdSecs').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // 2. 每日行程切換（附彈跳動畫與 ARIA 狀態更新）
+        function selectDay(event, dayNumber) {
+            const allButtons = document.querySelectorAll('.day-tab-btn');
+            allButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
             });
+
+            const clickedBtn = event.currentTarget;
+            clickedBtn.classList.add('active');
+            clickedBtn.setAttribute('aria-selected', 'true');
+
+            const allPanels = document.querySelectorAll('.day-panel');
+            allPanels.forEach(panel => panel.classList.remove('active'));
+
+            const targetPanel = document.getElementById('day-panel-' + dayNumber);
+            if (targetPanel) {
+                // 強制重新觸發彈跳動畫
+                void targetPanel.offsetWidth;
+                targetPanel.classList.add('active');
+            }
+        }
+
+        // 3. 清單 localStorage 自動儲存與進度計算
+        const STORAGE_PREFIX = 'shizuoka_trip_2026_';
+
+        function updateChecklistProgress() {
+            const checkboxes = document.querySelectorAll('.trip-checkbox');
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const progressEl = document.getElementById('checkProgress');
+            if (progressEl) {
+                progressEl.textContent = `✅ 完成進度：${checkedCount} / ${checkboxes.length}`;
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            installImageFallbacks();
-            restoreCheckboxes();
-            getCheckboxes().forEach(box => box.addEventListener('change', saveCheckboxes));
+            const checkboxes = document.querySelectorAll('.trip-checkbox');
+            checkboxes.forEach(cb => {
+                const key = STORAGE_PREFIX + cb.dataset.key;
+                try {
+                    if (localStorage.getItem(key) === 'true') {
+                        cb.checked = true;
+                    }
+                } catch (e) {
+                    // 忽略無痕模式下可能的儲存限制
+                }
+
+                cb.addEventListener('change', () => {
+                    try {
+                        localStorage.setItem(key, cb.checked ? 'true' : 'false');
+                    } catch (e) {}
+                    updateChecklistProgress();
+                });
+            });
+            updateChecklistProgress();
         });
+
+        function resetAllChecks() {
+            const checkboxes = document.querySelectorAll('.trip-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+                try {
+                    localStorage.removeItem(STORAGE_PREFIX + cb.dataset.key);
+                } catch (e) {}
+            });
+            updateChecklistProgress();
+            showToast('🔄 已重置所有清單勾選狀態！');
+        }
     </script>
-    <div class="v3-small" style="text-align:center;padding:12px 20px">V4.1 配圖優化版｜行程資料及圖片連線需於瀏覽器連接互聯網使用｜資料核對：2026年11月6日</div>
 </body>
 </html>
