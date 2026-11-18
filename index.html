@@ -747,7 +747,7 @@
 
             <!-- 即時倒數計時器 -->
             <div class="countdown-wrapper">
-                <span class="countdown-label-top">⏳ 距離 12/1 15:00 成田機場取車出發還有</span>
+                <span class="countdown-label-top">⏳ 距離 12/1 09:15 香港起飛 (HX608) 還有</span>
                 <div class="countdown-grid" id="countdownDisplay">
                     <div class="cd-box"><span class="cd-num" id="cdDays">--</span><span class="cd-unit">天</span></div>
                     <div class="cd-box"><span class="cd-num" id="cdHours">--</span><span class="cd-unit">小時</span></div>
@@ -767,7 +767,7 @@
                 <div class="flight-leg">
                     <span class="flight-badge" style="background-color: var(--mizu-blue);">🛫 去程｜12/1 (二)</span>
                     <div class="flight-route"><strong>HX608</strong> <span>HKG ➔ NRT</span></div>
-                    <div class="flight-detail">抵達東京成田機場後，預計 <strong>15:00 取車</strong> 展開自駕旅程。</div>
+                    <div class="flight-detail"><strong>09:15 香港起飛</strong>，抵達東京成田機場後預計 15:00 取車展開自駕旅程。</div>
                 </div>
                 <div class="flight-leg">
                     <span class="flight-badge" style="background-color: var(--coral-pink);">🛬 回程｜12/6 (日)</span>
@@ -818,7 +818,7 @@
                 <span class="stay-pill">🏨 住：Numazu Riverside Hotel</span>
             </div>
             <div class="route-banner">
-                <div class="route-text">🚗 <strong>當日路線：</strong>成田機場 ➔ 15:00 取車直奔沼津 (~2.5~3小時 / 160km)</div>
+                <div class="route-text">🚗 <strong>當日路線：</strong>09:15 香港起飛 ➔ 成田機場 15:00 取車直奔沼津 (~2.5~3小時 / 160km)</div>
                 <a href="https://www.google.com/maps/dir/Narita+Airport/Numazu+Riverside+Hotel,+Numazu/" target="_blank" rel="noopener" class="btn-storybook">
                     🌐 開啟 Day 1 Google Maps 全程一鍵導航
                 </a>
@@ -833,7 +833,7 @@
                                 <span class="mini-tag tag-drive">🚗 東名高速 ~2.5-3hr</span>
                             </div>
                         </div>
-                        <p class="spot-desc">搭乘 HX608 抵達後辦理租車手續、領取 ETC 卡並檢查車況，沿東名高速西行前往靜岡沼津。</p>
+                        <p class="spot-desc">搭乘 09:15 起飛之 HX608 抵達後辦理租車手續、領取 ETC 卡並檢查車況，沿東名高速西行前往靜岡沼津。</p>
                         <a href="https://www.google.com/maps/search/?api=1&query=Narita+Airport+Rental+Car" target="_blank" rel="noopener" class="btn-storybook btn-green">📍 單點導航</a>
                     </div>
                 </div>
@@ -1325,8 +1325,8 @@
     <div id="toastMsg" class="toast-msg" role="status" aria-live="polite"></div>
 
     <script>
-        // 1. 出發即時倒數計時器（目標時間：2026-12-01T15:00:00+09:00）
-        const departureTime = new Date('2026-12-01T15:00:00+09:00').getTime();
+        // 1. 出發即時倒數計時器（目標時間：2026-12-01T09:15:00+08:00 香港時間）
+        const departureTime = new Date('2026-12-01T09:15:00+08:00').getTime();
 
         function updateCountdown() {
             const now = Date.now();
@@ -1334,7 +1334,7 @@
             const displayEl = document.getElementById('countdownDisplay');
 
             if (distance <= 0) {
-                displayEl.innerHTML = '<div style="grid-column: 1 / -1; background:#FFFFFF; border:2px solid #3E3A39; border-radius:12px; padding:10px;">🎉 旅程已經正式開始啦！祝自駕平安、玩得盡興！</div>';
+                displayEl.innerHTML = '<div style="grid-column: 1 / -1; background:#FFFFFF; border:2px solid #3E3A39; border-radius:12px; padding:10px;">🎉 航班已經出發啦！祝旅途平安、自駕愉快！</div>';
                 return;
             }
 
